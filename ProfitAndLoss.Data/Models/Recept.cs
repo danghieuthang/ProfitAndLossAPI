@@ -21,9 +21,13 @@ namespace ProfitAndLoss.Data.Models
 
         public DateTime CreatedDate { get; set; }
 
-        [ForeignKey("Transaction")]
-        public Guid TransactionId { get; set; }
+
+        [ForeignKey("Member")]
+        public Guid CreateMemberId { get; set; }
+
+        public virtual ICollection<Transaction> Transactions { get; set; }
 
         public virtual ICollection<Evidence> Evidences { get; set; }
+
     }
 }

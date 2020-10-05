@@ -26,9 +26,7 @@ namespace ProfitAndLoss.Data.Models
 
         public bool Actived { get; set; }
 
-        public virtual ICollection<LedgerEntry> LedgerEntries { get; set; }
-
-        public virtual ICollection<ReportDetail> ReportDetails { get; set; }
+        public virtual ICollection<TransactionDetail> LedgerEntries { get; set; }
 
         public virtual ICollection<Category> ChildCategories { get; set; }
 

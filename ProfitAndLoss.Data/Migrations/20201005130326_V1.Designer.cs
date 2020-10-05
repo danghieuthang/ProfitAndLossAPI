@@ -10,8 +10,8 @@ using ProfitAndLoss.Data.Models;
 namespace ProfitAndLoss.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201005010346_UpdateScheme")]
-    partial class UpdateScheme
+    [Migration("20201005130326_V1")]
+    partial class V1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -137,6 +137,9 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<Guid>("BrandId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
@@ -145,8 +148,7 @@ namespace ProfitAndLoss.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -160,6 +162,50 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasIndex("BrandId");
 
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.AccountPeriodDetail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccountingPeriodId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Actived")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ClosedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountingPeriodId");
+
+                    b.ToTable("AccountPeriodDetails");
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.AccountingPeriod", b =>
@@ -181,8 +227,7 @@ namespace ProfitAndLoss.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -402,22 +447,13 @@ namespace ProfitAndLoss.Data.Migrations
                     b.ToTable("Evidences");
                 });
 
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.LedgerEntry", b =>
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.Feedback", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("AccountingPeriodId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -428,8 +464,10 @@ namespace ProfitAndLoss.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -438,20 +476,13 @@ namespace ProfitAndLoss.Data.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<Guid>("TransactionId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
 
                     b.HasIndex("AccountingPeriodId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("MemberId");
 
-                    b.HasIndex("TransactionId");
-
-                    b.ToTable("LedgerEntries");
+                    b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Member", b =>
@@ -503,11 +534,14 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<Guid>("StoreId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("MemberId", "StoreId");
 
                     b.HasIndex("StoreId");
 
-                    b.ToTable("MemberStore");
+                    b.ToTable("MemberStores");
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Recept", b =>
@@ -516,59 +550,23 @@ namespace ProfitAndLoss.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CreateMemberId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("TransactionId")
+                    b.Property<Guid?>("StoreId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionId");
+                    b.HasIndex("StoreId");
 
                     b.ToTable("Recepts");
-                });
-
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.ReportDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AccountingPeriodId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Actived")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Percent")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountingPeriodId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("ReportDetails");
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Store", b =>
@@ -596,13 +594,48 @@ namespace ProfitAndLoss.Data.Migrations
                     b.ToTable("Stores");
                 });
 
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.StoreAccount", b =>
+                {
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.HasKey("AccountId", "StoreId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("StoreAccounts");
+                });
+
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreateMemberId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
@@ -618,11 +651,13 @@ namespace ProfitAndLoss.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("NoteMessage")
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ReceptId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("StoreId")
                         .HasColumnType("uniqueidentifier");
@@ -640,6 +675,8 @@ namespace ProfitAndLoss.Data.Migrations
 
                     b.HasIndex("MemberId");
 
+                    b.HasIndex("ReceptId");
+
                     b.HasIndex("StoreId");
 
                     b.HasIndex("TransactionId");
@@ -647,6 +684,51 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasIndex("TransactionTypeId");
 
                     b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionDetail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(2000)")
+                        .HasMaxLength(2000);
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("TransactionDetails");
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionHistory", b =>
@@ -758,6 +840,15 @@ namespace ProfitAndLoss.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.AccountPeriodDetail", b =>
+                {
+                    b.HasOne("ProfitAndLoss.Data.Models.AccountingPeriod", null)
+                        .WithMany("AccountPeriodDetails")
+                        .HasForeignKey("AccountingPeriodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ProfitAndLoss.Data.Models.AccountingPeriod", b =>
                 {
                     b.HasOne("ProfitAndLoss.Data.Models.Brand", null)
@@ -783,29 +874,17 @@ namespace ProfitAndLoss.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.LedgerEntry", b =>
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.Feedback", b =>
                 {
-                    b.HasOne("ProfitAndLoss.Data.Models.Account", null)
-                        .WithMany("LedgerEntries")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ProfitAndLoss.Data.Models.AccountingPeriod", null)
-                        .WithMany("LedgerEntries")
+                        .WithMany("Feedbacks")
                         .HasForeignKey("AccountingPeriodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProfitAndLoss.Data.Models.Category", null)
-                        .WithMany("LedgerEntries")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProfitAndLoss.Data.Models.Transaction", null)
-                        .WithMany("LedgerEntries")
-                        .HasForeignKey("TransactionId")
+                    b.HasOne("ProfitAndLoss.Data.Models.Member", null)
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -815,38 +894,21 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasOne("ProfitAndLoss.Data.Models.Member", "Member")
                         .WithMany("MemberStores")
                         .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProfitAndLoss.Data.Models.Store", "Store")
                         .WithMany("MemberStores")
                         .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Recept", b =>
                 {
-                    b.HasOne("ProfitAndLoss.Data.Models.Transaction", null)
+                    b.HasOne("ProfitAndLoss.Data.Models.Store", null)
                         .WithMany("Recepts")
-                        .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.ReportDetail", b =>
-                {
-                    b.HasOne("ProfitAndLoss.Data.Models.AccountingPeriod", null)
-                        .WithMany("ReportDetails")
-                        .HasForeignKey("AccountingPeriodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProfitAndLoss.Data.Models.Category", null)
-                        .WithMany("ReportDetails")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StoreId");
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Store", b =>
@@ -858,11 +920,32 @@ namespace ProfitAndLoss.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.StoreAccount", b =>
+                {
+                    b.HasOne("ProfitAndLoss.Data.Models.Account", "Account")
+                        .WithMany("StoreAccounts")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ProfitAndLoss.Data.Models.Store", "Store")
+                        .WithMany("StoreAccounts")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Transaction", b =>
                 {
                     b.HasOne("ProfitAndLoss.Data.Models.Member", null)
                         .WithMany("Transactions")
                         .HasForeignKey("MemberId");
+
+                    b.HasOne("ProfitAndLoss.Data.Models.Recept", null)
+                        .WithMany("Transactions")
+                        .HasForeignKey("ReceptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ProfitAndLoss.Data.Models.Store", null)
                         .WithMany("Transactions")
@@ -877,6 +960,21 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasOne("ProfitAndLoss.Data.Models.TransactionType", null)
                         .WithMany("Transactions")
                         .HasForeignKey("TransactionTypeId");
+                });
+
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionDetail", b =>
+                {
+                    b.HasOne("ProfitAndLoss.Data.Models.Category", null)
+                        .WithMany("LedgerEntries")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProfitAndLoss.Data.Models.Transaction", null)
+                        .WithMany("TransactionDetails")
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionHistory", b =>

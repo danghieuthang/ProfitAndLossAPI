@@ -22,9 +22,6 @@ namespace ProfitAndLoss.Data.Models
 
         public DateTime CreatedDate { get; set; }
 
-        [ForeignKey("Member")]
-        public Guid CreateMemberId { get; set; }
-
         [ForeignKey("Store")]
         public Guid StoreId { get; set; }
 
@@ -37,12 +34,12 @@ namespace ProfitAndLoss.Data.Models
         [DefaultValue(0)]
         public decimal Price { get; set; }
 
-        [MaxLength(2000)]
         public string NoteMessage { get; set; }
 
-        public virtual ICollection<LedgerEntry> LedgerEntries { get; set; }
+        [ForeignKey("Recept")]
+        public Guid ReceptId { get; set; }
 
-        public virtual ICollection<Recept> Recepts { get; set; }
+        public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
 
         public virtual ICollection<TransactionHistory> TransactionHistories { get; set; }
 

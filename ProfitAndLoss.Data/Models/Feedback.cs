@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace ProfitAndLoss.Data.Models
 {
-    [Table("ReportDetails")]
-    public class ReportDetail
+    [Table("Feedbacks")]
+    public class Feedback
     {
-        public ReportDetail()
+        public Feedback()
         {
-            
+
         }
 
         [Key]
@@ -22,21 +21,19 @@ namespace ProfitAndLoss.Data.Models
 
         public DateTime CreatedDate { get; set; }
 
-        [DefaultValue(0)]
-        public int Percent { get; set; }
+        [MaxLength(255)]
+        public string Name { get; set; }
 
-        public decimal Balance { get; set; }
+        [MaxLength(255)]
+        public string Code { get; set; }
 
-        public int Status { get; set; }
-
-        [ForeignKey("Category")]
-        public Guid CategoryId { get; set; }
+        public string Description { get; set; }
 
         [ForeignKey("AccountingPeriod")]
         public Guid AccountingPeriodId { get; set; }
 
-        public bool Actived { get; set; }
-
+        [ForeignKey("Member")]
+        public Guid MemberId { get; set; }
 
 
     }

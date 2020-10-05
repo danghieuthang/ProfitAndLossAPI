@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace ProfitAndLoss.Data.Models
 {
-    [Table("LedgerEntries")]
-    public class LedgerEntry
+    [Table("StoreAccounts")]
+    public class StoreAccount
     {
-        public LedgerEntry()
+        public StoreAccount()
         {
 
         }
@@ -28,23 +27,18 @@ namespace ProfitAndLoss.Data.Models
         [MaxLength(255)]
         public string Code { get; set; }
 
-        [MaxLength(2000)]
         public string Description { get; set; }
 
-        [DefaultValue(0)]
         public decimal Balance { get; set; }
 
-        [ForeignKey("Account")]
+      
+        public Guid StoreId { get; set; }
+
+        public Store Store { get; set; }
+
+     
         public Guid AccountId { get; set; }
 
-        [ForeignKey("Transaction")]
-        public Guid TransactionId { get; set; }
-
-        [ForeignKey("Category")]
-        public Guid CategoryId { get; set; }
-
-        [ForeignKey("AccountingPeriod")]
-        public Guid AccountingPeriodId { get; set; }
-
+        public Account Account { get; set; }
     }
 }

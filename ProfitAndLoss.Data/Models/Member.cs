@@ -40,11 +40,11 @@ namespace ProfitAndLoss.Data.Models
         [ForeignKey("Brand")]
         public Guid BrandId { get; set; }
 
-        [ForeignKey("RoleId")]
-        public Guid RoleId { get; set; }
-
         public virtual ICollection<Transaction> Transactions { get; set; }
 
         public virtual ICollection<MemberStore> MemberStores { get; set; }
+
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
+
     }
 }

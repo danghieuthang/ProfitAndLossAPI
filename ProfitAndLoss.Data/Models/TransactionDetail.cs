@@ -7,10 +7,10 @@ using System.Text;
 
 namespace ProfitAndLoss.Data.Models
 {
-    [Table("Accounts")]
-    public class Account
+    [Table("TransactionDetails")]
+    public class TransactionDetail
     {
-        public Account()
+        public TransactionDetail()
         {
 
         }
@@ -28,18 +28,23 @@ namespace ProfitAndLoss.Data.Models
         [MaxLength(255)]
         public string Code { get; set; }
 
+        [MaxLength(2000)]
         public string Description { get; set; }
 
         [DefaultValue(0)]
         public decimal Balance { get; set; }
 
-        [ForeignKey("Brand")]
-        public Guid BrandId { get; set; }
+        [ForeignKey("Account")]
+        public Guid AccountId { get; set; }
+
+        [ForeignKey("Transaction")]
+        public Guid TransactionId { get; set; }
 
         [ForeignKey("Category")]
         public Guid CategoryId { get; set; }
 
-        public virtual ICollection<StoreAccount> StoreAccounts { get; set; }
+        [ForeignKey("AccountingPeriodDetail")]
+        public Guid AccountingPeriodDetailId { get; set; }
 
     }
 }

@@ -12,8 +12,8 @@ namespace ProfitAndLoss.Data.Models
     {
         public AccountingPeriod()
         {
-            ReportDetails = new HashSet<ReportDetail>();
-            LedgerEntries = new HashSet<LedgerEntry>();
+            AccountPeriodDetails = new HashSet<AccountPeriodDetail>();
+            Feedbacks = new HashSet<Feedback>();//
         }
 
         [Key]
@@ -32,15 +32,13 @@ namespace ProfitAndLoss.Data.Models
         [MaxLength(255)]
         public string Title { get; set; }
 
-        [MaxLength(2000)]
         public string Description { get; set; }
 
         public int Status { get; set; }
 
         public bool Actived { get; set; }
-
-        public virtual ICollection<ReportDetail> ReportDetails { get; set; }
-        public virtual ICollection<LedgerEntry> LedgerEntries { get; set; }
+        public virtual ICollection<AccountPeriodDetail> AccountPeriodDetails { get; set; }
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
 
     }
 }

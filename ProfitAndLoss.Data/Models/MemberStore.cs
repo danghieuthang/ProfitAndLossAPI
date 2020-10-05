@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -12,6 +13,10 @@ namespace ProfitAndLoss.Data.Models
         {
 
         }
+
+        [Key]
+        public Guid Id { get; set; }
+
         public Guid MemberId { get; set; }
 
         public Member Member { get; set; }

@@ -6,13 +6,13 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Repositories
 {
-    public interface IMemberRepository : IBaseRepository<Member, Guid>
+    public interface IReceptRepository : IBaseRepository<Recept, Guid>
     {
 
     }
-    public class MemberRepository : BaseRepository<Member, Guid>, IMemberRepository
+    public class ReceptRepository : BaseRepository<Recept, Guid>, IReceptRepository
     {
-        public MemberRepository(DataContext context) : base(context)
+        public ReceptRepository(DataContext context) : base(context)
         {
 
         }

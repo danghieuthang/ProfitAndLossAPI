@@ -17,7 +17,7 @@ namespace ProfitAndLoss.Business.Services
         bool Exist(Actor entity);
         bool Validate(Actor entity);
     }
-    public class ActorServices : BaseReponsitory<Actor, int>, IActorServices
+    public class ActorServices : BaseRepository<Actor, int>, IActorServices
     {
         public ActorServices(DataContext context) : base(context)
         {

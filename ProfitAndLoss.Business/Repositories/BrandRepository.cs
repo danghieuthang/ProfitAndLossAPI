@@ -12,7 +12,7 @@ namespace ProfitAndLoss.Business.Repositories
     public interface IBrandRepository : IBaseRepository<Brand, Guid>
     {
     }
-    public class BrandRepository : BaseReponsitory<Brand, Guid>, IBrandRepository
+    public class BrandRepository : BaseRepository<Brand, Guid>, IBrandRepository
     {
         public BrandRepository(DataContext dataContext) : base(dataContext)
         {

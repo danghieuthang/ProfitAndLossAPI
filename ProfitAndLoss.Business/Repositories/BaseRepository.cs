@@ -25,12 +25,12 @@ namespace ProfitAndLoss.Business.Services
         void CommitAsync();
     }
 
-    public class BaseReponsitory<TEntity, TKey> : IBaseRepository<TEntity, TKey>, IDisposable where TEntity : class
+    public class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey>, IDisposable where TEntity : class
     {
         DataContext _context;
         DbSet<TEntity> dbSet;
         private bool _disposed;
-        public BaseReponsitory(DataContext context)
+        public BaseRepository(DataContext context)
         {
             this._context = _context ?? context;
             this.dbSet = _context.Set<TEntity>();

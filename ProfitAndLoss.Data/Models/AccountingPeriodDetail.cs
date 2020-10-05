@@ -6,9 +6,10 @@ using System.Text;
 
 namespace ProfitAndLoss.Data.Models
 {
-    public class AccountPeriodDetail
+    [Table("AccountingPeriodDetail")]
+    public class AccountingPeriodDetail
     {
-        public AccountPeriodDetail()
+        public AccountingPeriodDetail()
         {
 
         }

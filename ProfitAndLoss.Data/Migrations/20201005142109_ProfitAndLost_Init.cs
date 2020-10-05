@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProfitAndLoss.Data.Migrations
 {
-    public partial class V1 : Migration
+    public partial class ProfitAndLost_Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -107,8 +107,7 @@ namespace ProfitAndLoss.Data.Migrations
                     Phone = table.Column<string>(maxLength: 100, nullable: true),
                     Email = table.Column<string>(maxLength: 255, nullable: false),
                     UserName = table.Column<string>(maxLength: 255, nullable: false),
-                    BrandId = table.Column<Guid>(nullable: false),
-                    RoleId = table.Column<Guid>(nullable: false)
+                    BrandId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -258,7 +257,7 @@ namespace ProfitAndLoss.Data.Migrations
                         column: x => x.BrandId,
                         principalTable: "Brands",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -283,7 +282,7 @@ namespace ProfitAndLoss.Data.Migrations
                         column: x => x.BrandId,
                         principalTable: "Brands",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -304,34 +303,7 @@ namespace ProfitAndLoss.Data.Migrations
                         column: x => x.BrandId,
                         principalTable: "Brands",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AccountPeriodDetails",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    Actived = table.Column<bool>(nullable: false),
-                    StartedDate = table.Column<DateTime>(nullable: false),
-                    ClosedDate = table.Column<DateTime>(nullable: false),
-                    StoreId = table.Column<Guid>(nullable: false),
-                    AccountingPeriodId = table.Column<Guid>(nullable: false),
-                    Title = table.Column<string>(maxLength: 255, nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Status = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountPeriodDetails", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AccountPeriodDetails_AccountingPeriods_AccountingPeriodId",
-                        column: x => x.AccountingPeriodId,
-                        principalTable: "AccountingPeriods",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -355,13 +327,46 @@ namespace ProfitAndLoss.Data.Migrations
                         column: x => x.AccountingPeriodId,
                         principalTable: "AccountingPeriods",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Feedbacks_Members_MemberId",
                         column: x => x.MemberId,
                         principalTable: "Members",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountingPeriodDetail",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
+                    StartedDate = table.Column<DateTime>(nullable: false),
+                    ClosedDate = table.Column<DateTime>(nullable: false),
+                    StoreId = table.Column<Guid>(nullable: false),
+                    AccountingPeriodId = table.Column<Guid>(nullable: false),
+                    Title = table.Column<string>(maxLength: 255, nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountingPeriodDetail", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountingPeriodDetail_AccountingPeriods_AccountingPeriodId",
+                        column: x => x.AccountingPeriodId,
+                        principalTable: "AccountingPeriods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AccountingPeriodDetail_Stores_StoreId",
+                        column: x => x.StoreId,
+                        principalTable: "Stores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -379,12 +384,14 @@ namespace ProfitAndLoss.Data.Migrations
                         name: "FK_MemberStores_Members_MemberId",
                         column: x => x.MemberId,
                         principalTable: "Members",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MemberStores_Stores_StoreId",
                         column: x => x.StoreId,
                         principalTable: "Stores",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -429,12 +436,14 @@ namespace ProfitAndLoss.Data.Migrations
                         name: "FK_StoreAccounts_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_StoreAccounts_Stores_StoreId",
                         column: x => x.StoreId,
                         principalTable: "Stores",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -458,7 +467,7 @@ namespace ProfitAndLoss.Data.Migrations
                         column: x => x.ReceptId,
                         principalTable: "Recepts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -492,13 +501,13 @@ namespace ProfitAndLoss.Data.Migrations
                         column: x => x.ReceptId,
                         principalTable: "Recepts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Transactions_Stores_StoreId",
                         column: x => x.StoreId,
                         principalTable: "Stores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Transactions_Transactions_TransactionId",
                         column: x => x.TransactionId,
@@ -526,23 +535,30 @@ namespace ProfitAndLoss.Data.Migrations
                     Balance = table.Column<decimal>(nullable: false),
                     AccountId = table.Column<Guid>(nullable: false),
                     TransactionId = table.Column<Guid>(nullable: false),
-                    CategoryId = table.Column<Guid>(nullable: false)
+                    CategoryId = table.Column<Guid>(nullable: false),
+                    AccountingPeriodDetailId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TransactionDetails", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_TransactionDetails_AccountingPeriodDetail_AccountingPeriodDetailId",
+                        column: x => x.AccountingPeriodDetailId,
+                        principalTable: "AccountingPeriodDetail",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_TransactionDetails_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TransactionDetails_Transactions_TransactionId",
                         column: x => x.TransactionId,
                         principalTable: "Transactions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -564,18 +580,23 @@ namespace ProfitAndLoss.Data.Migrations
                         column: x => x.TransactionId,
                         principalTable: "Transactions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountingPeriodDetail_AccountingPeriodId",
+                table: "AccountingPeriodDetail",
+                column: "AccountingPeriodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountingPeriodDetail_StoreId",
+                table: "AccountingPeriodDetail",
+                column: "StoreId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountingPeriods_BrandId",
                 table: "AccountingPeriods",
                 column: "BrandId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AccountPeriodDetails_AccountingPeriodId",
-                table: "AccountPeriodDetails",
-                column: "AccountingPeriodId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_BrandId",
@@ -662,6 +683,11 @@ namespace ProfitAndLoss.Data.Migrations
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TransactionDetails_AccountingPeriodDetailId",
+                table: "TransactionDetails",
+                column: "AccountingPeriodDetailId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TransactionDetails_CategoryId",
                 table: "TransactionDetails",
                 column: "CategoryId");
@@ -705,9 +731,6 @@ namespace ProfitAndLoss.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AccountPeriodDetails");
-
-            migrationBuilder.DropTable(
                 name: "Actors");
 
             migrationBuilder.DropTable(
@@ -750,16 +773,19 @@ namespace ProfitAndLoss.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AccountingPeriods");
+                name: "Accounts");
 
             migrationBuilder.DropTable(
-                name: "Accounts");
+                name: "AccountingPeriodDetail");
 
             migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Transactions");
+
+            migrationBuilder.DropTable(
+                name: "AccountingPeriods");
 
             migrationBuilder.DropTable(
                 name: "Members");

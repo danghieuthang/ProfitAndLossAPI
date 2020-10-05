@@ -12,7 +12,7 @@ namespace ProfitAndLoss.Data.Models
     {
         public AccountingPeriod()
         {
-            AccountPeriodDetails = new HashSet<AccountPeriodDetail>();
+            AccountPeriodDetails = new HashSet<AccountingPeriodDetail>();
             Feedbacks = new HashSet<Feedback>();//
         }
 
@@ -37,7 +37,7 @@ namespace ProfitAndLoss.Data.Models
         public int Status { get; set; }
 
         public bool Actived { get; set; }
-        public virtual ICollection<AccountPeriodDetail> AccountPeriodDetails { get; set; }
+        public virtual ICollection<AccountingPeriodDetail> AccountPeriodDetails { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
 
     }

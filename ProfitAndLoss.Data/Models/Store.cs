@@ -34,7 +34,7 @@ namespace ProfitAndLoss.Data.Models
 
         public virtual ICollection<StoreAccount> StoreAccounts { get; set; }
 
-        public virtual ICollection<AccountPeriodDetail> AccountPeriodDetails { get; set; }
+        public virtual ICollection<AccountingPeriodDetail> AccountPeriodDetails { get; set; }
 
         public virtual ICollection<Recept> Recepts { get; set; }
     }

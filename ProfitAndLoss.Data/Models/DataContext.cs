@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ProfitAndLoss.Data.Models
@@ -26,7 +27,7 @@ namespace ProfitAndLoss.Data.Models
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountingPeriod> AccountingPeriods { get; set; }
         public DbSet<MemberStore> MemberStores { get; set; }
-        public DbSet<AccountPeriodDetail> AccountPeriodDetails { get; set; }
+        public DbSet<AccountingPeriodDetail> AccountPeriodDetails { get; set; }
         public DbSet<StoreAccount> StoreAccounts { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
 
@@ -39,7 +40,6 @@ namespace ProfitAndLoss.Data.Models
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
 
             #region create relationship
 
@@ -72,6 +72,14 @@ namespace ProfitAndLoss.Data.Models
                  .OnDelete(DeleteBehavior.NoAction);
 
             #endregion create relationship
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            base.OnModelCreating(modelBuilder);
+
         }
 
     }

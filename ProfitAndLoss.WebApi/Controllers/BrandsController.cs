@@ -20,7 +20,7 @@ namespace ProfitAndLoss.WebApi.Controllers
             _brandService = brandService;
         }
         [HttpPost]
-        [Route(ApiVer1UrlConstant.Brand.CREATE)]
+        [Route(RouteConstants.Brand.CREATE)]
         public async Task<GenericResult> CreateBrand([FromBody] BrandCreateModel model)
         {
             return await _brandService.CreateBrand(model);

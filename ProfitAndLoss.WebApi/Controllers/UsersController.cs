@@ -19,7 +19,7 @@ using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route(RouteConstants.User.PREFIX)]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -35,7 +35,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// <returns>
         /// Token object
         /// </returns>
-        [HttpPost("login")]
+        [HttpPost(RouteConstants.User.LOGIN)]
         [AllowAnonymous]
         //[Route(ApiVer1UrlConstant.User.LOGIN)]
         public async Task<GenericResult> LoginAsync([FromBody] RequestLoginModel login)
@@ -75,7 +75,7 @@ namespace ProfitAndLoss.WebApi.Controllers
 
 
         [HttpPost]
-        [Route(ApiVer1UrlConstant.User.CREATE)]
+        [Route(RouteConstants.User.CREATE)]
         public async Task<GenericResult> CreateUserAsync([FromBody] RequestCreateModel model)
         {
             AppUser user = new AppUser()

@@ -5,25 +5,25 @@ using System.Threading.Tasks;
 
 namespace ProfitAndLoss.WebApi
 {
-    public class ApiVer1UrlConstant
+    public class RouteConstants
     {
         public static class Member
         {
-            private const string PREFIX = "member";
+            private const string PREFIX = "members";
             public const string LOGIN = PREFIX + "/login";
 
         }
 
         public static class Brand
         {
-            private const string PREFIX = "brand";
+            private const string PREFIX = "brands";
 
             public const string CREATE = PREFIX + "/create";
         }
 
         public static class User
         {
-            private const string PREFIX = "users";
+            public const string PREFIX = "users";
             public const string LOGIN = PREFIX + "/login";
             public const string CREATE = PREFIX;
         }

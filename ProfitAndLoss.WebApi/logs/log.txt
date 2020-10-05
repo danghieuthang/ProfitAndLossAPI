@@ -1,0 +1,8 @@
+2020-07-13 13:50:58,066 [1] INFO  Microsoft.Hosting.Lifetime [(null)] - Application started. Press Ctrl+C to shut down.
+2020-07-13 13:50:58,363 [1] INFO  Microsoft.Hosting.Lifetime [(null)] - Hosting environment: Development
+2020-07-13 13:50:58,451 [1] INFO  Microsoft.Hosting.Lifetime [(null)] - Content root path: D:\Fsoft\netcore\EFCore\ProfitAndLoss\ProfitAndLoss.WebApi
+2020-07-13 13:51:07,656 [10] INFO  ProfitAndLoss.WebApi.Controllers.ActorsController [(null)] - my message
+2020-07-13 13:51:56,577 [1] INFO  Microsoft.Hosting.Lifetime [(null)] - Application started. Press Ctrl+C to shut down.
+2020-07-13 13:51:56,622 [1] INFO  Microsoft.Hosting.Lifetime [(null)] - Hosting environment: Development
+2020-07-13 13:51:56,634 [1] INFO  Microsoft.Hosting.Lifetime [(null)] - Content root path: D:\Fsoft\netcore\EFCore\ProfitAndLoss\ProfitAndLoss.WebApi
+2020-07-13 13:52:03,626 [9] INFO  ProfitAndLoss.WebApi.Controllers.ActorsController [(null)] - my message

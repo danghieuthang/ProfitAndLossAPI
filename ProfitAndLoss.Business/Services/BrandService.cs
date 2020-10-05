@@ -10,7 +10,9 @@ namespace ProfitAndLoss.Business.Services
 {
     public interface IBrandService
     {
-        Task<GenericResult> CreateBrand(BrandCreateModel model);
+        Task<GenericResult> CreateBrand(RequestCreateBrandModel model);
+        Task<GenericResult> DeleteAsync(Guid id);
+        Task<GenericResult> GetAllBrandAsync();
     }
     public class BrandService : IBrandService
     {
@@ -19,12 +21,22 @@ namespace ProfitAndLoss.Business.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<GenericResult> CreateBrand(BrandCreateModel model)
+        public async Task<GenericResult> CreateBrand(RequestCreateBrandModel model)
         {
             Brand brand = new Brand { Actived = model.Actived, CreatedDate = System.DateTime.Now };
             _unitOfWork.BrandRepository.Add(brand);
             _unitOfWork.CommitAsync();
             return new GenericResult { Success = true, Message="Create Brand success!" };
+        }
+
+        public Task<GenericResult> DeleteAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<GenericResult> GetAllBrandAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

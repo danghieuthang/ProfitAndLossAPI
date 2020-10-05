@@ -21,7 +21,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
         [HttpPost]
         [Route(RouteConstants.Brand.CREATE)]
-        public async Task<GenericResult> CreateBrand([FromBody] BrandCreateModel model)
+        public async Task<GenericResult> CreateBrand([FromBody] RequestCreateBrandModel model)
         {
             return await _brandService.CreateBrand(model);
         }

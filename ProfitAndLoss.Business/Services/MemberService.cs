@@ -9,7 +9,7 @@ namespace ProfitAndLoss.Business.Services
     public interface IMemberService : IDisposable
     {
         Task<GenericResult> Login(MemberLoginModel model);
-        Task<GenericResult> CreateMember(MemberCreateModel model);
+        Task<GenericResult> CreateMember(RequestCreateMemberModel model);
     }
 
     public class MemberService : IMemberService
@@ -38,7 +38,7 @@ namespace ProfitAndLoss.Business.Services
             };
         }
 
-        public async Task<GenericResult> CreateMember(MemberCreateModel model)
+        public async Task<GenericResult> CreateMember(RequestCreateMemberModel model)
         {
             Member member = new Member { UserName = model.UserName, Email = model.Email };
             _unitOfWork.MemberRepository.Add(member);

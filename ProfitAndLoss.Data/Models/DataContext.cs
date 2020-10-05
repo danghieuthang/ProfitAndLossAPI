@@ -12,7 +12,6 @@ namespace ProfitAndLoss.Data.Models
         #region Dbsets
 
         public virtual DbSet<Actor> Actors { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Store> Stores { get; set; }

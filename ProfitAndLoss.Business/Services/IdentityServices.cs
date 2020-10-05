@@ -55,7 +55,7 @@ namespace ProfitAndLoss.Business.Services
          public async Task<ClaimsIdentity> GetIdentityAsync(AppUser entity, string scheme)
         {
             var identity = new ClaimsIdentity(scheme);
-            identity.AddClaim(new Claim(ClaimTypes.Name, entity.Id));
+            identity.AddClaim(new Claim(ClaimTypes.Name, entity.Id.ToString()));
             var claims = await _userManager.GetClaimsAsync(entity);
             var roles = await _userManager.GetRolesAsync(entity);
             foreach (var r in roles)

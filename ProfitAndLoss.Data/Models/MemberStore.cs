@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProfitAndLoss.Data.Models
 {
-    [Table("MemberStore")]
+    [Table("MemberStores")]
     public class MemberStore
     {
         public MemberStore()

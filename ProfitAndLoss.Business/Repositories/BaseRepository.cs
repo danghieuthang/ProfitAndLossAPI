@@ -78,7 +78,7 @@ namespace ProfitAndLoss.Business.Services
             return dbSet;
         }
 
-        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression = null)
+        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression = null)
         {
             if (expression == null)
             {

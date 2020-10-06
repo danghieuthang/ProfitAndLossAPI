@@ -70,7 +70,7 @@ namespace ProfitAndLoss.Business.Services
 
         public IAccountRepository AccountRepository => _accountRepository ??= new AccountRepository(_context);
 
-        public IStoreAccountRepository StoreAccountRepository => _storeAccountRepository ??= new StoreAccountRepository(_context;
+        public IStoreAccountRepository StoreAccountRepository => _storeAccountRepository ??= new StoreAccountRepository(_context);
 
         public ICategoryRepository CategoryRepository => _categoryRepository ??= new CategoryRepository(_context);
 

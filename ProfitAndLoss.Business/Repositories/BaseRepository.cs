@@ -13,7 +13,8 @@ namespace ProfitAndLoss.Business.Services
         TEntity GetById(TKey id);
         TEntity GetById(TKey id, Expression<Func<TEntity, object>> include);
         IQueryable<TEntity> Entity();
-        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression);
+        IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression);
+        IQueryable<TEntity> GetAll();
         TEntity Add(TEntity entity);
         TEntity Update(TEntity entity);
         TEntity Delete(TKey id);
@@ -117,6 +118,11 @@ namespace ProfitAndLoss.Business.Services
         public void DeleteMulti(List<TEntity> entities)
         {
             dbSet.RemoveRange(entities);
+        }
+
+        public IQueryable<TEntity> GetAll()
+        {
+            return dbSet;
         }
     }
 }

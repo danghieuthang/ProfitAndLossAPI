@@ -8,8 +8,10 @@ namespace ProfitAndLoss.Business.Services
 {
     public interface IMemberService : IDisposable
     {
-        Task<GenericResult> Login(MemberLoginModel model);
-        Task<GenericResult> CreateMember(RequestCreateMemberModel model);
+        Task<GenericResult> LoginAsync(MemberLoginModel model);
+        Task<GenericResult> CreateMemberAsync(RequestCreateMemberModel model);
+        Task<GenericResult> UpdateMemberAsync(RequestUpdateMemberModel model);
+        Task<GenericResult> DeleteMemberAsync(Guid id);
     }
 
     public class MemberService : IMemberService
@@ -46,5 +48,24 @@ namespace ProfitAndLoss.Business.Services
             return new GenericResult { Success = true, Message = "Created member success!" };
         }
 
+        public Task<GenericResult> LoginAsync(MemberLoginModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<GenericResult> CreateMemberAsync(RequestCreateMemberModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<GenericResult> UpdateMemberAsync(RequestUpdateMemberModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<GenericResult> DeleteMemberAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

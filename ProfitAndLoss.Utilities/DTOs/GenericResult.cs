@@ -15,6 +15,14 @@ namespace ProfitAndLoss.Utilities.DTOs
             Message = string.Empty;
             Error = new object();
         }
+
+        public GenericResult(Object data, bool success, string message, Object error)
+        {
+            Data = data;
+            Success = success;
+            Message = message;
+            Error = error;
+        }
         #endregion constructors
 
         #region properties

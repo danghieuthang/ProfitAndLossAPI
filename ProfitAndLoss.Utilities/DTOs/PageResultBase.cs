@@ -6,22 +6,34 @@ namespace ProfitAndLoss.Utilities.DTOs
 {
     public abstract class PageResultBase
     {
-        // Current Page
+        /// <summary>
+        /// Current Page
+        /// </summary>
         public int CurrentPage { get; set; }
 
-        //Number Row of Page
+        /// <summary>
+        /// Number Row Of Page
+        /// </summary>
         public int PageSize { get; set; }
 
-        //Total Row
+        /// <summary>
+        /// Total Row
+        /// </summary>
         public int RowCount { get; set; }
 
-        //First Row of Page
+        /// <summary>
+        /// First row of page
+        /// </summary>
         public int FirstRow => (CurrentPage - 1) * PageSize + 1;
 
-        //Last Row of Page
+        /// <summary>
+        /// Last row of page
+        /// </summary>
         public int LastRow => Math.Min(CurrentPage * PageSize, RowCount);
 
-        //Number Page
+        /// <summary>
+        /// Number page
+        /// </summary>
         public int PageCount
         {
             get

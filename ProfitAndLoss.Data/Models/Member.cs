@@ -7,16 +7,13 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("Members")]
-    public class Member
+    public class Member : BaseEntity<Guid>
     {
         public Member()
         {
             Transactions = new HashSet<Transaction>();
             MemberStores = new HashSet<MemberStore>();
         }
-
-        [Key]
-        public Guid Id { get; set; }
 
         [Required]
         [MaxLength(255)]

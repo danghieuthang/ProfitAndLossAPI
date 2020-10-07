@@ -34,7 +34,7 @@ namespace ProfitAndLoss.Test.EndToEnds
                 }
                 Actor actor = JsonConvert.DeserializeObject<Actor>(jsonString);
                 Assert.NotNull(actor);
-                Assert.Equal(1, actor.ID);
+                Assert.Equal(1, actor.Id);
             }
         }
 
@@ -54,14 +54,14 @@ namespace ProfitAndLoss.Test.EndToEnds
         public async void PostActionTest()
         {
             var httpClient = GetHttpClient();
-            var product = new Actor { ID = 2, FirstName = "hungz", LastName = "hungnv" };
+            var product = new Actor { Id = 2, FirstName = "hungz", LastName = "hungnv" };
             var productJson = JsonConvert.SerializeObject(product);
             var httpContent = new StringContent(productJson, Encoding.UTF8, "application/json");
             var newProductReponse = await httpClient.PostAsync("api/actors", httpContent);
             Assert.True(newProductReponse.IsSuccessStatusCode);
             var newProductJson = await newProductReponse.Content.ReadAsStringAsync();
             var newProduct = JsonConvert.DeserializeObject<Actor>(newProductJson);
-            Assert.True(newProduct.ID != 0);
+            Assert.True(newProduct.Id != 0);
         }
 
         //[Fact]

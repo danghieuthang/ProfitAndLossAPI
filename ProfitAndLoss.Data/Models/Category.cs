@@ -7,24 +7,15 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("Categories")]
-    public class Category
+    public class Category : BaseEntity<Guid>
     {
         public Category()
         {
-            Actived = false;
+
         }
-
-        [Key]
-        public Guid Id { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public DateTime CreatedDate { get; set; }
 
         [ForeignKey("Category")]
         public Guid ParentId { get; set; }
-
-        public bool Actived { get; set; }
 
         public virtual ICollection<TransactionDetail> LedgerEntries { get; set; }
 

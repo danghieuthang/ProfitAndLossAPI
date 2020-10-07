@@ -27,5 +27,11 @@ namespace ProfitAndLoss.WebApi
             public const string LOGIN = PREFIX + "/login";
             public const string CREATE = PREFIX;
         }
+
+        public static class Store
+        {
+            public const string PREFIX = "stores";
+            public const string GET = PREFIX;
+        }
     }
 }

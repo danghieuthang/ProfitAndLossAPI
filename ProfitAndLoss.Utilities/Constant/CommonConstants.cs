@@ -6,6 +6,6 @@ namespace ProfitAndLoss.Utilities.Constant
 {
     public class CommonConstants
     {
-
+     
     }
 }

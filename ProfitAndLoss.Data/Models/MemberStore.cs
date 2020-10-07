@@ -7,15 +7,12 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("MemberStores")]
-    public class MemberStore
+    public class MemberStore : BaseEntity<Guid>
     {
         public MemberStore()
         {
 
         }
-
-        [Key]
-        public Guid Id { get; set; }
 
         public Guid MemberId { get; set; }
 

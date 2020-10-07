@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProfitAndLoss.Utilities.DTOs
 {
-    public class PageResult<T> : PageResultBase where T : class
+    public class PageResult<T> where T : class
     {
         #region constructors
 
@@ -18,7 +18,20 @@ namespace ProfitAndLoss.Utilities.DTOs
 
         #region properties
 
+        /// <summary>
+        /// List items of page
+        /// </summary>
         public IList Results { get; set; }
+
+        /// <summary>
+        /// Current Page
+        /// </summary>
+        public int PageIndex { get; set; }
+
+        /// <summary>
+        /// Total Row
+        /// </summary>
+        public int TotalCount { get; set; }
 
         #endregion properties
 

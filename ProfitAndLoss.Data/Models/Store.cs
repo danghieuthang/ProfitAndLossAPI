@@ -7,7 +7,7 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("Stores")]
-    public class Store
+    public class Store : BaseEntity<Guid>
     {
         public Store()
         {
@@ -15,15 +15,6 @@ namespace ProfitAndLoss.Data.Models
             Transactions = new HashSet<Transaction>();
             MemberStores = new HashSet<MemberStore>();
         }
-
-        [Key]
-        public Guid Id { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public bool Actived { get; set; }
 
         [ForeignKey("Brand")]
         public Guid BrandId { get; set; }

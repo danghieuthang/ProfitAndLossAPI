@@ -7,19 +7,12 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("Feedbacks")]
-    public class Feedback
+    public class Feedback : BaseEntity<Guid>
     {
         public Feedback()
         {
 
         }
-
-        [Key]
-        public Guid Id { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public DateTime CreatedDate { get; set; }
 
         [MaxLength(255)]
         public string Name { get; set; }
@@ -34,7 +27,5 @@ namespace ProfitAndLoss.Data.Models
 
         [ForeignKey("Member")]
         public Guid MemberId { get; set; }
-
-
     }
 }

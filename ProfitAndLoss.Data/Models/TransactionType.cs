@@ -7,21 +7,12 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("TransactionTypes")]
-    public class TransactionType
+    public class TransactionType : BaseEntity<Guid>
     {
         public TransactionType()
         {
-            Actived = false;
+            
         }
-
-        [Key]
-        public Guid Id { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public bool Actived { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }
     }

@@ -7,21 +7,12 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("Brands")]
-    public class Brand
+    public class Brand : BaseEntity<Guid>
     {
         public Brand()
         {
-            Actived = false;
+
         }
-
-        [Key]
-        public Guid Id { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public bool Actived { get; set; }
 
         public virtual ICollection<Account> Accounts { get; set; }
 

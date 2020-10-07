@@ -7,19 +7,12 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("StoreAccounts")]
-    public class StoreAccount
+    public class StoreAccount : BaseEntity<Guid>
     {
         public StoreAccount()
         {
 
         }
-
-        [Key]
-        public Guid Id { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public DateTime CreatedDate { get; set; }
 
         [MaxLength(255)]
         public string Name { get; set; }

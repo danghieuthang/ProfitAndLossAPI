@@ -73,7 +73,7 @@ namespace ProfitAndLoss.Business.Services
 
         public bool Exist(Actor entity)
         {
-            return Actors.Any(e => e.ID != entity.ID);
+            return Actors.Any(e => e.Id != entity.Id);
         }
 
         public Actor Edit(Actor entity)

@@ -7,20 +7,12 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("AccountingPeriodDetail")]
-    public class AccountingPeriodDetail
+    public class AccountingPeriodDetail : BaseEntity<Guid>
     {
         public AccountingPeriodDetail()
         {
 
         }
-        [Key]
-        public Guid Id { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public bool Actived { get; set; }
 
         public DateTime StartedDate { get; set; }
 
@@ -34,7 +26,7 @@ namespace ProfitAndLoss.Data.Models
 
         [MaxLength(255)]
         public string Title { get; set; }
-        
+
         public string Description { get; set; }
 
         public int Status { get; set; }

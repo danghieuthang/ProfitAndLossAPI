@@ -7,20 +7,12 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("Recepts")]
-    public class Recept
+    public class Recept : BaseEntity<Guid>
     {
         public Recept()
         {
 
         }
-
-        [Key]
-        public Guid Id { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
 
         [ForeignKey("Member")]
         public Guid CreateMemberId { get; set; }

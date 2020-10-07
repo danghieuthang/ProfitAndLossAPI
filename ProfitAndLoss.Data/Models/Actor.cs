@@ -4,12 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProfitAndLoss.Data.Models
 {
-    public class Actor
+    public class Actor:BaseEntity<int>
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

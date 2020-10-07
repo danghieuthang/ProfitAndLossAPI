@@ -7,17 +7,12 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("TransactionHistories")]
-    public class TransactionHistory
+    public class TransactionHistory : BaseEntity<Guid>
     {
         public TransactionHistory()
         {
 
         }
-
-        [Key]
-        public Guid Id { get; set; }
-
-        public DateTime CreatedDate { get; set; }
 
         [MaxLength(2000)]
         public string Message { get; set; }
@@ -26,7 +21,5 @@ namespace ProfitAndLoss.Data.Models
 
         [ForeignKey("Transaction")]
         public Guid TransactionId { get; set; }
-
-        public bool Actived { get; set; }
     }
 }

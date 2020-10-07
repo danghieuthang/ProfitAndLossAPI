@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IBaseRepository<TEntity, TKey> where TEntity : class
+    public interface IBaseRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
     {
         TEntity GetById(TKey id);
         TEntity GetById(TKey id, Expression<Func<TEntity, object>> include);
@@ -26,10 +26,10 @@ namespace ProfitAndLoss.Business.Services
         void CommitAsync();
     }
 
-    public class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey>, IDisposable where TEntity : class
+    public class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey>, IDisposable where TEntity : BaseEntity<TKey>
     {
-        DataContext _context;
-        DbSet<TEntity> dbSet;
+        private readonly DataContext _context;
+        private readonly DbSet<TEntity> dbSet;
         private bool _disposed;
         public BaseRepository(DataContext context)
         {
@@ -94,12 +94,13 @@ namespace ProfitAndLoss.Business.Services
 
         public TEntity GetById(TKey id, Expression<Func<TEntity, object>> include)
         {
-            throw new NotImplementedException();
+            // return dbSet.Where(include).fi
+            return dbSet.Include(include).FirstOrDefault(c => c.Id.Equals(id));
         }
 
         public TEntity Update(TEntity entity)
         {
-            var result = _context.Entry(entity).State = EntityState.Modified;
+            _context.Entry(entity).State = EntityState.Modified;
             return entity;
         }
 

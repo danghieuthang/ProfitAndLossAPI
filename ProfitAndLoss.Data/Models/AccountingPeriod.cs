@@ -8,20 +8,13 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("AccountingPeriods")]
-    public class AccountingPeriod
+    public class AccountingPeriod : BaseEntity<Guid>
     {
         public AccountingPeriod()
         {
             AccountPeriodDetails = new HashSet<AccountingPeriodDetail>();
             Feedbacks = new HashSet<Feedback>();//
         }
-
-        [Key]
-        public Guid Id { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public DateTime CreatedDate { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime CloseDate { get; set; }
@@ -36,7 +29,6 @@ namespace ProfitAndLoss.Data.Models
 
         public int Status { get; set; }
 
-        public bool Actived { get; set; }
         public virtual ICollection<AccountingPeriodDetail> AccountPeriodDetails { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
 

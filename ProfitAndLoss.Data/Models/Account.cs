@@ -8,19 +8,12 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("Accounts")]
-    public class Account
+    public class Account : BaseEntity<Guid>
     {
         public Account()
         {
 
         }
-
-        [Key]
-        public Guid Id { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public DateTime CreatedDate { get; set; }
 
         [MaxLength(255)]
         public string Name { get; set; }

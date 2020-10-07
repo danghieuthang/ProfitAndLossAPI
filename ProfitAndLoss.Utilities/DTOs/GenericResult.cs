@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace ProfitAndLoss.Utilities.DTOs
@@ -30,6 +31,8 @@ namespace ProfitAndLoss.Utilities.DTOs
         public Object Data { get; set; }
 
         public bool Success { get; set; }
+
+        public HttpStatusCode StatusCode { get; set; }
 
         public string Message { get; set; }
 

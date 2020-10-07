@@ -172,7 +172,7 @@ namespace ProfitAndLoss.WebApi.Controllers
 
         private bool ActorExists(int id)
         {
-            return _context.Actors.Any(e => e.ID == id);
+            return _context.Actors.Any(e => e.Id == id);
         }
     }
     public class ActorModel

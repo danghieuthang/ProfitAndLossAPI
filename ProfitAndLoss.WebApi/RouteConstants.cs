@@ -32,6 +32,8 @@ namespace ProfitAndLoss.WebApi
         {
             public const string PREFIX = "stores";
             public const string GET = PREFIX;
+            public const string POST = PREFIX;
+
         }
     }
 }

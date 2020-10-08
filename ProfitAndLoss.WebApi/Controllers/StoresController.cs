@@ -10,7 +10,7 @@ using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route(RouteConstants.Store.PREFIX)]
     [ApiController]
     public class StoresController : ControllerBase
     {
@@ -21,15 +21,13 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route(RouteConstants.Store.GET)]
         public async Task<GenericResult> GetStores(RequestSearchStoreModel model)
         {
             return await _storeService.SearchStoreAsync(model);
         }
 
-        [HttpGet]
-        [Route(RouteConstants.Store.GET)]
-        public async Task<GenericResult> CreateStore(RequestCreateStoreModel model)
+        [HttpPost]
+        public async Task<GenericResult> CreateStore([FromBody] RequestCreateStoreModel model)
         {
             return await _storeService.Create(model);
         }

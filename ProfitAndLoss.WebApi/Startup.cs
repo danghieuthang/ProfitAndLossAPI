@@ -50,13 +50,11 @@ namespace ProfitAndLoss.WebApi
             //services.AddScoped<IActorServices, ActorServices>();
             services.AddScoped<IActorServices, ActorServices>();
 
-
             #region Registration services
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IMemberService, MemberService>();
-            services.AddScoped<IBrandService, BrandService>();
-            services.AddScoped<IStoreService, StoreService>();
+            Global.InitServices(services);
+            //services.AddScoped<IMemberService, MemberService>();
+            //services.AddScoped<IBrandService, BrandService>();
+            //services.AddScoped<IStoreService, StoreService>();
 
             #endregion Registration services
             services.AddIdentityCore<AppUser>(options =>

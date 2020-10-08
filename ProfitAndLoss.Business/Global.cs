@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using ProfitAndLoss.Business.Models;
+using ProfitAndLoss.Business.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +52,37 @@ namespace ProfitAndLoss.Business
             var executionPlan = configuration.BuildExecutionPlan(typeof(TestSource), typeof(TestDestination));
 
             //var expression = context.Entities.ProjectTo<Dto>().Expression;
+        }
+        public static void InitServices(IServiceCollection services)
+        {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes())
+                    .Where(t => t.Name.EndsWith("Service") && t.Name.StartsWith("I") 
+                            && typeof(IBaseService).IsAssignableFrom(t) 
+                            && !t.Equals(typeof(IBaseService))
+                            && t.IsInterface 
+                            && !t.IsGenericType)
+                    .ToList()
+                    .ForEach( types =>
+                    {
+                        if (types != null)
+                        {
+                            var serviceClass = AppDomain.CurrentDomain
+                                                    .GetAssemblies()
+                                                    .SelectMany(st => st.GetTypes())
+                                                    .Where(st => st.Name.EndsWith("Service")
+                                                                && types.IsAssignableFrom(st)
+                                                                && st.IsClass
+                                                                && !st.IsAbstract)
+                                                    .ToList();
+                            var serviceType = serviceClass
+                                                .FirstOrDefault(s => !s.Name.Contains(nameof(IBaseService)));
+                            if (serviceType != null)
+                            {
+                                services.AddScoped(types, serviceType);
+                            }
+                        }
+                    });
         }
     }
     public class TestSource

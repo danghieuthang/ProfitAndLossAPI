@@ -12,7 +12,7 @@ namespace ProfitAndLoss.WebApi.Helpers
 	{
 		public OrganizationProfile()
 		{
-			CreateMap<User, UserViewModel>().ReverseMap();
+			//CreateMap<User, UserViewModel>().ReverseMap();
 		}
 	}
 }

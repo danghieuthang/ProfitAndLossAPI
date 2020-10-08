@@ -27,6 +27,8 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft;
 using Newtonsoft.Json.Serialization;
 using ProfitAndLoss.Business.Repositories;
+using ProfitAndLoss.Utilities.Helpers;
+using ProfitAndLoss.Utilities;
 
 namespace ProfitAndLoss.WebApi
 {
@@ -38,7 +40,6 @@ namespace ProfitAndLoss.WebApi
         }
 
         public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -55,7 +56,6 @@ namespace ProfitAndLoss.WebApi
             //services.AddScoped<IMemberService, MemberService>();
             //services.AddScoped<IBrandService, BrandService>();
             //services.AddScoped<IStoreService, StoreService>();
-
             #endregion Registration services
             services.AddIdentityCore<AppUser>(options =>
             {
@@ -149,6 +149,7 @@ namespace ProfitAndLoss.WebApi
             // add mapper
             Global.Init();
             services.AddRouting(options => options.LowercaseUrls = true);
+
             // add json config
 
             // add Cors
@@ -193,7 +194,7 @@ namespace ProfitAndLoss.WebApi
             ////.WithMethods("GET", "POST", "PUT", "DELETE")
             //.AllowAnyHeader());
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseCors();
 

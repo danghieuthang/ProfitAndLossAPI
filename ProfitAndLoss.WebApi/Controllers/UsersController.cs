@@ -48,12 +48,12 @@ namespace ProfitAndLoss.WebApi.Controllers
             var appUser = await _identityServices.GetUserByUserNameAsync(login.Username);
             if (appUser == null)
             {
-                return new GenericResult { Success = false, Error = Unauthorized("Invalid username") };
+                return new GenericResult { Success = false, Data = Unauthorized("Invalid username") };
             }
             var result = await _identityServices.SignInAsync(appUser, login);
             if (!result.Succeeded)
             {
-                return new GenericResult { Success = false, Error = Unauthorized("Invalid password") };
+                return new GenericResult { Success = false, Data = Unauthorized("Invalid password") };
             }
             var tokenString = await _identityServices.GenerateJWTTokenAsync(appUser);
             var listRole = _identityServices.GetRole(appUser);
@@ -88,7 +88,7 @@ namespace ProfitAndLoss.WebApi.Controllers
             {
                 return new GenericResult { Success = true };
             }
-            return new GenericResult { Success = false, Error = result.Errors };
+            return new GenericResult { Success = false, Data = result.Errors };
         }
     }
 }

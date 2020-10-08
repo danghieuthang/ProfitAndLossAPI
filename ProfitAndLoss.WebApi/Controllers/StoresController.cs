@@ -21,7 +21,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<GenericResult> GetStores(RequestSearchStoreModel model)
+        public async Task<GenericResult> GetStores([FromQuery] RequestSearchStoreModel model)
         {
             return await _storeService.SearchStoreAsync(model);
         }

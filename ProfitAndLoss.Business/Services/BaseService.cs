@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,8 +39,11 @@ namespace ProfitAndLoss.Business.Services
         {
             get
             {
-                return _baseRepository ??= (IBaseRepository<T, Guid>)_unitOfWork.GetType().GetFields()
-                                            .FirstOrDefault(f => f.GetType() is IBaseRepository<T, Guid>);
+                return _baseRepository ??=
+                        (IBaseRepository<T, Guid>)_unitOfWork.GetType()
+                                    .GetProperties()
+                                    .Select(c => c.GetValue(_unitOfWork))
+                                    .FirstOrDefault(x => x is IBaseRepository<T, Guid>);
             }
         }
         /// <summary>

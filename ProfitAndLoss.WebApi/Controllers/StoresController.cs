@@ -36,8 +36,7 @@ namespace ProfitAndLoss.WebApi.Controllers
             {
                 return new GenericResult
                 {
-                    StatusCode = System.Net.HttpStatusCode.BadRequest,
-                    Error = "This brand not exists!"
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
                 };
             }
             return await _storeService.Create(model);

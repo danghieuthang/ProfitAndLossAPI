@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IDemoExcelService
+    public interface IDemoExcelService : IBaseService<Brand>
     {
         Task<byte[]> ExportBrands();
     }

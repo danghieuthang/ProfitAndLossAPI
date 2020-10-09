@@ -15,9 +15,11 @@ namespace ProfitAndLoss.WebApi.Controllers
     public class StoresController : ControllerBase
     {
         private readonly IStoreService _storeService;
-        public StoresController(IStoreService storeService)
+        private readonly IBrandService _brandService;
+        public StoresController(IStoreService storeService, IBrandService brandService)
         {
             _storeService = storeService;
+            _brandService = brandService;
         }
 
         [HttpGet]
@@ -29,6 +31,15 @@ namespace ProfitAndLoss.WebApi.Controllers
         [HttpPost]
         public async Task<GenericResult> CreateStore([FromBody] RequestCreateStoreModel model)
         {
+            var brand = _brandService.GetBrand(model.BrandId);
+            if (brand.Result is null)
+            {
+                return new GenericResult
+                {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    Error = "This brand not exists!"
+                };
+            }
             return await _storeService.Create(model);
         }
 

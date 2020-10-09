@@ -1,6 +1,7 @@
 ﻿using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Repositories;
 using ProfitAndLoss.Data.Models;
+using ProfitAndLoss.Utilities.Constant;
 using ProfitAndLoss.Utilities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -35,8 +36,8 @@ namespace ProfitAndLoss.Business.Services
             //
             var entities = _storeRepository.GetAll();
             //
-            var pageSize = model.PageSize;
-            var currentPage = model.Page;
+            var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
+            var currentPage = model.Page > 0 ? model.Page : 1;
             var strOrder = model.SortBy;
             //
             var result = new PageResult<Store>
@@ -50,10 +51,10 @@ namespace ProfitAndLoss.Business.Services
                                     .ToList();
 
             //
-            return new GenericResult 
-            { 
-                Data = result, 
-                Success = true 
+            return new GenericResult
+            {
+                Data = result,
+                Success = true
             };
         }
 
@@ -68,5 +69,6 @@ namespace ProfitAndLoss.Business.Services
             _storeRepository.Update(entity);
             return new GenericResult { Data = entity, Success = true };
         }
+
     }
 }

@@ -57,6 +57,8 @@ namespace ProfitAndLoss.WebApi
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IStoreService, StoreService>();
+            services.AddScoped<IDemoExcelService, DemoExcelService>();
+
 
             #endregion Registration services
             services.AddIdentityCore<AppUser>(options =>

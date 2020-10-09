@@ -40,9 +40,9 @@ namespace ProfitAndLoss.Business.Services
             get
             {
                 return _baseRepository ??=
-                        (IBaseRepository<T, Guid>)_unitOfWork.GetType()
-                                    .GetProperties()
-                                    .Select(c => c.GetValue(_unitOfWork))
+                        (IBaseRepository<T, Guid>)_unitOfWork.GetType() 
+                                    .GetProperties() // Get All properties in UnitOfWork
+                                    .Select(c => c.GetValue(_unitOfWork)) // Select the repositories in UnitOfWork
                                     .FirstOrDefault(x => x is IBaseRepository<T, Guid>);
             }
         }
@@ -54,7 +54,9 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Create(BaseCreateModel<T> model)
         {
             var entity = model.ToEntity();
+
             var result = BaseRepository.Add(entity);
+            _unitOfWork.Commit();
             return new GenericResult
             {
                 Data = result,
@@ -66,6 +68,7 @@ namespace ProfitAndLoss.Business.Services
         {
             var entity = BaseRepository.GetById(id);
             var result = BaseRepository.Delete(entity);
+            _unitOfWork.Commit();
             return new GenericResult
             {
                 Data = result
@@ -81,6 +84,7 @@ namespace ProfitAndLoss.Business.Services
         {
             var entity = model.ToEntity();
             var result = BaseRepository.Update(entity);
+            _unitOfWork.Commit();
             return new GenericResult
             {
                 Data = result

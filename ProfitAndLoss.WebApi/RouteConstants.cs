@@ -19,6 +19,8 @@ namespace ProfitAndLoss.WebApi
             private const string PREFIX = "brands";
 
             public const string CREATE = PREFIX + "/create";
+            public const string EXPORT = PREFIX + "/export";
+
         }
 
         public static class User

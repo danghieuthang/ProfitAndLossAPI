@@ -6,6 +6,6 @@ namespace ProfitAndLoss.Utilities.Constant
 {
     public class CommonConstants
     {
-     
+        public static int DEFAULT_PAGESIZE = 5;
     }
 }

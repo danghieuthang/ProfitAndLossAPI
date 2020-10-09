@@ -11,8 +11,6 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        public Guid Id { get; set; }
-
         public DateTime TransactionDateFrom { get; set; }
 
         public DateTime TransactionDateTo { get; set; }
@@ -44,6 +42,14 @@ namespace ProfitAndLoss.Business.Models
         }
 
         public DateTime CreatedDate { get; set; }
+    }
+
+    public class BaseExportModel<T> : Mapping<T>
+    {
+        public BaseExportModel()
+        {
+
+        }
     }
 
 }

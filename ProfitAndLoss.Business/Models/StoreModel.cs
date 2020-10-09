@@ -13,7 +13,7 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        
+        public Guid BrandId { get; set; }
         public bool Actived { get; set; }
 
     }

@@ -31,7 +31,7 @@ namespace ProfitAndLoss.Utilities.Helpers
         {
             if (time != null)
             {
-                return string.Format("Ngày " + time.DayOfWeek + " Tháng " + time.Month + " Năm " + time.Year);
+                return string.Format("Ngày " + time.Day + " Tháng " + time.Month + " Năm " + time.Year);
             }
             return "N/A";
         }

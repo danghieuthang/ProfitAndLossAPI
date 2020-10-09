@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using ProfitAndLoss.Utilities.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
@@ -14,31 +16,34 @@ namespace ProfitAndLoss.Utilities.DTOs
             Data = new object();
             Success = true;
             Message = string.Empty;
-            Error = new object();
         }
 
-        public GenericResult(Object data, bool success, string message, Object error)
+        public GenericResult(Object data, bool success, string message = null)
         {
             Data = data;
             Success = success;
-            Message = message;
-            Error = error;
+            Message = message??EnumHelper.GetDisplayValue(AppResultCode.Success);
         }
         #endregion constructors
 
         #region properties
-
+        [JsonProperty("data")]
         public Object Data { get; set; }
-
+        
+        [JsonProperty("success")]
         public bool Success { get; set; }
-
+       
+        [JsonProperty("status_code")]
         public HttpStatusCode StatusCode { get; set; }
 
+        [JsonProperty("message")]
         public string Message { get; set; }
 
-        public Object Error { get; set; }
+        [JsonProperty("code")]
+        public AppResultCode? ResultCode { get; set; }
+
+        
 
         #endregion properties
-
     }
 }

@@ -1,8 +1,7 @@
-﻿using ProfitAndLoss.Data.Models;
-using ProfitAndLoss.Utilities.DTOs;
+﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using ProfitAndLoss.Data.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
@@ -13,16 +12,20 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
+        [JsonProperty("image")]
+        public IFormFile Image { get; set; }
+
+        [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("description")]
         public string Description { get; set; }
 
-        public bool Actived { get; set; }
+        [JsonIgnore]
+        public string ImgUrl { get; set; }
 
-        public string ImUrl { get; set; }
-
+        [JsonProperty("recept-id")]
         public Guid ReceptId { get; set; }
-
     }
 
     public class RequestUpdateEvidenceModel : BaseUpdateModel<Evidence>
@@ -48,7 +51,11 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
+        [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("recept-id")]
+        public Guid ReceptId { get; set; }
 
     }
 }

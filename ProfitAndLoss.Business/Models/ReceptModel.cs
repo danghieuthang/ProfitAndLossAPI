@@ -1,8 +1,6 @@
-﻿using ProfitAndLoss.Data.Models;
-using ProfitAndLoss.Utilities.DTOs;
+﻿using Newtonsoft.Json;
+using ProfitAndLoss.Data.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
@@ -13,6 +11,11 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
+        [JsonProperty("store-id")]
+        public Guid StoreId { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
     }
 
     public class RequestUpdateReceptModel : BaseUpdateModel<Recept>
@@ -29,8 +32,6 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
-
-        public Guid TransactionId { get; set; }
 
     }
 }

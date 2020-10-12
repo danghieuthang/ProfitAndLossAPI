@@ -17,6 +17,8 @@ namespace ProfitAndLoss.Data.Models
         [ForeignKey("Member")]
         public Guid CreateMemberId { get; set; }
 
+        public string Description { get; set; }
+
         public virtual ICollection<Transaction> Transactions { get; set; }
 
         public virtual ICollection<Evidence> Evidences { get; set; }

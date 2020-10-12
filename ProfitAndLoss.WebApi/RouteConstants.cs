@@ -37,5 +37,15 @@ namespace ProfitAndLoss.WebApi
             public const string POST = PREFIX;
 
         }
+
+        public static class Recept
+        {
+            public const string PREFIX = "api/recepts";
+        }
+
+        public static class Evidence
+        {
+            public const string PREFIX = "api/evidences";
+        }
     }
 }

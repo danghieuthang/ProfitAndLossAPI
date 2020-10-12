@@ -1,12 +1,10 @@
 ﻿using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Data.Models;
+using ProfitAndLoss.Utilities.Constant;
 using ProfitAndLoss.Utilities.DTOs;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
@@ -19,12 +17,14 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> Create(BaseCreateModel<T> model);
         Task<GenericResult> Update(BaseUpdateModel<T> model);
         Task<GenericResult> Delete(Guid id);
-
+   //     Task<GenericResult> GetById(Guid id);
+        Task<T> GetById(Guid id);
+        Task<GenericResult> Search(BaseSearchModel<T> model);
     }
     public class BaseService<T> : IBaseService<T> where T : BaseEntity<Guid>
     {
         #region fields
-        private readonly IUnitOfWork _unitOfWork;
+        protected readonly IUnitOfWork _unitOfWork;
         private IBaseRepository<T, Guid> _baseRepository;
 
         #endregion fiedls
@@ -81,6 +81,38 @@ namespace ProfitAndLoss.Business.Services
         public void Dispose()
         {
             GC.SuppressFinalize(this);
+        }
+
+        public async Task<T> GetById(Guid id)
+        {
+            return BaseRepository.GetById(id);
+        }
+
+        public async Task<GenericResult> Search(BaseSearchModel<T> model)
+        {
+            //
+            var entities = BaseRepository.GetAll();
+            //
+            var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
+            var currentPage = model.Page > 0 ? model.Page : 1;
+            var strOrder = model.SortBy;
+            //
+            var result = new PageResult<T>
+            {
+                PageIndex = currentPage,
+                TotalCount = entities.Count()
+            };
+
+            result.Results = entities.OrderBy(x => x.CreatedDate).Skip((currentPage - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
+
+            //
+            return new GenericResult
+            {
+                Data = result,
+                Success = true
+            };
         }
 
         public async Task<GenericResult> Update(BaseUpdateModel<T> model)

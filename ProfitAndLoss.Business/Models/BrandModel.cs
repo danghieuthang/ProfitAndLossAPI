@@ -41,7 +41,6 @@ namespace ProfitAndLoss.Business.Models
         public string Id { get; set; }
 
         [Display(Name = "Modified Date")]
-
         public string ModifiedDate { get; set; }
 
         [Display(Name = "Created Date")]

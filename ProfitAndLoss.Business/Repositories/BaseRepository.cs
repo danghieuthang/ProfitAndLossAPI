@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ProfitAndLoss.Business.Services
 {
@@ -16,6 +17,7 @@ namespace ProfitAndLoss.Business.Services
         IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression);
         IQueryable<TEntity> GetAll();
         TEntity Add(TEntity entity);
+        void AddMulti(List<TEntity> entities);
         TEntity Update(TEntity entity);
         TEntity Delete(TKey id);
         TEntity Delete(TEntity entity);
@@ -124,6 +126,11 @@ namespace ProfitAndLoss.Business.Services
         public IQueryable<TEntity> GetAll()
         {
             return dbSet;
+        }
+
+        public void AddMulti(List<TEntity> entities)
+        {
+            dbSet.AddRange(entities);
         }
     }
 }

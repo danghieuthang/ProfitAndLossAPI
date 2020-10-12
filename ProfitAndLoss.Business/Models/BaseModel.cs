@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace ProfitAndLoss.Business.Models
 {
@@ -26,11 +25,12 @@ namespace ProfitAndLoss.Business.Models
     {
         public BaseUpdateModel()
         {
-
+            ModifiedDate = DateTime.Now;
         }
 
         public Guid Id { get; set; }
 
+        [JsonIgnore]
         public DateTime ModifiedDate { get; set; }
     }
 
@@ -41,6 +41,7 @@ namespace ProfitAndLoss.Business.Models
             CreatedDate = DateTime.Now;
         }
 
+        [JsonIgnore]
         public DateTime CreatedDate { get; set; }
     }
 

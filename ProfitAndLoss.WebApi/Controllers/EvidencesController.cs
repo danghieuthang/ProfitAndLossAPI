@@ -17,13 +17,13 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<GenericResult> CreateEvidence([FromQuery] RequestCreateEvidenceModel model)
+        public async Task<GenericResult> CreateEvidence([FromQuery] EvidenceCreateModel model)
         {
             return await _evidenceService.CreateEvidence(model);
         }
 
         [HttpGet]
-        public async Task<GenericResult> GetEvidences([FromQuery] RequestSearchEvidenceModel model)
+        public async Task<GenericResult> GetEvidences([FromQuery] EvidenceSearchModel model)
         {
             return await _evidenceService.SearchEvidences(model);
         }

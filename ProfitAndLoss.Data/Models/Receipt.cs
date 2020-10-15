@@ -6,10 +6,10 @@ using System.Text;
 
 namespace ProfitAndLoss.Data.Models
 {
-    [Table("Recepts")]
-    public class Recept : BaseEntity<Guid>
+    [Table("Receipts")]
+    public class Receipt : BaseEntity<Guid>
     {
-        public Recept()
+        public Receipt()
         {
 
         }

@@ -7,9 +7,9 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class RequestCreateStoreAccountModel : BaseCreateModel<StoreAccount>
+    public class StoreAccountCreateModel : BaseCreateModel<StoreAccount>
     {
-        public RequestCreateStoreAccountModel()
+        public StoreAccountCreateModel()
         {
 
         }
@@ -31,9 +31,9 @@ namespace ProfitAndLoss.Business.Models
 
     }
 
-    public class RequestUpdateStoreAccountModel : BaseUpdateModel<StoreAccount>
+    public class StoreAccountUpdateModel : BaseUpdateModel<StoreAccount>
     {
-        public RequestUpdateStoreAccountModel()
+        public StoreAccountUpdateModel()
         {
 
         }
@@ -54,7 +54,7 @@ namespace ProfitAndLoss.Business.Models
         public Guid StoreId { get; set; }
     }
 
-    public class RequestSearchStoreAccountModel : BaseSearchModel<StoreAccount>
+    public class StoreAccountSearchModel : BaseSearchModel<StoreAccount>
     {
 
     }

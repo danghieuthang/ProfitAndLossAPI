@@ -12,6 +12,7 @@ namespace ProfitAndLoss.Business.Services
     public interface IBaseService
     {
     }
+
     public interface IBaseService<T> : IDisposable, IBaseService
     {
         Task<GenericResult> Create(BaseCreateModel<T> model);

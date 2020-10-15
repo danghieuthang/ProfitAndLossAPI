@@ -13,7 +13,7 @@ namespace ProfitAndLoss.Business.Services
 {
     public interface IStoreService : IBaseService<Store>
     {
-        Task<GenericResult> SearchStoreAsync(RequestSearchStoreModel model);
+        Task<GenericResult> SearchStoreAsync(StoreSearchModel model);
     }
     public class StoreService : BaseService<Store>, IStoreService
     {
@@ -31,7 +31,7 @@ namespace ProfitAndLoss.Business.Services
             return new GenericResult { Data = entities, Success = true };
         }
 
-        public async Task<GenericResult> SearchStoreAsync(RequestSearchStoreModel model)
+        public async Task<GenericResult> SearchStoreAsync(StoreSearchModel model)
         {
             //
             var entities = _storeRepository.GetAll();
@@ -63,7 +63,7 @@ namespace ProfitAndLoss.Business.Services
             throw new NotImplementedException();
         }
 
-        public async Task<GenericResult> UpdateStore(RequestUpdateStoreModel model)
+        public async Task<GenericResult> UpdateStore(StoreUpdateModel model)
         {
             var entity = model.ToEntity();
             _storeRepository.Update(entity);

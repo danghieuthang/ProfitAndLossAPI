@@ -14,10 +14,10 @@ namespace ProfitAndLoss.Business.Services
 {
     public interface IEvidenceService : IBaseService<Evidence>
     {
-        Task<List<Evidence>> AddMultiEvidences(List<RequestCreateEvidenceModel> evidences);
-        Task<GenericResult> CreateEvidence(RequestCreateEvidenceModel model);
+        Task<List<Evidence>> AddMultiEvidences(List<EvidenceCreateModel> evidences);
+        Task<GenericResult> CreateEvidence(EvidenceCreateModel model);
         Task<string> WriteFile(IFormFile file);
-        Task<GenericResult> SearchEvidences(RequestSearchEvidenceModel model);
+        Task<GenericResult> SearchEvidences(EvidenceSearchModel model);
     }
     public class EvidenceService : BaseService<Evidence>, IEvidenceService
     {
@@ -26,7 +26,7 @@ namespace ProfitAndLoss.Business.Services
 
         }
 
-        public async Task<List<Evidence>> AddMultiEvidences(List<RequestCreateEvidenceModel> evidences)
+        public async Task<List<Evidence>> AddMultiEvidences(List<EvidenceCreateModel> evidences)
         {
             var result = new List<Evidence>();
             foreach (var evidence in evidences)
@@ -43,7 +43,7 @@ namespace ProfitAndLoss.Business.Services
         /// </summary>
         /// <param name="model">The Request Create Evidence Model</param>
         /// <returns>Evidence created</returns>
-        public async Task<GenericResult> CreateEvidence(RequestCreateEvidenceModel model)
+        public async Task<GenericResult> CreateEvidence(EvidenceCreateModel model)
         {
             model.ImgUrl = WriteFile(model.Image).Result;
             var data = BaseRepository.Add(model.ToEntity());
@@ -56,7 +56,7 @@ namespace ProfitAndLoss.Business.Services
             };
         }
 
-        public async Task<GenericResult> SearchEvidences(RequestSearchEvidenceModel model)
+        public async Task<GenericResult> SearchEvidences(EvidenceSearchModel model)
         {
             //
             var entities = BaseRepository.GetAll(x => x.ReceptId == model.ReceptId);

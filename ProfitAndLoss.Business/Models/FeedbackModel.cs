@@ -7,9 +7,9 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class RequestCreateFeedbackModel : BaseCreateModel<Feedback>
+    public class FeedbackCreateModel : BaseCreateModel<Feedback>
     {
-        public RequestCreateFeedbackModel()
+        public FeedbackCreateModel()
         {
 
         }
@@ -30,9 +30,9 @@ namespace ProfitAndLoss.Business.Models
         public Guid AccountingPeriodId { get; set; }
     }
 
-    public class RequestUpdateFeedbackModel : BaseUpdateModel<Feedback>
+    public class FeedbackUpdateModel : BaseUpdateModel<Feedback>
     {
-        public RequestUpdateFeedbackModel()
+        public FeedbackUpdateModel()
         {
 
         }
@@ -47,9 +47,9 @@ namespace ProfitAndLoss.Business.Models
         public string Description { get; set; }
     }
 
-    public class RequestSearchFeedbackModel : BaseSearchModel<Feedback>
+    public class FeedbacSearchModel : BaseSearchModel<Feedback>
     {
-        public RequestSearchFeedbackModel()
+        public FeedbacSearchModel()
         {
 
         }

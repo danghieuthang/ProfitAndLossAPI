@@ -6,9 +6,9 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class RequestCreateTransactionTypeModel : BaseCreateModel<TransactionType>
+    public class TransactionTypeCreateModel : BaseCreateModel<TransactionType>
     {
-        public RequestCreateTransactionTypeModel()
+        public TransactionTypeCreateModel()
         {
 
         }
@@ -17,9 +17,9 @@ namespace ProfitAndLoss.Business.Models
 
     }
 
-    public class RequestUpdateTransactionTypeModel : BaseUpdateModel<TransactionType>
+    public class TransactionTypeUpdateModel : BaseUpdateModel<TransactionType>
     {
-        public RequestUpdateTransactionTypeModel()
+        public TransactionTypeUpdateModel()
         {
 
         }
@@ -27,9 +27,9 @@ namespace ProfitAndLoss.Business.Models
         public bool Actived { get; set; }
     }
 
-    public class RequestSearchTransactionTypeModel : BaseSearchModel<TransactionType>
+    public class TransactionTypeSearchModel : BaseSearchModel<TransactionType>
     {
-        public RequestSearchTransactionTypeModel()
+        public TransactionTypeSearchModel()
         {
 
         }

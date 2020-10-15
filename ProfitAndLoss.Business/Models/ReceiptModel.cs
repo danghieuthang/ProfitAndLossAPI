@@ -4,9 +4,9 @@ using System;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class RequestCreateReceptModel : BaseCreateModel<Recept>
+    public class ReceiptCreateModel : BaseCreateModel<Receipt>
     {
-        public RequestCreateReceptModel()
+        public ReceiptCreateModel()
         {
 
         }
@@ -18,17 +18,17 @@ namespace ProfitAndLoss.Business.Models
         public string Description { get; set; }
     }
 
-    public class RequestUpdateReceptModel : BaseUpdateModel<Recept>
+    public class ReceiptUpdateModel : BaseUpdateModel<Receipt>
     {
-        public RequestUpdateReceptModel()
+        public ReceiptUpdateModel()
         {
 
         }
     }
 
-    public class RequestSearchReceptModel : BaseSearchModel<Recept>
+    public class ReceiptSearchModel : BaseSearchModel<Receipt>
     {
-        public RequestSearchReceptModel()
+        public ReceiptSearchModel()
         {
 
         }

@@ -11,7 +11,7 @@ namespace ProfitAndLoss.Business.Services
         IMemberRepository MemberRepository { get; }
         IBrandRepository BrandRepository { get; }
         IStoreRepository StoreRepository { get; }
-        IReceptRepository ReceptRepository { get; }
+        IReceiptRepository ReceptRepository { get; }
         IEvidenceRepository EvidenceRepository { get; }
         ITransactionRepository TransactionRepository { get; }
         ITransactionTypeRepository TransactionTypeRepository { get; }
@@ -34,7 +34,7 @@ namespace ProfitAndLoss.Business.Services
         private IMemberRepository _memberRepository;
         private IBrandRepository _brandRepository;
         private IStoreRepository _storeRepository;
-        private IReceptRepository _receptRepository;
+        private IReceiptRepository _receptRepository;
         private IEvidenceRepository _evidenceRepository;
         private ITransactionRepository _transactionRepository;
         private ITransactionTypeRepository _transactionTypeRepository;
@@ -58,7 +58,7 @@ namespace ProfitAndLoss.Business.Services
 
         public IStoreRepository StoreRepository => _storeRepository ??= new StoreRepository(_context);
 
-        public IReceptRepository ReceptRepository => _receptRepository ??= new ReceptRepository(_context);
+        public IReceiptRepository ReceptRepository => _receptRepository ??= new ReceiptRepository(_context);
 
         public IEvidenceRepository EvidenceRepository => _evidenceRepository ??= new EvidenceRepository(_context);
 

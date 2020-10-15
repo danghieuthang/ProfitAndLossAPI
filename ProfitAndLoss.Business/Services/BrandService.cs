@@ -10,7 +10,7 @@ namespace ProfitAndLoss.Business.Services
 {
     public interface IBrandService : IBaseService<Brand>
     {
-        Task<GenericResult> CreateBrand(RequestCreateBrandModel model);
+        Task<GenericResult> CreateBrand(BrandCreateModel model);
         Task<GenericResult> DeleteAsync(Guid id);
         Task<GenericResult> GetAllBrandAsync();
         Task<GenericResult> GetBrand(Guid id);
@@ -22,7 +22,7 @@ namespace ProfitAndLoss.Business.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<GenericResult> CreateBrand(RequestCreateBrandModel model)
+        public async Task<GenericResult> CreateBrand(BrandCreateModel model)
         {
             Brand brand = new Brand { Actived = model.Actived, CreatedDate = System.DateTime.Now };
             _unitOfWork.BrandRepository.Add(brand);

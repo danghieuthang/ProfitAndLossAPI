@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class RequestCreateMemberModel : BaseCreateModel<Member>
+    public class MemberCreateModel : BaseCreateModel<Member>
     {
-        public RequestCreateMemberModel()
+        public MemberCreateModel()
         {
 
         }
@@ -27,9 +27,9 @@ namespace ProfitAndLoss.Business.Models
         public string Email { get; set; }
     }
 
-    public class RequestSearchMemberModel: BaseSearchModel<Member>
+    public class MemberSearchModel : BaseSearchModel<Member>
     {
-        public RequestSearchMemberModel()
+        public MemberSearchModel ()
         {
 
         }
@@ -37,9 +37,9 @@ namespace ProfitAndLoss.Business.Models
         public string Name { get; set; }
     }
 
-    public class RequestUpdateMemberModel : BaseUpdateModel<Member>
+    public class MemberUpdateModel : BaseUpdateModel<Member>
     {
-        public RequestUpdateMemberModel()
+        public MemberUpdateModel()
         {
 
         }

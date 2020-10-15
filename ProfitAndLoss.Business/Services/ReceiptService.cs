@@ -14,14 +14,14 @@ using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IReceptService : IBaseService<Recept>
+    public interface IReceiptService : IBaseService<Receipt>
     {
-        Task<Recept> CreateRecept(RequestCreateReceptModel model);
+        Task<Receipt> CreateRecept(RequestCreateReceptModel model);
         Task<GenericResult> SearchRecepts(RequestSearchReceptModel model);
     }
-    public class ReceptService : BaseService<Recept>, IReceptService
+    public class ReceiptService : BaseService<Receipt>, IReceiptService
     {
-        public ReceptService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public ReceiptService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }
@@ -31,7 +31,7 @@ namespace ProfitAndLoss.Business.Services
         /// </summary>
         /// <param name="model">The request create recept model</param>
         /// <returns>Return recept created</returns>
-        public async Task<Recept> CreateRecept(RequestCreateReceptModel model)
+        public async Task<Receipt> CreateRecept(RequestCreateReceptModel model)
         {
             var entity = model.ToEntity();
             var result = BaseRepository.Add(entity);
@@ -48,7 +48,7 @@ namespace ProfitAndLoss.Business.Services
             var currentPage = model.Page > 0 ? model.Page : 1;
             var strOrder = model.SortBy;
             //
-            var result = new PageResult<Recept>
+            var result = new PageResult<Receipt>
             {
                 PageIndex = currentPage,
                 TotalCount = entities.Count()

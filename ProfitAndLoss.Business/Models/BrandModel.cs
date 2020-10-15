@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class RequestCreateBrandModel : BaseCreateModel<Brand>
+    public class BrandCreateModel : BaseCreateModel<Brand>
     {
-        public RequestCreateBrandModel()
+        public BrandCreateModel()
         {
 
         }
@@ -14,16 +14,16 @@ namespace ProfitAndLoss.Business.Models
 
     }
 
-    public class RequestUpdateBrandModel : BaseUpdateModel<Brand>
+    public class BrandUpdateModel : BaseUpdateModel<Brand>
     {
-        public RequestUpdateBrandModel()
+        public BrandUpdateModel()
         {
 
         }
         public bool Actived { get; set; }
     }
 
-    public class RequestSearchBrandModel : BaseSearchModel<Brand>
+    public class BrandSearchModel : BaseSearchModel<Brand>
     {
         public bool Actived { get; set; }
     }

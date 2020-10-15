@@ -6,9 +6,9 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class RequestCreateStoreModel : BaseCreateModel<Store>
+    public class StoreCreateModel : BaseCreateModel<Store>
     {
-        public RequestCreateStoreModel()
+        public StoreCreateModel()
         {
 
         }
@@ -18,9 +18,9 @@ namespace ProfitAndLoss.Business.Models
 
     }
 
-    public class RequestUpdateStoreModel : BaseUpdateModel<Store>
+    public class StoreUpdateModel : BaseUpdateModel<Store>
     {
-        public RequestUpdateStoreModel()
+        public StoreUpdateModel()
         {
 
         }
@@ -28,9 +28,9 @@ namespace ProfitAndLoss.Business.Models
         public bool Actived { get; set; }
     }
 
-    public class RequestSearchStoreModel : BaseSearchModel<Store>
+    public class StoreSearchModel : BaseSearchModel<Store>
     {
-        public RequestSearchStoreModel()
+        public StoreSearchModel()
         {
 
         }

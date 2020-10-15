@@ -7,9 +7,9 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class RequestCreateTransactionModel : BaseCreateModel<Transaction>
+    public class TransactionCreateModel : BaseCreateModel<Transaction>
     {
-        public RequestCreateTransactionModel()
+        public TransactionCreateModel()
         {
 
         }
@@ -28,9 +28,9 @@ namespace ProfitAndLoss.Business.Models
         public string NoteMessage { get; set; }
     }
 
-    public class RequestUpdateTransactionModel : BaseUpdateModel<Transaction>
+    public class TransactionUpdateModel : BaseUpdateModel<Transaction>
     {
-        public RequestUpdateTransactionModel()
+        public TransactionUpdateModel()
         {
 
         }
@@ -46,9 +46,9 @@ namespace ProfitAndLoss.Business.Models
         public string NoteMessage { get; set; }
     }
 
-    public class RequestSearchTransactionModel : BaseSearchModel<Transaction>
+    public class TransactionSearchModel : BaseSearchModel<Transaction>
     {
-        public RequestSearchTransactionModel()
+        public TransactionSearchModel()
         {
 
         }

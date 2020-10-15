@@ -7,9 +7,9 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class RequestCreateAccountingPeriodDetailModel : BaseCreateModel<AccountingPeriodDetail>
+    public class AccountingPeriodDetailCreateModel : BaseCreateModel<AccountingPeriodDetail>
     {
-        public RequestCreateAccountingPeriodDetailModel()
+        public AccountingPeriodDetailCreateModel()
         {
 
         }
@@ -32,9 +32,9 @@ namespace ProfitAndLoss.Business.Models
 
     }
 
-    public class RequestUpdateAccountingPeriodDetailModel : BaseUpdateModel<AccountingPeriodDetail>
+    public class AccountingPeriodDetailUpdateModel : BaseUpdateModel<AccountingPeriodDetail>
     {
-        public RequestUpdateAccountingPeriodDetailModel()
+        public AccountingPeriodDetailUpdateModel()
         {
 
         }
@@ -56,9 +56,9 @@ namespace ProfitAndLoss.Business.Models
         public int Status { get; set; }
     }
 
-    public class RequestSearchAccountingPeriodDetailModel : BaseSearchModel<AccountingPeriodDetail>
+    public class AccountingPeriodDetailSearchModel : BaseSearchModel<AccountingPeriodDetail>
     {
-        public RequestSearchAccountingPeriodDetailModel()
+        public AccountingPeriodDetailSearchModel()
         {
 
         }

@@ -27,6 +27,6 @@ namespace ProfitAndLoss.Data.Models
 
         public virtual ICollection<AccountingPeriodDetail> AccountPeriodDetails { get; set; }
 
-        public virtual ICollection<Recept> Recepts { get; set; }
+        public virtual ICollection<Receipt> Recepts { get; set; }
     }
 }

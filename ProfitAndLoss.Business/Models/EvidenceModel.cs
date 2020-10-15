@@ -5,9 +5,9 @@ using System;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class RequestCreateEvidenceModel : BaseCreateModel<Evidence>
+    public class EvidenceCreateModel : BaseCreateModel<Evidence>
     {
-        public RequestCreateEvidenceModel()
+        public EvidenceCreateModel()
         {
 
         }
@@ -28,9 +28,9 @@ namespace ProfitAndLoss.Business.Models
         public Guid ReceptId { get; set; }
     }
 
-    public class RequestUpdateEvidenceModel : BaseUpdateModel<Evidence>
+    public class EvidenceUpdateModel : BaseUpdateModel<Evidence>
     {
-        public RequestUpdateEvidenceModel()
+        public EvidenceUpdateModel()
         {
 
         }
@@ -44,9 +44,9 @@ namespace ProfitAndLoss.Business.Models
         public string ImUrl { get; set; }
     }
 
-    public class RequestSearchEvidenceModel : BaseSearchModel<Evidence>
+    public class EvidenceSearchModel : BaseSearchModel<Evidence>
     {
-        public RequestSearchEvidenceModel()
+        public EvidenceSearchModel()
         {
 
         }

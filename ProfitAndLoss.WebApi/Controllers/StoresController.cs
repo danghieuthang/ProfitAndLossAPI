@@ -23,14 +23,14 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<GenericResult> GetStores([FromQuery] RequestSearchStoreModel model)
+        public async Task<GenericResult> GetStores([FromQuery] StoreSearchModel model)
         {
             return await _storeService.SearchStoreAsync(model);
         }
 
         [HttpPost]
         [Route(RouteConstants.Recept.PREFIX)]
-        public async Task<GenericResult> CreateStore([FromBody] RequestCreateStoreModel model)
+        public async Task<GenericResult> CreateStore([FromBody] StoreCreateModel model)
         {
             var brand = _brandService.GetBrand(model.BrandId);
             if (brand.Result is null)

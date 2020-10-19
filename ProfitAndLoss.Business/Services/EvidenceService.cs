@@ -59,7 +59,7 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> SearchEvidences(EvidenceSearchModel model)
         {
             //
-            var entities = BaseRepository.GetAll(x => x.ReceptId == model.ReceptId);
+            var entities = BaseRepository.GetAll(x => x.ReceiptId == model.ReceptId);
             //
             var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
             var currentPage = model.Page > 0 ? model.Page : 1;

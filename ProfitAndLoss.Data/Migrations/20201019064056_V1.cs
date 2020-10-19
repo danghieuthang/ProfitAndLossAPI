@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProfitAndLoss.Data.Migrations
 {
-    public partial class ProfitAndLost_Init : Migration
+    public partial class V1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,14 +11,17 @@ namespace ProfitAndLoss.Data.Migrations
                 name: "Actors",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Actors", x => x.ID);
+                    table.PrimaryKey("PK_Actors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,8 +85,8 @@ namespace ProfitAndLoss.Data.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    ParentId = table.Column<Guid>(nullable: false),
                     Actived = table.Column<bool>(nullable: false),
+                    ParentId = table.Column<Guid>(nullable: false),
                     CategoryId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -102,6 +105,9 @@ namespace ProfitAndLoss.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 255, nullable: false),
                     LastName = table.Column<string>(maxLength: 255, nullable: false),
                     Phone = table.Column<string>(maxLength: 100, nullable: true),
@@ -112,6 +118,38 @@ namespace ProfitAndLoss.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Members", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReceiptTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(maxLength: 255, nullable: true),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReceiptTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Suppliers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(maxLength: 255, nullable: true),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Suppliers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -241,13 +279,13 @@ namespace ProfitAndLoss.Data.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     CloseDate = table.Column<DateTime>(nullable: false),
                     BrandId = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(maxLength: 255, nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Status = table.Column<int>(nullable: false),
-                    Actived = table.Column<bool>(nullable: false)
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -267,6 +305,7 @@ namespace ProfitAndLoss.Data.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: true),
                     Code = table.Column<string>(maxLength: 255, nullable: true),
                     Description = table.Column<string>(nullable: true),
@@ -313,6 +352,7 @@ namespace ProfitAndLoss.Data.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: true),
                     Code = table.Column<string>(maxLength: 255, nullable: true),
                     Description = table.Column<string>(nullable: true),
@@ -375,7 +415,10 @@ namespace ProfitAndLoss.Data.Migrations
                 {
                     MemberId = table.Column<Guid>(nullable: false),
                     StoreId = table.Column<Guid>(nullable: false),
-                    Id = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -395,22 +438,39 @@ namespace ProfitAndLoss.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Recepts",
+                name: "Receipts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
                     CreateMemberId = table.Column<Guid>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    TypeId = table.Column<Guid>(nullable: false),
+                    SupplierId = table.Column<Guid>(nullable: false),
+                    ReceiptTypeId = table.Column<Guid>(nullable: true),
                     StoreId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recepts", x => x.Id);
+                    table.PrimaryKey("PK_Receipts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Recepts_Stores_StoreId",
+                        name: "FK_Receipts_ReceiptTypes_ReceiptTypeId",
+                        column: x => x.ReceiptTypeId,
+                        principalTable: "ReceiptTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Receipts_Stores_StoreId",
                         column: x => x.StoreId,
                         principalTable: "Stores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Receipts_Suppliers_SupplierId",
+                        column: x => x.SupplierId,
+                        principalTable: "Suppliers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -424,6 +484,7 @@ namespace ProfitAndLoss.Data.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: true),
                     Code = table.Column<string>(maxLength: 255, nullable: true),
                     Description = table.Column<string>(nullable: true),
@@ -453,19 +514,19 @@ namespace ProfitAndLoss.Data.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: true),
                     Description = table.Column<string>(maxLength: 2000, nullable: true),
                     ImgUrl = table.Column<string>(maxLength: 255, nullable: true),
-                    ReceptId = table.Column<Guid>(nullable: false),
-                    Actived = table.Column<bool>(nullable: false)
+                    ReceiptId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Evidences", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Evidences_Recepts_ReceptId",
-                        column: x => x.ReceptId,
-                        principalTable: "Recepts",
+                        name: "FK_Evidences_Receipts_ReceiptId",
+                        column: x => x.ReceiptId,
+                        principalTable: "Receipts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -477,12 +538,13 @@ namespace ProfitAndLoss.Data.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
                     StoreId = table.Column<Guid>(nullable: false),
                     MasterTransactionId = table.Column<Guid>(nullable: false),
                     TypeId = table.Column<Guid>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
                     NoteMessage = table.Column<string>(nullable: true),
-                    ReceptId = table.Column<Guid>(nullable: false),
+                    ReceiptId = table.Column<Guid>(nullable: false),
                     MemberId = table.Column<Guid>(nullable: true),
                     TransactionId = table.Column<Guid>(nullable: true),
                     TransactionTypeId = table.Column<Guid>(nullable: true)
@@ -497,9 +559,9 @@ namespace ProfitAndLoss.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Transactions_Recepts_ReceptId",
-                        column: x => x.ReceptId,
-                        principalTable: "Recepts",
+                        name: "FK_Transactions_Receipts_ReceiptId",
+                        column: x => x.ReceiptId,
+                        principalTable: "Receipts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -529,6 +591,7 @@ namespace ProfitAndLoss.Data.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: true),
                     Code = table.Column<string>(maxLength: 255, nullable: true),
                     Description = table.Column<string>(maxLength: 2000, nullable: true),
@@ -566,11 +629,12 @@ namespace ProfitAndLoss.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
+                    Actived = table.Column<bool>(nullable: false),
                     Message = table.Column<string>(maxLength: 2000, nullable: true),
                     Status = table.Column<int>(nullable: false),
-                    TransactionId = table.Column<Guid>(nullable: false),
-                    Actived = table.Column<bool>(nullable: false)
+                    TransactionId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -648,9 +712,9 @@ namespace ProfitAndLoss.Data.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Evidences_ReceptId",
+                name: "IX_Evidences_ReceiptId",
                 table: "Evidences",
-                column: "ReceptId");
+                column: "ReceiptId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Feedbacks_AccountingPeriodId",
@@ -668,9 +732,19 @@ namespace ProfitAndLoss.Data.Migrations
                 column: "StoreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recepts_StoreId",
-                table: "Recepts",
+                name: "IX_Receipts_ReceiptTypeId",
+                table: "Receipts",
+                column: "ReceiptTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Receipts_StoreId",
+                table: "Receipts",
                 column: "StoreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Receipts_SupplierId",
+                table: "Receipts",
+                column: "SupplierId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StoreAccounts_StoreId",
@@ -708,9 +782,9 @@ namespace ProfitAndLoss.Data.Migrations
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_ReceptId",
+                name: "IX_Transactions_ReceiptId",
                 table: "Transactions",
-                column: "ReceptId");
+                column: "ReceiptId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_StoreId",
@@ -791,13 +865,19 @@ namespace ProfitAndLoss.Data.Migrations
                 name: "Members");
 
             migrationBuilder.DropTable(
-                name: "Recepts");
+                name: "Receipts");
 
             migrationBuilder.DropTable(
                 name: "TransactionTypes");
 
             migrationBuilder.DropTable(
+                name: "ReceiptTypes");
+
+            migrationBuilder.DropTable(
                 name: "Stores");
+
+            migrationBuilder.DropTable(
+                name: "Suppliers");
 
             migrationBuilder.DropTable(
                 name: "Brands");

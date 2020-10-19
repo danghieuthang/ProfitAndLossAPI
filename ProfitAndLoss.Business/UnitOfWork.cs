@@ -1,4 +1,4 @@
-﻿using ProfitAndLoss.Business.Repositories;
+﻿using ProfitAndLoss.Business.Services;
 using ProfitAndLoss.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -8,6 +8,7 @@ namespace ProfitAndLoss.Business.Services
 {
     public interface IUnitOfWork
     {
+        #region properties
         IMemberRepository MemberRepository { get; }
         IBrandRepository BrandRepository { get; }
         IStoreRepository StoreRepository { get; }
@@ -23,14 +24,18 @@ namespace ProfitAndLoss.Business.Services
         IFeedbackRepository FeedbackRepository { get; }
         IAccountingPeriodRepository AccountingPeriodRepository { get; }
         IAccountingPeriodDetailRepository AccountingPeriodDetailRepository { get; }
+        IReceiptTypeRepository ReceiptTypeRepository { get; }
+        ISupplierRepository SupplierRepository { get; }
+        #endregion properties
 
         void Commit();
         void CommitAsync();
     }
     public class UnitOfWork : IUnitOfWork
     {
-        DataContext _context;
+        #region fields
 
+        private DataContext _context;
         private IMemberRepository _memberRepository;
         private IBrandRepository _brandRepository;
         private IStoreRepository _storeRepository;
@@ -46,12 +51,16 @@ namespace ProfitAndLoss.Business.Services
         private IFeedbackRepository _feedbackRepository;
         private IAccountingPeriodRepository _accountingPeriodRepository;
         private IAccountingPeriodDetailRepository _accountingPeriodDetailRepository;
+        private IReceiptTypeRepository _receiptTypeRepository;
+        private ISupplierRepository _supplierRepository;
+
+        #endregion fields
 
         public UnitOfWork(DataContext context)
         {
             _context = context;
         }
-
+        #region properties
         public IMemberRepository MemberRepository => _memberRepository ??= new MemberRepository(_context);
 
         public IBrandRepository BrandRepository => _brandRepository ??= new BrandRepository(_context);
@@ -81,6 +90,12 @@ namespace ProfitAndLoss.Business.Services
         public IAccountingPeriodRepository AccountingPeriodRepository => _accountingPeriodRepository ??= new AccountingPeriodRepository(_context);
 
         public IAccountingPeriodDetailRepository AccountingPeriodDetailRepository => _accountingPeriodDetailRepository ??= new AccountingPeriodDetailRepository(_context);
+
+        public IReceiptTypeRepository ReceiptTypeRepository => _receiptTypeRepository ??= new ReceiptTypeRepository(_context);
+
+        public ISupplierRepository SupplierRepository => _supplierRepository ??= new SupplierRepository(_context);
+
+        #endregion properties
 
         public void Commit()
         {

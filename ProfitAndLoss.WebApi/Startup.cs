@@ -26,9 +26,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft;
 using Newtonsoft.Json.Serialization;
-using ProfitAndLoss.Business.Repositories;
+using ProfitAndLoss.Business.Services;
 using ProfitAndLoss.Utilities.Helpers;
 using ProfitAndLoss.Utilities;
+using ProfitAndLoss.Business.Services;
 
 namespace ProfitAndLoss.WebApi
 {
@@ -56,6 +57,7 @@ namespace ProfitAndLoss.WebApi
             //services.AddScoped<IMemberService, MemberService>();
             //services.AddScoped<IBrandService, BrandService>();
             //services.AddScoped<IStoreService, StoreService>();
+
             #endregion Registration services
             services.AddIdentityCore<AppUser>(options =>
             {

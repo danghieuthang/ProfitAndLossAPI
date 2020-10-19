@@ -2,21 +2,22 @@
 
 namespace ProfitAndLoss.Data.Migrations
 {
-    public partial class ProfitAndLost_V2 : Migration
+    public partial class V3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Description",
-                table: "Recepts",
-                nullable: true);
+            migrationBuilder.AddColumn<int>(
+                name: "Status",
+                table: "Receipts",
+                nullable: false,
+                defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Description",
-                table: "Recepts");
+                name: "Status",
+                table: "Receipts");
         }
     }
 }

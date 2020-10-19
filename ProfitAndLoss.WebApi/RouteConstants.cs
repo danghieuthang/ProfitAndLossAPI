@@ -39,14 +39,24 @@ namespace ProfitAndLoss.WebApi
 
         }
 
-        public static class Recept
+        public static class Receipt
         {
-            public const string PREFIX = "api/recepts";
+            public const string PREFIX = "api/receipts";
         }
 
         public static class Evidence
         {
             public const string PREFIX = "api/evidences";
+        }
+
+        public static class ReceiptType
+        {
+            public const string PREFIX = "api/receipttypes";
+        }
+
+        public static class Supplier
+        {
+            public const string PREFIX = "api/supplier";
         }
     }
 }

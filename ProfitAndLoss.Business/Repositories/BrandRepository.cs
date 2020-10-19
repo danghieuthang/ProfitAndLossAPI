@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProfitAndLoss.Business.Repositories
+namespace ProfitAndLoss.Business.Services
 {
     public interface IBrandRepository : IBaseRepository<Brand, Guid>
     {

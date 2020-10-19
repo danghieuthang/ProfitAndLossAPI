@@ -21,9 +21,12 @@ namespace ProfitAndLoss.Business.Services
     }
     public class ReceiptService : BaseService<Receipt>, IReceiptService
     {
+        private readonly IReceiptTypeRepository _receiptTypeRepository;
+        private readonly IReceiptRepository _receiptRepository;
         public ReceiptService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-
+            _receiptTypeRepository = unitOfWork.ReceiptTypeRepository;
+            _receiptRepository = unitOfWork.ReceptRepository;
         }
 
         /// <summary>
@@ -42,7 +45,17 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> SearchRecepts(ReceiptSearchModel model)
         {
             //
-            var entities = BaseRepository.GetAll();
+            var entities = _receiptRepository.GetAll()
+                            .Join(_receiptTypeRepository.GetAll(), x => x.TypeId, y => y.Id,
+                            (x, y) =>
+                new ReceiptViewModel
+                {
+                    Description = x.Description,
+                    Type = y.Name,
+                    ModifiedDate = x.ModifiedDate,
+                    CreatedDate = x.CreatedDate,
+                    Status = x.Status
+                });
             //
             var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
             var currentPage = model.Page > 0 ? model.Page : 1;

@@ -4,8 +4,19 @@ using System.Text;
 
 namespace ProfitAndLoss.Utilities.Constant
 {
-    public class CommonConstants
+    public static class CommonConstants
     {
-        public static int DEFAULT_PAGESIZE = 5;
+        public const int DEFAULT_PAGESIZE = 5;
+        /// <summary>
+        /// Receipt status
+        /// </summary>
+        public static class ReceiptStatus
+        {
+            public const int CREATED = 1;
+            public const int PROCESSING = 2;
+            public const int APPROVAL = 3;
+        }
     }
+
+   
 }

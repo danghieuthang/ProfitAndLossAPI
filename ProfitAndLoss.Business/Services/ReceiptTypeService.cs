@@ -6,13 +6,13 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IReceiptRepository : IBaseRepository<Receipt, Guid>
+    public interface IReceiptTypeService : IBaseService<ReceiptType>
     {
-
     }
-    public class ReceiptRepository : BaseRepository<Receipt, Guid>, IReceiptRepository
+
+    public class ReceiptTypeService : BaseService<ReceiptType>, IReceiptTypeService
     {
-        public ReceiptRepository(DataContext context) : base(context)
+        public ReceiptTypeService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

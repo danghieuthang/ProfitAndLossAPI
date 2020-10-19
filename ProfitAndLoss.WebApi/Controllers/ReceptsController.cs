@@ -6,7 +6,7 @@ using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
-    [Route(RouteConstants.Recept.PREFIX)]
+    [Route(RouteConstants.Receipt.PREFIX)]
     [ApiController]
     public class ReceptsController : ControllerBase
     {

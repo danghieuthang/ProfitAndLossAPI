@@ -18,7 +18,9 @@ namespace ProfitAndLoss.Data.Models
         public DbSet<Store> Stores { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionDetail> TransactionDetails { get; set; }
-        public DbSet<Receipt> Recepts { get; set; }
+        public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<ReceiptType> ReceiptTypes { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Evidence> Evidences { get; set; }
         public DbSet<TransactionHistory> TransactionHistories { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }

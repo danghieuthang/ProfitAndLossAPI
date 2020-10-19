@@ -39,10 +39,14 @@ namespace ProfitAndLoss.Business.Models
         public BaseCreateModel()
         {
             CreatedDate = DateTime.Now;
+            Actived = true;
         }
 
         [JsonIgnore]
         public DateTime CreatedDate { get; set; }
+
+        [JsonIgnore]
+        public bool Actived { get; set; }
     }
 
     public class BaseExportModel<T> : Mapping<T>

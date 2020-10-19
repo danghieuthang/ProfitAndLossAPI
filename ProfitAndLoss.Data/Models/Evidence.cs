@@ -23,7 +23,7 @@ namespace ProfitAndLoss.Data.Models
         [MaxLength(255)]
         public string ImgUrl { get; set; }
 
-        [ForeignKey("Recept")]
-        public Guid ReceptId { get; set; }
+        [ForeignKey("Receipt")]
+        public Guid ReceiptId { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpPost]
-        [Route(RouteConstants.Recept.PREFIX)]
+        [Route(RouteConstants.Receipt.PREFIX)]
         public async Task<GenericResult> CreateStore([FromBody] StoreCreateModel model)
         {
             var brand = _brandService.GetBrand(model.BrandId);

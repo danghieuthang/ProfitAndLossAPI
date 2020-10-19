@@ -172,11 +172,11 @@ namespace ProfitAndLoss.Business.Helpers
                     Title.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 }
 
-                using (ExcelRange Title = workSheet.Cells[6, 2, 6, 5])
+                using (ExcelRange Title = workSheet.Cells[6, 3, 6, 5])
                 {
                     Title.Value = "7.04 %";
                     Title.Merge = true;
-                    Title.Style.Font.Size = 15;
+                    Title.Style.Font.Size = 11;
                     Title.Style.Font.Bold = true;
                     Title.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     Title.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(109, 251, 116));
@@ -189,14 +189,14 @@ namespace ProfitAndLoss.Business.Helpers
                 for (int i = 0; i < columns.Count; i++)
                 {
                     // set style for title
-                    workSheet.Cells[3, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    workSheet.Cells[3, i + 1].Style.Fill.BackgroundColor.SetColor(TitleBGRColor);
-                    workSheet.Cells[3, i + 1].Style.Font.Size = 11;
-                    workSheet.Cells[3, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    workSheet.Cells[3, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    workSheet.Cells[8, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    workSheet.Cells[8, i + 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(172, 185, 202));
+                    workSheet.Cells[8, i + 1].Style.Font.Size = 11;
+                    workSheet.Cells[8, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    workSheet.Cells[8, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
                     //set value for title
-                    workSheet.Cells[3, i + 1].Value = columns[i].GetCustomAttribute<DisplayAttribute>()?.Name;
+                    workSheet.Cells[8, i + 1].Value = columns[i].GetCustomAttribute<DisplayAttribute>()?.Name;
                 }
 
 

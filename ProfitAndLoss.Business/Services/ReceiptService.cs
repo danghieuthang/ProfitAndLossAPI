@@ -16,8 +16,8 @@ namespace ProfitAndLoss.Business.Services
 {
     public interface IReceiptService : IBaseService<Receipt>
     {
-        Task<Receipt> CreateRecept(RequestCreateReceptModel model);
-        Task<GenericResult> SearchRecepts(RequestSearchReceptModel model);
+        Task<Receipt> CreateRecept(ReceiptCreateModel model);
+        Task<GenericResult> SearchRecepts(ReceiptSearchModel model);
     }
     public class ReceiptService : BaseService<Receipt>, IReceiptService
     {
@@ -31,7 +31,7 @@ namespace ProfitAndLoss.Business.Services
         /// </summary>
         /// <param name="model">The request create recept model</param>
         /// <returns>Return recept created</returns>
-        public async Task<Receipt> CreateRecept(RequestCreateReceptModel model)
+        public async Task<Receipt> CreateRecept(ReceiptCreateModel model)
         {
             var entity = model.ToEntity();
             var result = BaseRepository.Add(entity);
@@ -39,7 +39,7 @@ namespace ProfitAndLoss.Business.Services
             return result;
         }
 
-        public async Task<GenericResult> SearchRecepts(RequestSearchReceptModel model)
+        public async Task<GenericResult> SearchRecepts(ReceiptSearchModel model)
         {
             //
             var entities = BaseRepository.GetAll();

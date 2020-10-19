@@ -29,8 +29,8 @@ namespace ProfitAndLoss.Data.Models
 
         public string NoteMessage { get; set; }
 
-        [ForeignKey("Recept")]
-        public Guid ReceptId { get; set; }
+        [ForeignKey("Receipt")]
+        public Guid ReceiptId { get; set; }
 
         public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
 

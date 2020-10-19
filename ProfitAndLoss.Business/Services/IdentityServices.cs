@@ -33,8 +33,8 @@ namespace ProfitAndLoss.Business.Services
         }
         public async Task<AppUser> GetUserByUserNameAsync(string username)
         {
-               var  user = await  _userManager.FindByNameAsync(username);
-                return user;
+            var user = await _userManager.FindByNameAsync(username);
+            return user;
         }
         public async Task<AppUser> GetUserByIdAsync(string id)
         {
@@ -44,7 +44,7 @@ namespace ProfitAndLoss.Business.Services
         public async Task<IdentityResult> CreateUserAsync(AppUser user, string password)
         {
             PrepareCreate(user);
-            return  await _userManager.CreateAsync(user, password);
+            return await _userManager.CreateAsync(user, password);
         }
         public async Task<SignInResult> SignInAsync(AppUser appUser, RequestLoginModel model)
         {
@@ -52,7 +52,7 @@ namespace ProfitAndLoss.Business.Services
                 password: model.Password, false);
             return result;
         }
-         public async Task<ClaimsIdentity> GetIdentityAsync(AppUser entity, string scheme)
+        public async Task<ClaimsIdentity> GetIdentityAsync(AppUser entity, string scheme)
         {
             var identity = new ClaimsIdentity(scheme);
             identity.AddClaim(new Claim(ClaimTypes.Name, entity.Id.ToString()));

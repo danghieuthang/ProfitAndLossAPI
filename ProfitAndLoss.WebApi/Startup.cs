@@ -155,24 +155,24 @@ namespace ProfitAndLoss.WebApi
             // add Cors
             services.AddCors(options =>
             {
-                //options.AddDefaultPolicy(
-                //    builder =>
-                //    {
-                //        builder.AllowAnyOrigin()
-                //                .AllowAnyMethod()
-                //                .AllowAnyHeader();
-
-                //    });
-                options.AddPolicy(name: "MyPolicy",
+                options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://example.com",
-                            "https://localhost:44369")
-                            .WithHeaders()
-                            //.WithMethods("PUT", "DELETE", "GET");
-                            .AllowAnyMethod();
+                        builder.AllowAnyOrigin()
+                                .AllowAnyMethod()
+                                .AllowAnyHeader();
 
                     });
+                //options.AddPolicy(name: "MyPolicy",
+                //    builder =>
+                //    {
+                //        builder.WithOrigins("http://example.com",
+                //            "http://localhost:8080")
+                //            //.WithMethods("PUT", "DELETE", "GET");
+                //            .AllowAnyMethod()
+                //            .AllowAnyHeader();
+
+                //    });
             });
 
         }

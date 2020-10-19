@@ -25,7 +25,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<GenericResult> Create([FromBody] RequestCreateReceptModel model)
+        public async Task<GenericResult> Create([FromBody] ReceiptCreateModel model)
         {
             if (_storeService.GetById(model.StoreId) == null)
             {
@@ -42,7 +42,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<GenericResult> GetRecepts([FromQuery] RequestSearchReceptModel model)
+        public async Task<GenericResult> GetRecepts([FromQuery] ReceiptSearchModel model)
         {
             return await _receptService.Search(model);
         }

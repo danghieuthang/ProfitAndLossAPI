@@ -19,9 +19,15 @@ namespace ProfitAndLoss.Data.Models
 
         public string Description { get; set; }
 
+        [ForeignKey("ReceiptType")]
+        public Guid TypeId { get; set; }
+
+        [ForeignKey("Supplier")]
+        public Guid SupplierId { get; set; }
+
         public virtual ICollection<Transaction> Transactions { get; set; }
 
-        public virtual ICollection<Evidence> Evidences { get; set; }
+        public virtual ICollection<Evidence> Evidences { get; set; }      
 
     }
 }

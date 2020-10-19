@@ -7,9 +7,10 @@ namespace ProfitAndLoss.WebApi
 {
     public class RouteConstants
     {
+
         public static class Member
         {
-            private const string PREFIX = "members";
+            private const string PREFIX = "api/members";
             public const string LOGIN = PREFIX + "/login";
 
         }
@@ -25,7 +26,7 @@ namespace ProfitAndLoss.WebApi
 
         public static class User
         {
-            public const string PREFIX = "users";
+            public const string PREFIX = "api/users";
             public const string LOGIN = PREFIX + "/login";
             public const string CREATE = PREFIX;
         }

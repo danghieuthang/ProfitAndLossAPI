@@ -23,10 +23,14 @@ namespace ProfitAndLoss.Business.Services
     {
         private readonly IReceiptTypeRepository _receiptTypeRepository;
         private readonly IReceiptRepository _receiptRepository;
+        private readonly ISupplierRepository _supplierRepository;
+        private readonly IStoreRepository _storeRepository;
         public ReceiptService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _receiptTypeRepository = unitOfWork.ReceiptTypeRepository;
             _receiptRepository = unitOfWork.ReceptRepository;
+            _supplierRepository = unitOfWork.SupplierRepository;
+            _storeRepository = unitOfWork.StoreRepository;
         }
 
         /// <summary>
@@ -48,14 +52,42 @@ namespace ProfitAndLoss.Business.Services
             var entities = _receiptRepository.GetAll()
                             .Join(_receiptTypeRepository.GetAll(), x => x.TypeId, y => y.Id,
                             (x, y) =>
-                new ReceiptViewModel
-                {
-                    Description = x.Description,
-                    Type = y.Name,
-                    ModifiedDate = x.ModifiedDate,
-                    CreatedDate = x.CreatedDate,
-                    Status = x.Status
-                });
+                            new
+                            {
+                                x.Id,
+                                x.SupplierId,
+                                x.Description,
+                                Type = y.Name,
+                                x.StoreId,
+                                x.ModifiedDate,
+                                x.CreatedDate,
+                                x.Status
+                            })
+                            .Join(_supplierRepository.GetAll(), x => x.SupplierId, y => y.Id,
+                            (x, y) =>
+                            new
+                            {
+                                x.Id,
+                                x.StoreId,
+                                x.Description,
+                                x.CreatedDate,
+                                x.ModifiedDate,
+                                x.Status,
+                                Supplier = y.Name,
+                                x.Type
+                            })
+                            .Join(_storeRepository.GetAll(), x => x.StoreId, y => y.Id,
+                            (x, y) => new ReceiptViewModel
+                            {
+                                Id = x.Id,
+                                CreatedDate = x.CreatedDate,
+                                Description = x.Description,
+                                ModifiedDate = x.ModifiedDate,
+                                Status = x.Status,
+                                Store = y.Code + "-" + y.Name,
+                                Supplier = x.Supplier,
+                                Type = x.Type
+                            });
             //
             var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
             var currentPage = model.Page > 0 ? model.Page : 1;
@@ -64,9 +96,9 @@ namespace ProfitAndLoss.Business.Services
             var result = new PageResult<Receipt>
             {
                 PageIndex = currentPage,
-                TotalCount = entities.Count()
+                TotalCount = entities.Count(),
             };
-
+            result.TotalPage = (int)Math.Ceiling(result.TotalCount * 1.0 / pageSize);
             result.Results = entities.OrderBy(x => x.CreatedDate).Skip((currentPage - 1) * pageSize)
                                     .Take(pageSize)
                                     .ToList();

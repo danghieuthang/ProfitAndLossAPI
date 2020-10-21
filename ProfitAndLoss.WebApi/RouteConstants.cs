@@ -56,7 +56,7 @@ namespace ProfitAndLoss.WebApi
 
         public static class Supplier
         {
-            public const string PREFIX = "api/supplier";
+            public const string PREFIX = "api/suppliers";
         }
     }
 }

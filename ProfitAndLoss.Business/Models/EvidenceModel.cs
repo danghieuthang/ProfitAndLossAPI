@@ -54,8 +54,8 @@ namespace ProfitAndLoss.Business.Models
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("recept-id")]
-        public Guid ReceptId { get; set; }
+        [JsonProperty("receipt_id")]
+        public Guid ReceiptId { get; set; }
 
     }
 }

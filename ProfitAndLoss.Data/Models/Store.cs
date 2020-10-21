@@ -11,13 +11,19 @@ namespace ProfitAndLoss.Data.Models
     {
         public Store()
         {
-            Actived = false;
+            Actived = true;
             Transactions = new HashSet<Transaction>();
             MemberStores = new HashSet<MemberStore>();
         }
 
         [ForeignKey("Brand")]
         public Guid BrandId { get; set; }
+
+        [MaxLength(255)]
+        public string Code { get; set; }
+
+        [MaxLength(255)]
+        public string Name { get; set; }
 
         public virtual ICollection<MemberStore> MemberStores { get; set; }
 

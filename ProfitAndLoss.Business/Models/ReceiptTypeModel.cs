@@ -6,12 +6,12 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class ReceiptTypeCreateModel: BaseCreateModel<ReceiptType>
+    public class ReceiptTypeCreateModel : BaseCreateModel<ReceiptType>
     {
         [JsonIgnore]
         public Guid Id { get; set; }
 
-        [JsonProperty("Name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         [JsonProperty("description")]
@@ -22,5 +22,16 @@ namespace ProfitAndLoss.Business.Models
     }
     public class ReceiptTypeSearchModel
     {
+    }
+
+    public class ReceiptTypeViewModel : BaseViewModel<ReceiptType>
+    {
+        public ReceiptTypeViewModel()
+        {
+
+        }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }

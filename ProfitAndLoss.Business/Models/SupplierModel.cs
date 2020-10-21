@@ -24,4 +24,15 @@ namespace ProfitAndLoss.Business.Models
     {
 
     }
+
+    public class SupplierViewModel : BaseViewModel<Supplier>
+    {
+        public SupplierViewModel()
+        {
+
+        }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+    }
 }

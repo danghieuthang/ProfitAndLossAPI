@@ -25,5 +25,11 @@ namespace ProfitAndLoss.WebApi.Controllers
         {
             return await _supplierService.Create(model);
         }
+
+        [HttpGet]
+        public async Task<GenericResult> GetAllSupplier()
+        {
+            return await _supplierService.GetAll();
+        }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProfitAndLoss.Data.Models;
 
 namespace ProfitAndLoss.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201020144506_v4")]
+    partial class v4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -601,7 +603,7 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("StoreId")
+                    b.Property<Guid?>("StoreId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SupplierId")
@@ -1052,8 +1054,7 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasOne("ProfitAndLoss.Data.Models.Store", null)
                         .WithMany("Recepts")
                         .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProfitAndLoss.Data.Models.Supplier", null)
                         .WithMany("Receipts")

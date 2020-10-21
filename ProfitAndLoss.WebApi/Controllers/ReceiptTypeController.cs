@@ -27,5 +27,11 @@ namespace ProfitAndLoss.WebApi.Controllers
         {
             return await _receiptTypeService.Create(model);
         }
+
+        [HttpGet]
+        public async Task<GenericResult> GetAllReceiptType()
+        {
+            return await _receiptTypeService.GetAll();
+        }
     }
 }

@@ -57,4 +57,15 @@ namespace ProfitAndLoss.Business.Models
         }
     }
 
+    public class BaseViewModel<T> : Mapping<T>
+    {
+        public BaseViewModel()
+        {
+
+        }
+
+        [JsonProperty("id")]
+        public Guid Id { get; set; }
+    }
+
 }

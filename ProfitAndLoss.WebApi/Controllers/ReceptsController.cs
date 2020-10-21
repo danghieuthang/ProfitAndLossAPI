@@ -44,7 +44,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         [HttpGet]
         public async Task<GenericResult> GetRecepts([FromQuery] ReceiptSearchModel model)
         {
-            return await _receptService.Search(model);
+            return await _receptService.SearchRecepts(model);
         }
     }
 }

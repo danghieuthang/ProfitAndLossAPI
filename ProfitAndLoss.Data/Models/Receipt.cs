@@ -25,6 +25,9 @@ namespace ProfitAndLoss.Data.Models
         [ForeignKey("Supplier")]
         public Guid SupplierId { get; set; }
 
+        [ForeignKey("Store")]
+        public Guid StoreId { get; set; }
+
         public int Status { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }

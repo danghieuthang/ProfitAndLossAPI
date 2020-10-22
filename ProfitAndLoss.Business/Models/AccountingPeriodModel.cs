@@ -42,20 +42,23 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        public bool Actived { get; set; }
+        [JsonProperty("start_date")]
+        public DateTime StartDate { get; set; }
 
-        [Required]
-        public DateTime StartedDate { get; set; }
+        [JsonProperty("close_date")]
+        public DateTime CloseDate { get; set; }
 
-        [Required]
-        public DateTime ClosedDate { get; set; }
+        [JsonProperty("brandId")]
+        [JsonIgnore]
+        public Guid BrandId { get; set; }
 
-        [Required]
+        [JsonProperty("title")]
         public string Title { get; set; }
 
-        [Required]
-        public string Decription { get; set; }
+        [JsonProperty("description")]
+        public string Description { get; set; }
 
+        [JsonProperty("status")]
         public int Status { get; set; }
     }
 

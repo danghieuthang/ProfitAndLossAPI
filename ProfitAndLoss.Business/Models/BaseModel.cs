@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 
 namespace ProfitAndLoss.Business.Models
@@ -10,18 +11,23 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
+        [FromQuery(Name = "transaction_date_from")]
         [JsonProperty("created_date_from")]
         public DateTime TransactionDateFrom { get; set; }
 
+        [FromQuery(Name = "transaction_date_to")]
         [JsonProperty("created_date_to")]
         public DateTime TransactionDateTo { get; set; }
 
+        [FromQuery(Name ="page")]
         [JsonProperty("page")]
         public int Page { get; set; }
 
+        [FromQuery(Name = "page_size")]
         [JsonProperty("page_size")]
         public int PageSize { get; set; }
 
+        [FromQuery(Name = "sort_by")]
         [JsonProperty("sort_by")]
         public string SortBy { get; set; }
     }

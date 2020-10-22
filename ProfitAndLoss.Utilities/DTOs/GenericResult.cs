@@ -27,14 +27,14 @@ namespace ProfitAndLoss.Utilities.DTOs
         #endregion constructors
 
         #region properties
-        [JsonProperty("data")]
+        [JsonProperty("results")]
         public Object Data { get; set; }
         
         [JsonProperty("success")]
         public bool Success { get; set; }
        
-        [JsonProperty("status_code")]
-        public HttpStatusCode StatusCode { get; set; }
+        //[JsonProperty("status_code")]
+        //public HttpStatusCode StatusCode { get; set; }
 
         [JsonProperty("message")]
         public string Message { get; set; }

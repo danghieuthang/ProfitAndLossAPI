@@ -23,7 +23,7 @@ namespace ProfitAndLoss.Utilities.DTOs
         /// <summary>
         /// List items of page
         /// </summary>
-        [JsonProperty("results")]
+        [JsonProperty("data")]
         public IList Results { get; set; }
 
         /// <summary>

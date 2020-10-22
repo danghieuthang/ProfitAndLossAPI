@@ -7,7 +7,7 @@ namespace ProfitAndLoss.WebApi
 {
     public class RouteConstants
     {
-        public const string VERSION = "V01";
+        public const string VERSION = "v1";
         public static class Member
         {
             private const string PREFIX = "api/"+VERSION+"/members";

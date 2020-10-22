@@ -51,7 +51,7 @@ namespace ProfitAndLoss.WebApi
 
         public static class ReceiptType
         {
-            public const string PREFIX = "api/" + VERSION + "/receipttypes";
+            public const string PREFIX = "api/" + VERSION + "/receipt-types";
         }
 
         public static class Supplier
@@ -61,7 +61,7 @@ namespace ProfitAndLoss.WebApi
 
         public static class AccountingPeriod
         {
-            public const string PREFIX = "api/" + VERSION + "/accountingperiods";
+            public const string PREFIX = "api/" + VERSION + "/accounting-periods";
         }
     }
 }

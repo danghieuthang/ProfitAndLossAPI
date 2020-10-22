@@ -53,11 +53,12 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
-
+        [FromQuery(Name = "name")]
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("receipt_id")]
+        [FromQuery(Name = "receipt-id")]
+        [JsonProperty("receipt-id")]
         public Guid ReceiptId { get; set; }
 
     }

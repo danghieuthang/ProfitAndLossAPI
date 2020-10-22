@@ -11,24 +11,24 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        [FromQuery(Name = "transaction_date_from")]
-        [JsonProperty("created_date_from")]
-        public DateTime TransactionDateFrom { get; set; }
+        [FromQuery(Name = "from-date")]
+        [JsonProperty("from-date")]
+        public DateTime FromDate { get; set; }
 
-        [FromQuery(Name = "transaction_date_to")]
-        [JsonProperty("created_date_to")]
-        public DateTime TransactionDateTo { get; set; }
+        [FromQuery(Name = "to-date")]
+        [JsonProperty("to-date")]
+        public DateTime ToDate { get; set; }
 
-        [FromQuery(Name ="page")]
+        [FromQuery(Name = "page")]
         [JsonProperty("page")]
         public int Page { get; set; }
 
-        [FromQuery(Name = "page_size")]
-        [JsonProperty("page_size")]
+        [FromQuery(Name = "page-size")]
+        [JsonProperty("page-size")]
         public int PageSize { get; set; }
 
-        [FromQuery(Name = "sort_by")]
-        [JsonProperty("sort_by")]
+        [FromQuery(Name = "sort-by")]
+        [JsonProperty("sort-by")]
         public string SortBy { get; set; }
     }
 

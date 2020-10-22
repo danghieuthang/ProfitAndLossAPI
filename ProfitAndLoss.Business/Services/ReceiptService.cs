@@ -83,11 +83,11 @@ namespace ProfitAndLoss.Business.Services
                                 Supplier = x.Supplier,
                                 Type = x.Type
                             });
-            //
+            // 
             var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
             var currentPage = model.Page > 0 ? model.Page : 1;
             var strOrder = model.SortBy;
-            //
+            // 
             var result = new PageResult<Receipt>
             {
                 PageIndex = currentPage,

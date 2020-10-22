@@ -64,7 +64,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// <param name="id">The receipt id</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<GenericResult> GetReceiptById([FromQuery] Guid id)
+        public async Task<GenericResult> GetReceiptById([FromRoute] Guid id)
         {
             return await _receptService.GetById(id);
         }

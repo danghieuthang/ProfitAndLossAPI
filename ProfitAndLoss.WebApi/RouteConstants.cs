@@ -10,14 +10,14 @@ namespace ProfitAndLoss.WebApi
         public const string VERSION = "v1";
         public static class Member
         {
-            private const string PREFIX = "api/"+VERSION+"/members";
+            public const string PREFIX = "api/" + VERSION + "/members";
             public const string LOGIN = PREFIX + "/login";
 
         }
 
         public static class Brand
         {
-            private const string PREFIX = "api/" + VERSION + "/brands";
+            public const string PREFIX = "api/" + VERSION + "/brands";
 
             public const string CREATE = PREFIX + "/create";
             public const string EXPORT = PREFIX + "/export";
@@ -57,6 +57,11 @@ namespace ProfitAndLoss.WebApi
         public static class Supplier
         {
             public const string PREFIX = "api/" + VERSION + "/suppliers";
+        }
+
+        public static class AccountingPeriod
+        {
+            public const string PREFIX = "api/" + VERSION + "/accountingperiods";
         }
     }
 }

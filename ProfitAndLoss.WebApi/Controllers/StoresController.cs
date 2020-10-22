@@ -22,12 +22,33 @@ namespace ProfitAndLoss.WebApi.Controllers
             _brandService = brandService;
         }
 
+        /// <summary>
+        /// Get all stores
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<GenericResult> GetStores([FromQuery] StoreSearchModel model)
+        public async Task<GenericResult> GetAllStores()
         {
-            return await _storeService.SearchStoreAsync(model);
+            return await _storeService.GetAll();
         }
 
+        /// <summary>
+        /// Get a store by id
+        /// </summary>
+        /// <param name="id">The store id</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<GenericResult> GetStoreById(Guid id)
+        {
+            return await _storeService.GetById(id);
+        }
+
+
+        /// <summary>
+        /// Create store
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<GenericResult> CreateStore([FromBody] StoreCreateModel model)
         {
@@ -42,6 +63,15 @@ namespace ProfitAndLoss.WebApi.Controllers
             return await _storeService.Create(model);
         }
 
-
+        /// <summary>
+        /// Delete store 
+        /// </summary>
+        /// <param name="id">The store id</param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<GenericResult> DeleteStore(Guid id)
+        {
+            return await _storeService.Delete(id);
+        }
     }
 }

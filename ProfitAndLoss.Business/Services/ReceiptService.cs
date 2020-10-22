@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,7 +17,6 @@ namespace ProfitAndLoss.Business.Services
 {
     public interface IReceiptService : IBaseService<Receipt>
     {
-        Task<Receipt> CreateRecept(ReceiptCreateModel model);
         Task<GenericResult> SearchRecepts(ReceiptSearchModel model);
     }
     public class ReceiptService : BaseService<Receipt>, IReceiptService
@@ -31,19 +31,6 @@ namespace ProfitAndLoss.Business.Services
             _receiptRepository = unitOfWork.ReceptRepository;
             _supplierRepository = unitOfWork.SupplierRepository;
             _storeRepository = unitOfWork.StoreRepository;
-        }
-
-        /// <summary>
-        /// Create recept
-        /// </summary>
-        /// <param name="model">The request create recept model</param>
-        /// <returns>Return recept created</returns>
-        public async Task<Receipt> CreateRecept(ReceiptCreateModel model)
-        {
-            var entity = model.ToEntity();
-            var result = BaseRepository.Add(entity);
-            _unitOfWork.CommitAsync();
-            return result;
         }
 
         /// <summary>
@@ -115,7 +102,8 @@ namespace ProfitAndLoss.Business.Services
             return new GenericResult
             {
                 Data = result,
-                Success = true
+                Success = true,
+                StatusCode = HttpStatusCode.OK
             };
         }
     }

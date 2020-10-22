@@ -18,7 +18,7 @@ using ProfitAndLoss.Business.Models;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route(RouteConstants.Member.PREFIX)]
     [ApiController]
     [EnableCors("MyPolicy")]
     public class MembersController : ControllerBase
@@ -38,7 +38,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         //[DisableCors]
         //[Authorize]
         //[Authorize(Roles = RoleName.USER)]
-        public  IActionResult GetActors()
+        public IActionResult GetActors()
         {
             List<ResponseOnlyActorModel> response = new List<ResponseOnlyActorModel>();
             var result = _actorServices.GetActors().ToList();
@@ -136,7 +136,7 @@ namespace ProfitAndLoss.WebApi.Controllers
 
             return NoContent();
         }
-        
+
         /// <summary>
         /// POST: api/Actors
         /// Input: actor model
@@ -144,7 +144,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// </summary>
         [HttpPost]
         [Authorize]
-        public IActionResult PostActor([FromBody]RequestCreateActorModel actor)
+        public IActionResult PostActor([FromBody] RequestCreateActorModel actor)
         {
             var entity = _actorServices.Create(actor);
             _actorServices.Commit();
@@ -184,5 +184,5 @@ namespace ProfitAndLoss.WebApi.Controllers
         [JsonProperty("value")]
         public string Value { get; set; }
     }
-    
+
 }

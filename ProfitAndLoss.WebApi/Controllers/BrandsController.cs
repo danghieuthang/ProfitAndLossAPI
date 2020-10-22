@@ -11,6 +11,7 @@ using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
+    [Route(RouteConstants.Brand.PREFIX)]
     [ApiController]
     public class BrandsController : ControllerBase
     {
@@ -25,17 +26,20 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<GenericResult> GetAllBrand()
+        {
+            return await _brandService.GetAll();
+        }
+
         [HttpPost]
-        [Route(RouteConstants.Brand.CREATE)]
         public async Task<GenericResult> CreateBrand([FromBody] BrandCreateModel model)
         {
             return await _brandService.CreateBrand(model);
         }
 
 
-        [HttpGet]
-        [Route(RouteConstants.Brand.EXPORT)]
-
+        [HttpGet("export")]
         public async Task<IActionResult> Export()
         {
             var file = _demoExcelService.ExportBrands();

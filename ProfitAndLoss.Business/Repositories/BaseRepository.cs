@@ -21,7 +21,6 @@ namespace ProfitAndLoss.Business.Services
         TEntity Update(TEntity entity);
         TEntity Delete(TKey id);
         TEntity Delete(TEntity entity);
-        void DeleteMulti(List<TEntity> entities);
 
         void Dispose();
         void Commit();
@@ -60,14 +59,16 @@ namespace ProfitAndLoss.Business.Services
             var entity = GetById(id);
             if (entity != null)
             {
-                return dbSet.Remove(entity).Entity;
+                return Delete(entity);
             }
             return null;
         }
 
         public TEntity Delete(TEntity entity)
         {
-            return dbSet.Remove(entity).Entity;
+            _context.Attach(entity);
+            entity.Actived = false;
+            return entity;
         }
 
         public void Dispose()
@@ -84,14 +85,14 @@ namespace ProfitAndLoss.Business.Services
         {
             if (expression == null)
             {
-                return dbSet;
+                return GetAll();
             }
-            return dbSet.Where(expression);
+            return GetAll().Where(expression);
         }
 
         public TEntity GetById(TKey id)
         {
-            return dbSet.Find(id);
+            return dbSet.Where(x => x.Actived && x.Id.Equals(id)).FirstOrDefault();
         }
 
         public TEntity GetById(TKey id, Expression<Func<TEntity, object>> include)
@@ -118,14 +119,9 @@ namespace ProfitAndLoss.Business.Services
             _disposed = true;
         }
 
-        public void DeleteMulti(List<TEntity> entities)
-        {
-            dbSet.RemoveRange(entities);
-        }
-
         public IQueryable<TEntity> GetAll()
         {
-            return dbSet;
+            return dbSet.Where(x => x.Actived);
         }
 
         public void AddMulti(List<TEntity> entities)

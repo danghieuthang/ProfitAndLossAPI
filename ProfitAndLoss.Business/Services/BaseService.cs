@@ -18,9 +18,13 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> Create(BaseCreateModel<T> model);
         Task<GenericResult> Update(BaseUpdateModel<T> model);
         Task<GenericResult> Delete(Guid id);
-   //     Task<GenericResult> GetById(Guid id);
-        Task<T> GetById(Guid id);
+        //     Task<GenericResult> GetById(Guid id);
+        Task<GenericResult> GetById(Guid id);
         Task<GenericResult> Search(BaseSearchModel<T> model);
+
+        Task<GenericResult> GetAll();
+
+
     }
     public class BaseService<T> : IBaseService<T> where T : BaseEntity<Guid>
     {
@@ -44,7 +48,7 @@ namespace ProfitAndLoss.Business.Services
             get
             {
                 return _baseRepository ??=
-                        (IBaseRepository<T, Guid>)_unitOfWork.GetType() 
+                        (IBaseRepository<T, Guid>)_unitOfWork.GetType()
                                     .GetProperties() // Get All properties in UnitOfWork
                                     .Select(c => c.GetValue(_unitOfWork)) // Select the repositories in UnitOfWork
                                     .FirstOrDefault(x => x is IBaseRepository<T, Guid>);
@@ -58,12 +62,22 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Create(BaseCreateModel<T> model)
         {
             var entity = model.ToEntity();
-
             var result = BaseRepository.Add(entity);
             _unitOfWork.Commit();
+
+            if (result == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Success = false
+                };
+            }
             return new GenericResult
             {
                 Data = result,
+                Success = true,
                 StatusCode = HttpStatusCode.Created
             };
         }
@@ -71,11 +85,23 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Delete(Guid id)
         {
             var entity = BaseRepository.GetById(id);
-            var result = BaseRepository.Delete(entity);
+            if (entity == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    Success = false,
+                    StatusCode = HttpStatusCode.NotFound
+                };
+            }
+
+            var result = BaseRepository.Delete(id);
             _unitOfWork.Commit();
             return new GenericResult
             {
-                Data = result
+                Data = result,
+                Success = result != null,
+                StatusCode = result != null ? HttpStatusCode.OK : HttpStatusCode.NotFound
             };
         }
 
@@ -84,9 +110,44 @@ namespace ProfitAndLoss.Business.Services
             GC.SuppressFinalize(this);
         }
 
-        public async Task<T> GetById(Guid id)
+        public async Task<GenericResult> GetAll()
         {
-            return BaseRepository.GetById(id);
+            var result = BaseRepository.GetAll();
+            if (result == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Success = false
+                };
+            }
+            return new GenericResult
+            {
+                Data = result,
+                Success = true,
+                StatusCode = HttpStatusCode.OK
+            };
+        }
+
+        public async Task<GenericResult> GetById(Guid id)
+        {
+            var result = BaseRepository.GetById(id);
+            if (result == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Success = false
+                };
+            }
+            return new GenericResult
+            {
+                Data = result,
+                Success = true,
+                StatusCode = HttpStatusCode.OK
+            };
         }
 
         public async Task<GenericResult> Search(BaseSearchModel<T> model)
@@ -109,21 +170,60 @@ namespace ProfitAndLoss.Business.Services
                                     .ToList();
 
             //
+            if (result == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Success = false
+                };
+            }
+            if (result.Results.Count == 0)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Success = true
+                };
+            }
             return new GenericResult
             {
                 Data = result,
-                Success = true
+                Success = true,
+                StatusCode = HttpStatusCode.OK
             };
         }
 
         public async Task<GenericResult> Update(BaseUpdateModel<T> model)
         {
             var entity = model.ToEntity();
+            if (BaseRepository.GetById(entity.Id) == null)
+            {
+                return new GenericResult
+                {
+                    Data = entity,
+                    Success = false,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
             var result = BaseRepository.Update(entity);
             _unitOfWork.Commit();
+            if (result == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Success = false,
+                };
+            }
             return new GenericResult
             {
-                Data = result
+                Data = result,
+                Success = true,
+                StatusCode = HttpStatusCode.OK
             };
         }
     }

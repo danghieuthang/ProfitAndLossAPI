@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ProfitAndLoss.Data.Models;
 using System;
+using System.Runtime.Serialization;
 
 namespace ProfitAndLoss.Business.Models
 {
@@ -12,20 +13,15 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        [JsonProperty("image")]
         public IFormFile Image { get; set; }
 
-        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonIgnore]
         public string ImgUrl { get; set; }
 
-        [JsonProperty("recept-id")]
-        public Guid ReceptId { get; set; }
+        public Guid ReceiptId { get; set; }
     }
 
     public class EvidenceUpdateModel : BaseUpdateModel<Evidence>

@@ -17,7 +17,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<GenericResult> CreateEvidence([FromQuery] EvidenceCreateModel model)
+        public async Task<GenericResult> CreateEvidence([FromForm] EvidenceCreateModel model)
         {
             return await _evidenceService.CreateEvidence(model);
         }

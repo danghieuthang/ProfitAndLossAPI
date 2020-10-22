@@ -18,6 +18,9 @@ namespace ProfitAndLoss.Business.Models
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("price")]
+        public decimal Price { get; set; }
+
         [JsonProperty("type_id")]
         public Guid TypeId { get; set; }
 
@@ -54,6 +57,9 @@ namespace ProfitAndLoss.Business.Models
         }
         [JsonProperty("description")]
         public string Description { get; set; }
+
+        [JsonProperty("price")]
+        public decimal Price { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }

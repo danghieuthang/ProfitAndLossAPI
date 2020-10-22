@@ -23,13 +23,13 @@ namespace ProfitAndLoss.Utilities.DTOs
         /// <summary>
         /// List items of page
         /// </summary>
-        [JsonProperty("list")]
+        [JsonProperty("results")]
         public IList Results { get; set; }
 
         /// <summary>
         /// Current Page
         /// </summary>
-        [JsonProperty("pageNo")]
+        [JsonProperty("current")]
         public int PageIndex { get; set; }
 
         /// <summary>

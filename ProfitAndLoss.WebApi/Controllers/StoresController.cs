@@ -10,7 +10,7 @@ using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route(RouteConstants.Store.PREFIX)]
     [ApiController]
     public class StoresController : ControllerBase
     {
@@ -29,7 +29,6 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpPost]
-        [Route(RouteConstants.Receipt.PREFIX)]
         public async Task<GenericResult> CreateStore([FromBody] StoreCreateModel model)
         {
             var brand = _brandService.GetBrand(model.BrandId);

@@ -28,6 +28,8 @@ namespace ProfitAndLoss.Data.Models
         [ForeignKey("Store")]
         public Guid StoreId { get; set; }
 
+        public decimal Price { get; set; }
+
         public int Status { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }

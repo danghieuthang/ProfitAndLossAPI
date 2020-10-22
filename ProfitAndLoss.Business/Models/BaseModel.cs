@@ -10,14 +10,19 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
+        [JsonProperty("created_date_from")]
         public DateTime TransactionDateFrom { get; set; }
 
+        [JsonProperty("created_date_to")]
         public DateTime TransactionDateTo { get; set; }
 
+        [JsonProperty("page")]
         public int Page { get; set; }
 
+        [JsonProperty("page_size")]
         public int PageSize { get; set; }
 
+        [JsonProperty("sort_by")]
         public string SortBy { get; set; }
     }
 

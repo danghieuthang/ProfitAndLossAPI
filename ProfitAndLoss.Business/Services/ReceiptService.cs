@@ -46,6 +46,11 @@ namespace ProfitAndLoss.Business.Services
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model">The receipt Search model</param>
+        /// <returns></returns>
         public async Task<GenericResult> SearchRecepts(ReceiptSearchModel model)
         {
             //
@@ -61,7 +66,8 @@ namespace ProfitAndLoss.Business.Services
                                 x.StoreId,
                                 x.ModifiedDate,
                                 x.CreatedDate,
-                                x.Status
+                                x.Status,
+                                x.Price
                             })
                             .Join(_supplierRepository.GetAll(), x => x.SupplierId, y => y.Id,
                             (x, y) =>
@@ -74,7 +80,8 @@ namespace ProfitAndLoss.Business.Services
                                 x.ModifiedDate,
                                 x.Status,
                                 Supplier = y.Name,
-                                x.Type
+                                x.Type,
+                                x.Price
                             })
                             .Join(_storeRepository.GetAll(), x => x.StoreId, y => y.Id,
                             (x, y) => new ReceiptViewModel
@@ -82,6 +89,7 @@ namespace ProfitAndLoss.Business.Services
                                 Id = x.Id,
                                 CreatedDate = x.CreatedDate,
                                 Description = x.Description,
+                                Price = x.Price,
                                 ModifiedDate = x.ModifiedDate,
                                 Status = x.Status,
                                 Store = y.Code + "-" + y.Name,

@@ -6,7 +6,7 @@ namespace ProfitAndLoss.Utilities.Constant
 {
     public static class CommonConstants
     {
-        public const int DEFAULT_PAGESIZE = 5;
+        public const int DEFAULT_PAGESIZE = 10;
         /// <summary>
         /// Receipt status
         /// </summary>

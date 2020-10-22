@@ -11,7 +11,6 @@ using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class BrandsController : ControllerBase
     {

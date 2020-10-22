@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
@@ -45,6 +46,12 @@ namespace ProfitAndLoss.WebApi.Controllers
         public async Task<GenericResult> GetRecepts([FromQuery] ReceiptSearchModel model)
         {
             return await _receptService.SearchRecepts(model);
+        }
+
+        [HttpDelete]
+        public async Task<GenericResult> DeleteReceipt([FromBody] Guid id)
+        {
+            return await _receptService.Delete(id);
         }
     }
 }

@@ -69,10 +69,6 @@ namespace ProfitAndLoss.WebApi.Controllers
             return actor;
         }
 
-        // PUT: api/Actors/5
-        /// <summary>
-        /// Get booking
-        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutActor(int id, RequestUpdateSkillModel actor)
         {

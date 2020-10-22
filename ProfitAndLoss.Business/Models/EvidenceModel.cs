@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ProfitAndLoss.Data.Models;
 using System;
@@ -46,11 +47,12 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
-
+        [FromQuery(Name = "name")]
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("receipt_id")]
+        [FromQuery(Name = "receipt-id")]
+        [JsonProperty("receipt-id")]
         public Guid ReceiptId { get; set; }
 
     }

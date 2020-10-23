@@ -5,6 +5,9 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<NoWarn>1701;1702;0649</NoWarn>
 	</PropertyGroup>
+  <PropertyGroup>
+    <DisablePublishDuringPack>true</DisablePublishDuringPack>
+  </PropertyGroup>
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
@@ -40,6 +43,5 @@
 	</ItemGroup>
 	<PropertyGroup>
 		<DeployOnBuild>true</DeployOnBuild>
-		<PublishProfile>Local</PublishProfile>
 	</PropertyGroup>
 </Project>

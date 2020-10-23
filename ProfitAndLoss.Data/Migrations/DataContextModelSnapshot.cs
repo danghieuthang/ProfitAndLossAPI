@@ -598,9 +598,6 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("ReceiptTypeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -615,11 +612,13 @@ namespace ProfitAndLoss.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReceiptTypeId");
+                    b.HasIndex("CreateMemberId");
 
                     b.HasIndex("StoreId");
 
                     b.HasIndex("SupplierId");
+
+                    b.HasIndex("TypeId");
 
                     b.ToTable("Receipts");
                 });
@@ -1047,20 +1046,27 @@ namespace ProfitAndLoss.Data.Migrations
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Receipt", b =>
                 {
-                    b.HasOne("ProfitAndLoss.Data.Models.ReceiptType", null)
-                        .WithMany("Receipts")
-                        .HasForeignKey("ReceiptTypeId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("ProfitAndLoss.Data.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("CreateMemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("ProfitAndLoss.Data.Models.Store", null)
+                    b.HasOne("ProfitAndLoss.Data.Models.Store", "Store")
                         .WithMany("Recepts")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProfitAndLoss.Data.Models.Supplier", null)
+                    b.HasOne("ProfitAndLoss.Data.Models.Supplier", "Supplier")
                         .WithMany("Receipts")
                         .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ProfitAndLoss.Data.Models.ReceiptType", "ReceiptType")
+                        .WithMany("Receipts")
+                        .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

@@ -30,7 +30,6 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
-
         [JsonProperty("name")]
         public string Name { get; set; }
     }

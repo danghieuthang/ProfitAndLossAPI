@@ -1,4 +1,5 @@
-﻿using ProfitAndLoss.Data.Models;
+﻿using Newtonsoft.Json;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -36,5 +37,17 @@ namespace ProfitAndLoss.Business.Models
         }
 
         public Guid BrandId { get; set; }
+    }
+    public class StoreViewModel : BaseViewModel<Store>
+    {
+        public StoreViewModel()
+        {
+
+        }
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }

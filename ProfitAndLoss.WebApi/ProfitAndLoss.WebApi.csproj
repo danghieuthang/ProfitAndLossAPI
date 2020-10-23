@@ -39,8 +39,4 @@
 		<ProjectReference Include="..\ProfitAndLoss.Business\ProfitAndLoss.Business.csproj" />
 		<ProjectReference Include="..\ProfitAndLoss.Data\ProfitAndLoss.Data.csproj" />
 	</ItemGroup>
-	<PropertyGroup>
-		<DeployOnBuild>true</DeployOnBuild>
-		<PublishProfile>Local</PublishProfile>
-	</PropertyGroup>
 </Project>

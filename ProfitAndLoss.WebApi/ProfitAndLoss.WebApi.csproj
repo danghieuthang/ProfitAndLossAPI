@@ -10,13 +10,9 @@
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="3.1.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
@@ -31,7 +27,4 @@
 		<ProjectReference Include="..\ProfitAndLoss.Business\ProfitAndLoss.Business.csproj" />
 		<ProjectReference Include="..\ProfitAndLoss.Data\ProfitAndLoss.Data.csproj" />
 	</ItemGroup>
-	<PropertyGroup>
-		<DeployOnBuild>true</DeployOnBuild>
-	</PropertyGroup>
 </Project>

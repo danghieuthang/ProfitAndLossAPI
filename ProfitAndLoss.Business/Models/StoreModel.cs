@@ -3,6 +3,7 @@ using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace ProfitAndLoss.Business.Models
@@ -14,8 +15,11 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
+        [DefaultValue("CC75D15D-7D89-4224-374E-08D877FBCA23")]
         public Guid BrandId { get; set; }
-        public bool Actived { get; set; }
+
+        public string Code { get; set; }
+        public string Name { get; set; }
 
     }
 

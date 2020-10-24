@@ -38,7 +38,6 @@ namespace ProfitAndLoss.Business.Models
         {
             ModifiedDate = DateTime.Now;
         }
-
         [JsonProperty("id")]
         public Guid Id { get; set; }
 
@@ -51,15 +50,20 @@ namespace ProfitAndLoss.Business.Models
         public BaseCreateModel()
         {
             CreatedDate = DateTime.Now;
+            ModifiedDate = CreatedDate;
             Actived = true;
         }
 
         [JsonIgnore]
-        [FromForm(Name = "created_Date")]
+        [FromForm(Name = "created_date")]
         public DateTime CreatedDate { get; set; }
 
         [JsonIgnore]
         [FromForm(Name = "modified_date")]
+        public DateTime ModifiedDate { get; set; }
+
+        [JsonIgnore]
+        [FromForm(Name = "actived")]
         public bool Actived { get; set; }
     }
 

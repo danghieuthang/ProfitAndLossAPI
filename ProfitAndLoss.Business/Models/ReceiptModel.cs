@@ -9,7 +9,7 @@ namespace ProfitAndLoss.Business.Models
     {
         public ReceiptCreateModel()
         {
-            Status = CommonConstants.ReceiptStatus.CREATED;
+    
         }
 
         [JsonProperty("store_id")]

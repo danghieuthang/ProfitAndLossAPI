@@ -10,11 +10,11 @@ namespace ProfitAndLoss.Utilities.Constant
         /// <summary>
         /// Receipt status
         /// </summary>
-        public static class ReceiptStatus
+        public static class TransactionStatus
         {
-            public const int CREATED = 1;
-            public const int PROCESSING = 2;
-            public const int APPROVAL = 3;
+            public const int NEW = 1;
+            public const int APPROVAL = 2;
+            public const int REJECT = 3;
         }
     }
 

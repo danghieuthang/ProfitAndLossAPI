@@ -35,7 +35,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         [HttpPost]
         public async Task<GenericResult> CreateBrand([FromBody] BrandCreateModel model)
         {
-            return await _brandService.CreateBrand(model);
+            return await _brandService.Create(model);
         }
 
 

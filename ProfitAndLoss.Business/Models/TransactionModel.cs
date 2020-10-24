@@ -1,4 +1,6 @@
-﻿using ProfitAndLoss.Data.Models;
+﻿using Newtonsoft.Json;
+using ProfitAndLoss.Data.Models;
+using ProfitAndLoss.Utilities.Constant;
 using ProfitAndLoss.Utilities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -11,21 +13,30 @@ namespace ProfitAndLoss.Business.Models
     {
         public TransactionCreateModel()
         {
-
+            Status = CommonConstants.TransactionStatus.NEW; // New
         }
 
         [Required]
         public Guid CreateMemberId { get; set; }
 
-        public Guid MasterTransactionId { get; set; }
+        [JsonProperty("transaction-type-id")]
+        public Guid TransactionTypeId { get; set; }
 
-        [Required]
-        public Guid TypeId { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
-        [Required]
-        public Decimal Price { get; set; }
 
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("balance")]
+        public double Balance { get; set; }
+
+        [JsonProperty("note-message")]
         public string NoteMessage { get; set; }
+
+        [JsonIgnore]
+        public int Status { get; set; }
     }
 
     public class TransactionUpdateModel : BaseUpdateModel<Transaction>
@@ -35,15 +46,6 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        public Guid MasterTransactionId { get; set; }
-
-        [Required]
-        public Guid TypeId { get; set; }
-
-        [Required]
-        public Decimal Price { get; set; }
-
-        public string NoteMessage { get; set; }
     }
 
     public class TransactionSearchModel : BaseSearchModel<Transaction>

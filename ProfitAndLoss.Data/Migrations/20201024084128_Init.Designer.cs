@@ -10,8 +10,8 @@ using ProfitAndLoss.Data.Models;
 namespace ProfitAndLoss.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201019064353_V2")]
-    partial class V2
+    [Migration("20201024084128_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,8 +134,8 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<bool>("Actived")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Balance")
+                        .HasColumnType("float");
 
                     b.Property<Guid>("BrandId")
                         .HasColumnType("uniqueidentifier");
@@ -208,7 +208,7 @@ namespace ProfitAndLoss.Data.Migrations
                     b.ToTable("AccountingPeriods");
                 });
 
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.AccountingPeriodDetail", b =>
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.AccountingPeriodInStore", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -251,7 +251,7 @@ namespace ProfitAndLoss.Data.Migrations
 
                     b.HasIndex("StoreId");
 
-                    b.ToTable("AccountingPeriodDetail");
+                    b.ToTable("AccountingPeriodInStore");
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Actor", b =>
@@ -396,34 +396,6 @@ namespace ProfitAndLoss.Data.Migrations
                     b.ToTable("Brands");
                 });
 
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.Category", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Actived")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ParentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Evidence", b =>
                 {
                     b.Property<Guid>("Id")
@@ -551,10 +523,8 @@ namespace ProfitAndLoss.Data.Migrations
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.MemberStore", b =>
                 {
-                    b.Property<Guid>("MemberId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("StoreId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Actived")
@@ -563,13 +533,18 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("MemberId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("MemberId", "StoreId");
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
 
                     b.HasIndex("StoreId");
 
@@ -585,66 +560,15 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<bool>("Actived")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("CreateMemberId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("ReceiptTypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("StoreId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SupplierId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TypeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ReceiptTypeId");
-
-                    b.HasIndex("StoreId");
-
-                    b.HasIndex("SupplierId");
 
                     b.ToTable("Receipts");
-                });
-
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.ReceiptType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Actived")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ReceiptTypes");
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Store", b =>
@@ -659,32 +583,47 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<Guid>("BrandId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<Guid>("StoreAccountId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
+
+                    b.HasIndex("StoreAccountId")
+                        .IsUnique();
 
                     b.ToTable("Stores");
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.StoreAccount", b =>
                 {
-                    b.Property<Guid>("AccountId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("StoreId")
+                    b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Actived")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Balance")
+                        .HasColumnType("float");
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(255)")
@@ -696,9 +635,6 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
@@ -706,9 +642,12 @@ namespace ProfitAndLoss.Data.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.HasKey("AccountId", "StoreId");
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("StoreId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
 
                     b.ToTable("StoreAccounts");
                 });
@@ -722,10 +661,13 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<bool>("Actived")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
@@ -734,6 +676,9 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -749,14 +694,18 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<bool>("Actived")
                         .HasColumnType("bit");
 
+                    b.Property<double>("Balance")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<Guid>("CreateMemberId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid>("MasterTransactionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("MemberId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -764,37 +713,67 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<string>("NoteMessage")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<Guid>("ReceiptId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("StoreId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("TransactionId")
+                    b.Property<Guid>("SupplierId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("TransactionTypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TypeId")
+                    b.Property<Guid>("TransactionTypeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("CreateMemberId");
 
                     b.HasIndex("ReceiptId");
 
                     b.HasIndex("StoreId");
 
-                    b.HasIndex("TransactionId");
+                    b.HasIndex("SupplierId");
 
                     b.HasIndex("TransactionTypeId");
 
                     b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Actived")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<Guid>("TransactionTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransactionTypeId");
+
+                    b.ToTable("TransactionCategories");
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionDetail", b =>
@@ -806,17 +785,14 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AccountingPeriodDetailId")
+                    b.Property<Guid>("AccountingPeriodInStoreId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Actived")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<double>("Balance")
+                        .HasColumnType("float");
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(255)")
@@ -836,14 +812,17 @@ namespace ProfitAndLoss.Data.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
+                    b.Property<Guid>("TransactionCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("TransactionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountingPeriodDetailId");
+                    b.HasIndex("AccountingPeriodInStoreId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("TransactionCategoryId");
 
                     b.HasIndex("TransactionId");
 
@@ -894,8 +873,15 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDebit")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
@@ -971,7 +957,7 @@ namespace ProfitAndLoss.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.AccountingPeriodDetail", b =>
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.AccountingPeriodInStore", b =>
                 {
                     b.HasOne("ProfitAndLoss.Data.Models.AccountingPeriod", null)
                         .WithMany("AccountPeriodDetails")
@@ -979,24 +965,16 @@ namespace ProfitAndLoss.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProfitAndLoss.Data.Models.Store", null)
-                        .WithMany("AccountPeriodDetails")
+                    b.HasOne("ProfitAndLoss.Data.Models.Store", "Store")
+                        .WithMany("AccountingPeriodInStores")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.Category", b =>
-                {
-                    b.HasOne("ProfitAndLoss.Data.Models.Category", null)
-                        .WithMany("ChildCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Evidence", b =>
                 {
-                    b.HasOne("ProfitAndLoss.Data.Models.Receipt", null)
+                    b.HasOne("ProfitAndLoss.Data.Models.Receipt", "Receipt")
                         .WithMany("Evidences")
                         .HasForeignKey("ReceiptId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1033,30 +1011,17 @@ namespace ProfitAndLoss.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.Receipt", b =>
-                {
-                    b.HasOne("ProfitAndLoss.Data.Models.ReceiptType", null)
-                        .WithMany("Receipts")
-                        .HasForeignKey("ReceiptTypeId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ProfitAndLoss.Data.Models.Store", null)
-                        .WithMany("Recepts")
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ProfitAndLoss.Data.Models.Supplier", null)
-                        .WithMany("Receipts")
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Store", b =>
                 {
-                    b.HasOne("ProfitAndLoss.Data.Models.Brand", null)
+                    b.HasOne("ProfitAndLoss.Data.Models.Brand", "Brand")
                         .WithMany("Stores")
                         .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ProfitAndLoss.Data.Models.StoreAccount", "StoreAccount")
+                        .WithOne("Store")
+                        .HasForeignKey("ProfitAndLoss.Data.Models.Store", "StoreAccountId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
@@ -1068,55 +1033,61 @@ namespace ProfitAndLoss.Data.Migrations
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("ProfitAndLoss.Data.Models.Store", "Store")
-                        .WithMany("StoreAccounts")
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Transaction", b =>
                 {
-                    b.HasOne("ProfitAndLoss.Data.Models.Member", null)
+                    b.HasOne("ProfitAndLoss.Data.Models.Member", "Member")
                         .WithMany("Transactions")
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("CreateMemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("ProfitAndLoss.Data.Models.Receipt", null)
-                        .WithMany("Transactions")
+                    b.HasOne("ProfitAndLoss.Data.Models.Receipt", "Receipt")
+                        .WithMany()
                         .HasForeignKey("ReceiptId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProfitAndLoss.Data.Models.Store", null)
+                    b.HasOne("ProfitAndLoss.Data.Models.Store", "Store")
                         .WithMany("Transactions")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProfitAndLoss.Data.Models.Transaction", null)
-                        .WithMany("ChildTransactions")
-                        .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("ProfitAndLoss.Data.Models.Supplier", "Supplier")
+                        .WithMany("Transactions")
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("ProfitAndLoss.Data.Models.TransactionType", null)
+                    b.HasOne("ProfitAndLoss.Data.Models.TransactionType", "TransactionType")
                         .WithMany("Transactions")
                         .HasForeignKey("TransactionTypeId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionCategory", b =>
+                {
+                    b.HasOne("ProfitAndLoss.Data.Models.TransactionType", "TransactionType")
+                        .WithMany()
+                        .HasForeignKey("TransactionTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionDetail", b =>
                 {
-                    b.HasOne("ProfitAndLoss.Data.Models.AccountingPeriodDetail", null)
+                    b.HasOne("ProfitAndLoss.Data.Models.AccountingPeriodInStore", "AccountingPeriodInStore")
                         .WithMany("TransactionDetails")
-                        .HasForeignKey("AccountingPeriodDetailId")
+                        .HasForeignKey("AccountingPeriodInStoreId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProfitAndLoss.Data.Models.Category", null)
-                        .WithMany("LedgerEntries")
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("ProfitAndLoss.Data.Models.TransactionCategory", "TransactionCategory")
+                        .WithMany()
+                        .HasForeignKey("TransactionCategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

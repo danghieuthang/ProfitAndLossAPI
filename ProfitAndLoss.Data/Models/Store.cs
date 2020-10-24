@@ -14,10 +14,13 @@ namespace ProfitAndLoss.Data.Models
             Actived = true;
             Transactions = new HashSet<Transaction>();
             MemberStores = new HashSet<MemberStore>();
+            AccountingPeriodInStores = new HashSet<AccountingPeriodInStore>();
         }
 
         [ForeignKey("Brand")]
         public Guid BrandId { get; set; }
+
+        public virtual Brand Brand { get; set; }
 
         [MaxLength(255)]
         public string Code { get; set; }
@@ -25,14 +28,15 @@ namespace ProfitAndLoss.Data.Models
         [MaxLength(255)]
         public string Name { get; set; }
 
+        [ForeignKey("StoreAccount")]
+        public Guid StoreAccountId { get; set; }
+
+        public StoreAccount StoreAccount { get; set; }
+
         public virtual ICollection<MemberStore> MemberStores { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }
 
-        public virtual ICollection<StoreAccount> StoreAccounts { get; set; }
-
-        public virtual ICollection<AccountingPeriodDetail> AccountPeriodDetails { get; set; }
-
-        public virtual ICollection<Receipt> Recepts { get; set; }
+        public virtual ICollection<AccountingPeriodInStore> AccountingPeriodInStores { get; set; }
     }
 }

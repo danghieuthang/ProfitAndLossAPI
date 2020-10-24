@@ -6,13 +6,13 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface ICategoryRepository : IBaseRepository<Category, Guid>
+    public interface ITransactionCategoryRepository : IBaseRepository<TransactionCategory, Guid>
     {
 
     }
-    public class CategoryRepository : BaseRepository<Category, Guid>, ICategoryRepository
+    public class TransactionCategoryRepository : BaseRepository<TransactionCategory, Guid>, ITransactionCategoryRepository
     {
-        public CategoryRepository(DataContext context) : base(context)
+        public TransactionCategoryRepository(DataContext context) : base(context)
         {
 
         }

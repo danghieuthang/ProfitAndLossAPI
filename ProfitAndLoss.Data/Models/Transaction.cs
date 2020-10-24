@@ -15,28 +15,42 @@ namespace ProfitAndLoss.Data.Models
 
         }
 
+        [MaxLength(255)]
+        public string Code { get; set; }
+
         [ForeignKey("Store")]
         public Guid StoreId { get; set; }
 
-        [ForeignKey("Transaction")]
-        public Guid MasterTransactionId { get; set; }
+        public virtual Store Store { get; set; }
 
-        [ForeignKey("Type")]
-        public Guid TypeId { get; set; }
+        [ForeignKey("Member")]
+        public Guid CreateMemberId { get; set; }
+
+        public virtual Member Member { get; set; }
+
+        [ForeignKey("TransactionType")]
+        public Guid TransactionTypeId { get; set; }
+
+        public virtual TransactionType TransactionType { get; set; }
 
         [DefaultValue(0)]
-        public decimal Price { get; set; }
+        public double Balance { get; set; }
 
         public string NoteMessage { get; set; }
 
         [ForeignKey("Receipt")]
         public Guid ReceiptId { get; set; }
 
+        public virtual Receipt Receipt { get; set; }
+
+        [ForeignKey("Supplier")]
+        public Guid SupplierId { get; set; }
+
+        public virtual Supplier Supplier { get; set; }
+
         public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
 
         public virtual ICollection<TransactionHistory> TransactionHistories { get; set; }
-
-        public virtual ICollection<Transaction> ChildTransactions { get; set; }
 
     }
 }

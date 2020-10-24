@@ -19,12 +19,11 @@ namespace ProfitAndLoss.Business.Services
         ITransactionHistoryRepository TransactionHistoryRepository { get; }
         IAccountRepository AccountRepository { get; }
         IStoreAccountRepository StoreAccountRepository { get; }
-        ICategoryRepository CategoryRepository { get; }
+        ITransactionCategoryRepository TransactionCategoryRepository { get; }
         ITransactionDetailRepository TransactionDetailRepository { get; }
         IFeedbackRepository FeedbackRepository { get; }
         IAccountingPeriodRepository AccountingPeriodRepository { get; }
         IAccountingPeriodDetailRepository AccountingPeriodDetailRepository { get; }
-        IReceiptTypeRepository ReceiptTypeRepository { get; }
         ISupplierRepository SupplierRepository { get; }
         #endregion properties
 
@@ -46,12 +45,11 @@ namespace ProfitAndLoss.Business.Services
         private ITransactionHistoryRepository _transactionHistoryRepository;
         private IAccountRepository _accountRepository;
         private IStoreAccountRepository _storeAccountRepository;
-        private ICategoryRepository _categoryRepository;
+        private ITransactionCategoryRepository _TransactionCategoryRepository;
         private ITransactionDetailRepository _transactionDetailRepository;
         private IFeedbackRepository _feedbackRepository;
         private IAccountingPeriodRepository _accountingPeriodRepository;
         private IAccountingPeriodDetailRepository _accountingPeriodDetailRepository;
-        private IReceiptTypeRepository _receiptTypeRepository;
         private ISupplierRepository _supplierRepository;
 
         #endregion fields
@@ -81,7 +79,7 @@ namespace ProfitAndLoss.Business.Services
 
         public IStoreAccountRepository StoreAccountRepository => _storeAccountRepository ??= new StoreAccountRepository(_context);
 
-        public ICategoryRepository CategoryRepository => _categoryRepository ??= new CategoryRepository(_context);
+        public ITransactionCategoryRepository TransactionCategoryRepository => _TransactionCategoryRepository ??= new TransactionCategoryRepository(_context);
 
         public ITransactionDetailRepository TransactionDetailRepository => _transactionDetailRepository ??= new TransactionDetailRepository(_context);
 
@@ -90,8 +88,6 @@ namespace ProfitAndLoss.Business.Services
         public IAccountingPeriodRepository AccountingPeriodRepository => _accountingPeriodRepository ??= new AccountingPeriodRepository(_context);
 
         public IAccountingPeriodDetailRepository AccountingPeriodDetailRepository => _accountingPeriodDetailRepository ??= new AccountingPeriodDetailRepository(_context);
-
-        public IReceiptTypeRepository ReceiptTypeRepository => _receiptTypeRepository ??= new ReceiptTypeRepository(_context);
 
         public ISupplierRepository SupplierRepository => _supplierRepository ??= new SupplierRepository(_context);
 

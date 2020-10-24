@@ -22,9 +22,8 @@ namespace ProfitAndLoss.Data.Models
 
         public string Description { get; set; }
 
-        public decimal Balance { get; set; }
+        public double Balance { get; set; }
 
-      
         public Guid StoreId { get; set; }
 
         public Store Store { get; set; }

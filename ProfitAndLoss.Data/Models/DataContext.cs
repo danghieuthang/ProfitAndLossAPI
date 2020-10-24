@@ -19,19 +19,17 @@ namespace ProfitAndLoss.Data.Models
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionDetail> TransactionDetails { get; set; }
         public DbSet<Receipt> Receipts { get; set; }
-        public DbSet<ReceiptType> ReceiptTypes { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Evidence> Evidences { get; set; }
         public DbSet<TransactionHistory> TransactionHistories { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
-        public DbSet<TransactionDetail> LedgerEntries { get; set; }
-        public DbSet<Category> Categories { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountingPeriod> AccountingPeriods { get; set; }
         public DbSet<MemberStore> MemberStores { get; set; }
-        public DbSet<AccountingPeriodDetail> AccountPeriodDetails { get; set; }
+        public DbSet<AccountingPeriodInStore> AccountingPeriodInStores { get; set; }
         public DbSet<StoreAccount> StoreAccounts { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<TransactionCategory> TransactionCategories { get; set; }
 
 
 
@@ -45,33 +43,33 @@ namespace ProfitAndLoss.Data.Models
 
             #region create relationship
 
-            modelBuilder.Entity<MemberStore>().HasKey(ms => new { ms.MemberId, ms.StoreId });
+            //modelBuilder.Entity<MemberStore>().HasKey(ms => new { ms.MemberId, ms.StoreId });
 
-            modelBuilder.Entity<MemberStore>()
-                .HasOne<Store>(ms => ms.Store)
-                .WithMany(s => s.MemberStores)
-                .HasForeignKey(ms => ms.StoreId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<MemberStore>()
+            //    .HasOne<Store>(ms => ms.Store)
+            //    .WithMany(s => s.MemberStores)
+            //    .HasForeignKey(ms => ms.StoreId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<MemberStore>()
-                .HasOne<Member>(ms => ms.Member)
-                .WithMany(m => m.MemberStores)
-                .HasForeignKey(ms => ms.MemberId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<MemberStore>()
+            //    .HasOne<Member>(ms => ms.Member)
+            //    .WithMany(m => m.MemberStores)
+            //    .HasForeignKey(ms => ms.MemberId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<StoreAccount>().HasKey(sa => new { sa.AccountId, sa.StoreId });
+            //modelBuilder.Entity<StoreAccount>().HasKey(sa => new { sa.AccountId, sa.StoreId });
 
-            modelBuilder.Entity<StoreAccount>()
-                 .HasOne<Store>(sa => sa.Store)
-                 .WithMany(s => s.StoreAccounts)
-                 .HasForeignKey(sa => sa.StoreId)
-                 .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<StoreAccount>()
+            //     .HasOne<Store>(sa => sa.Store)
+            //     .WithMany(s => s.StoreAccounts)
+            //     .HasForeignKey(sa => sa.StoreId)
+            //     .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<StoreAccount>()
-                 .HasOne<Account>(sa => sa.Account)
-                 .WithMany(s => s.StoreAccounts)
-                 .HasForeignKey(sa => sa.AccountId)
-                 .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<StoreAccount>()
+            //     .HasOne<Account>(sa => sa.Account)
+            //     .WithMany(s => s.StoreAccounts)
+            //     .HasForeignKey(sa => sa.AccountId)
+            //     .OnDelete(DeleteBehavior.NoAction);
 
             #endregion create relationship
 

@@ -24,7 +24,7 @@ namespace ProfitAndLoss.Data.Models
         public string Description { get; set; }
 
         [DefaultValue(0)]
-        public decimal Balance { get; set; }
+        public double Balance { get; set; }
 
         [ForeignKey("Brand")]
         public Guid BrandId { get; set; }

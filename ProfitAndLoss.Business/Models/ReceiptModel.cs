@@ -61,11 +61,6 @@ namespace ProfitAndLoss.Business.Models
         [JsonProperty("price")]
         public decimal Price { get; set; }
 
-        //[JsonProperty("type")]
-        //public string TypeId { get; set; }
-        [JsonProperty("type")]
-
-        public ReceiptTypeViewModel Type { get; set; }
 
         [JsonProperty("supplier")]
         //public string SupplierId { get; set; }

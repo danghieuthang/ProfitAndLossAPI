@@ -6,20 +6,21 @@ using System.Text;
 
 namespace ProfitAndLoss.Data.Models
 {
-    [Table("ReceiptTypes")]
-    public class ReceiptType : BaseEntity<Guid>
+    [Table("TransactionCategories")]
+    public class TransactionCategory : BaseEntity<Guid>
     {
-        public ReceiptType()
-        {
-
-        }
+        [MaxLength(255)]
+        public string Code { get; set; }
 
         [MaxLength(255)]
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public virtual ICollection<Receipt> Receipts { get; set; }
+        [ForeignKey("TransactionType")]
+        public Guid TransactionTypeId { get; set; }
+
+        public virtual TransactionType TransactionType { get; set; }
 
     }
 }

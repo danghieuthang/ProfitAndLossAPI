@@ -30,7 +30,7 @@ namespace ProfitAndLoss.Business.Models
         public Guid TransactionId { get; set; }
 
         [Required]
-        public Guid CategoryId { get; set; }
+        public Guid TransactionCategoryId { get; set; }
     }
 
     public class TransactionDetailUpdateModel : BaseUpdateModel<TransactionDetail>
@@ -56,7 +56,7 @@ namespace ProfitAndLoss.Business.Models
         public Guid TransactionId { get; set; }
 
         [Required]
-        public Guid CategoryId { get; set; }
+        public Guid TransactionCategoryId { get; set; }
     }
 
     public class TransactionDetailSearchModel : BaseSearchModel<TransactionDetail>

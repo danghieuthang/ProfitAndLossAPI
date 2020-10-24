@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class CateogoryCreateModel : BaseCreateModel<Category>
+    public class CateogoryCreateModel : BaseCreateModel<TransactionCategory>
     {
         public CateogoryCreateModel()
         {
@@ -19,9 +19,9 @@ namespace ProfitAndLoss.Business.Models
 
     }
 
-    public class CategoryUpdateModel : BaseUpdateModel<Category>
+    public class TransactionCategoryUpdateModel : BaseUpdateModel<TransactionCategory>
     {
-        public CategoryUpdateModel()
+        public TransactionCategoryUpdateModel()
         {
 
         }
@@ -31,9 +31,9 @@ namespace ProfitAndLoss.Business.Models
         public Guid ParentId { get; set; }
     }
 
-    public class CategorySearchModel : BaseSearchModel<Category>
+    public class TransactionCategorySearchModel : BaseSearchModel<TransactionCategory>
     {
-        public CategorySearchModel()
+        public TransactionCategorySearchModel()
         {
 
         }

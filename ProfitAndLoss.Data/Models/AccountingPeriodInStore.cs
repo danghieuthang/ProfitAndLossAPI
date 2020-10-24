@@ -6,10 +6,10 @@ using System.Text;
 
 namespace ProfitAndLoss.Data.Models
 {
-    [Table("AccountingPeriodDetail")]
-    public class AccountingPeriodDetail : BaseEntity<Guid>
+    [Table("AccountingPeriodInStore")]
+    public class AccountingPeriodInStore : BaseEntity<Guid>
     {
-        public AccountingPeriodDetail()
+        public AccountingPeriodInStore()
         {
 
         }
@@ -20,6 +20,8 @@ namespace ProfitAndLoss.Data.Models
 
         [ForeignKey("Store")]
         public Guid StoreId { get; set; }
+
+        public virtual Store Store{ get; set; }
 
         [ForeignKey("AccountingPeriod")]
         public Guid AccountingPeriodId { get; set; }

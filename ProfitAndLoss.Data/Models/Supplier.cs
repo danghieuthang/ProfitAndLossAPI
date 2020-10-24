@@ -7,7 +7,7 @@ using System.Text;
 namespace ProfitAndLoss.Data.Models
 {
     [Table("Suppliers")]
-    public class Supplier:BaseEntity<Guid>
+    public class Supplier : BaseEntity<Guid>
     {
         public Supplier()
         {
@@ -17,9 +17,13 @@ namespace ProfitAndLoss.Data.Models
         [MaxLength(255)]
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        public string Address { get; set; }
 
-        public virtual ICollection<Receipt> Receipts { get; set; }
+        public string Phone { get; set; }
+
+        public string Email { get; set; }
+
+        public virtual ICollection<Transaction> Transactions { get; set; }
 
     }
 }

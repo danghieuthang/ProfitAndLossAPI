@@ -22,13 +22,11 @@ namespace ProfitAndLoss.Business.Services
     }
     public class ReceiptService : BaseService<Receipt>, IReceiptService
     {
-        private readonly IReceiptTypeRepository _receiptTypeRepository;
         private readonly IReceiptRepository _receiptRepository;
         private readonly ISupplierRepository _supplierRepository;
         private readonly IStoreRepository _storeRepository;
         public ReceiptService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _receiptTypeRepository = unitOfWork.ReceiptTypeRepository;
             _receiptRepository = unitOfWork.ReceptRepository;
             _supplierRepository = unitOfWork.SupplierRepository;
             _storeRepository = unitOfWork.StoreRepository;
@@ -86,7 +84,7 @@ namespace ProfitAndLoss.Business.Services
             //                });
             //// 
             var entities = _receiptRepository.Entity();
-            entities = entities.Include(c => c.ReceiptType).Include(c => c.Supplier).Include( c => c.Store).Include( c => c.Member);
+            //entities = entities.Include(c => c./*ReceiptType*/).Include(c => c.Supplier).Include( c => c.Store).Include( c => c.Member);
             /* search by name*/
 
             var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;

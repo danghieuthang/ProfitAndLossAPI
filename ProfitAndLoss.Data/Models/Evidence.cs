@@ -25,5 +25,7 @@ namespace ProfitAndLoss.Data.Models
 
         [ForeignKey("Receipt")]
         public Guid ReceiptId { get; set; }
+
+        public virtual Receipt Receipt { get; set; }
     }
 }

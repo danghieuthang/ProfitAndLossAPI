@@ -6,11 +6,11 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IAccountingPeriodDetailRepository : IBaseRepository<AccountingPeriodDetail, Guid>
+    public interface IAccountingPeriodDetailRepository : IBaseRepository<AccountingPeriodInStore, Guid>
     {
 
     }
-    public class AccountingPeriodDetailRepository : BaseRepository<AccountingPeriodDetail, Guid>, IAccountingPeriodDetailRepository
+    public class AccountingPeriodDetailRepository : BaseRepository<AccountingPeriodInStore, Guid>, IAccountingPeriodDetailRepository
     {
         public AccountingPeriodDetailRepository(DataContext context) : base(context)
         {

@@ -16,8 +16,15 @@ namespace ProfitAndLoss.Business.Models
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("description")]
-        public string Description { get; set; }
+        [JsonProperty("address")]
+        public string Address { get; set; }
+
+        [JsonProperty("phone")]
+        public string Phone { get; set; }
+
+        [JsonProperty("email")]
+        public string Email { get; set; }
+
     }
 
     public class SupplierSearchModel : BaseSearchModel<Supplier>
@@ -34,5 +41,14 @@ namespace ProfitAndLoss.Business.Models
 
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("address")]
+        public string Address { get; set; }
+
+        [JsonProperty("phone")]
+        public string Phone { get; set; }
+
+        [JsonProperty("email")]
+        public string Email { get; set; }
     }
 }

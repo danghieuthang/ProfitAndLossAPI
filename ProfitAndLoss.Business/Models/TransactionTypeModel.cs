@@ -1,4 +1,5 @@
-﻿using ProfitAndLoss.Data.Models;
+﻿using Newtonsoft.Json;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,11 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        public bool Actived { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("isdebit")]
+        public bool IsDebit { get; set; }
 
     }
 
@@ -33,5 +38,19 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
+    }
+
+    public class TransactionTypeViewModel: BaseViewModel<TransactionType>
+    {
+        public TransactionTypeViewModel()
+        {
+
+        }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("isdebit")]
+        public bool IsDebit { get; set; }
     }
 }

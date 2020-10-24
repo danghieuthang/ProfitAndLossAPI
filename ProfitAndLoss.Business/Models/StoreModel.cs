@@ -14,11 +14,14 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
-
-        [DefaultValue("CC75D15D-7D89-4224-374E-08D877FBCA23")]
+        
+        [JsonProperty("brand-id")]
         public Guid BrandId { get; set; }
 
+        [JsonProperty("code")]
         public string Code { get; set; }
+
+        [JsonProperty("name")]
         public string Name { get; set; }
 
     }
@@ -48,6 +51,7 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
+
         [JsonProperty("code")]
         public string Code { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using ProfitAndLoss.Data.Models;
+﻿using Newtonsoft.Json;
+using ProfitAndLoss.Data.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -60,6 +61,29 @@ namespace ProfitAndLoss.Business.Models
     public class MemberLoginModel : Mapping<Member>
     {
         public string UserName { get; set; }
+    }
+
+    public class MemberViewModel : BaseViewModel<Member>
+    {
+        public MemberViewModel()
+        {
+
+        }
+
+        [JsonProperty("username")]
+        public string UserName { get; set; }
+
+        [JsonProperty("first-name")]
+        public string FirstName { get; set; }
+
+        [JsonProperty("last-name")]
+        public string LastName { get; set; }
+
+        [JsonProperty("phone")]
+        public string Phone { get; set; }
+
+        [JsonProperty("email")]
+        public string Email { get; set; }
     }
 
 }

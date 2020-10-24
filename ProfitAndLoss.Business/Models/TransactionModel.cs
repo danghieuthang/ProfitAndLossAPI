@@ -16,7 +16,6 @@ namespace ProfitAndLoss.Business.Models
             Status = CommonConstants.TransactionStatus.NEW; // New
         }
 
-        [Required]
         public Guid CreateMemberId { get; set; }
 
         [JsonProperty("transaction-type-id")]
@@ -54,5 +53,40 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
+    }
+
+    public class TransactionViewModel: BaseViewModel<Transaction>
+    {
+        public TransactionViewModel()
+        {
+
+        }
+
+        [JsonProperty("member")]
+        public MemberViewModel Member { get; set; }
+
+        [JsonProperty("transaction-type")]
+        public TransactionTypeViewModel TransactionType { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("balance")]
+        public double Balance { get; set; }
+
+        [JsonProperty("note-message")]
+        public string NoteMessage { get; set; }
+
+        [JsonProperty("store")]
+        public StoreViewModel Store { get; set; }
+
+        [JsonProperty("supplier")]
+        public SupplierViewModel Supplier { get; set; }
+
+        [JsonProperty("status")]
+        public int Status { get; set; }
     }
 }

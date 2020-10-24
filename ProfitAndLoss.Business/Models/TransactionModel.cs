@@ -17,7 +17,6 @@ namespace ProfitAndLoss.Business.Models
             Status = CommonConstants.TransactionStatus.NEW; // New
         }
         public Guid CreateMemberId { get; set; }
-
         public Guid TransactionTypeId { get; set; }
         public Guid StoreId { get; set; }
         public Guid SupplierId { get; set; }
@@ -25,11 +24,11 @@ namespace ProfitAndLoss.Business.Models
         public string Name { get; set; }
 
         public string Code { get; set; }
-
         public double Balance { get; set; }
 
         public string NoteMessage { get; set; }
 
+        [JsonIgnore]
         public int Status { get; set; }
     }
 

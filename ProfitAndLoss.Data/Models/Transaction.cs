@@ -43,6 +43,8 @@ namespace ProfitAndLoss.Data.Models
 
         public virtual Supplier Supplier { get; set; }
 
+        public int Status { get; set; }
+
         public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
 
         public virtual ICollection<TransactionHistory> TransactionHistories { get; set; }

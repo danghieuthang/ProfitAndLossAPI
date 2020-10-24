@@ -24,7 +24,6 @@ namespace ProfitAndLoss.Business.Services
 
         Task<GenericResult> GetAll();
 
-
     }
     public class BaseService<T> : IBaseService<T> where T : BaseEntity<Guid>
     {
@@ -54,6 +53,7 @@ namespace ProfitAndLoss.Business.Services
                                     .FirstOrDefault(x => x is IBaseRepository<T, Guid>);
             }
         }
+
         /// <summary>
         /// Create
         /// </summary>
@@ -97,11 +97,20 @@ namespace ProfitAndLoss.Business.Services
 
             var result = BaseRepository.Delete(id);
             _unitOfWork.Commit();
+            if (result == null)
+            {
+                return new GenericResult
+                {
+                    Data = result,
+                    Success = false,
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
+            }
             return new GenericResult
             {
                 Data = result,
-                Success = result != null,
-                StatusCode = result != null ? HttpStatusCode.OK : HttpStatusCode.NotFound
+                Success = true,
+                StatusCode = HttpStatusCode.OK
             };
         }
 

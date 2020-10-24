@@ -39,7 +39,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<GenericResult> Create([FromForm]TransactionCreateModel model, [FromForm]List<EvidenceCreateModel> evidenceModel)
+        public async Task<GenericResult> Create([FromBody]TransactionCreateModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -58,6 +58,17 @@ namespace ProfitAndLoss.WebApi.Controllers
         public async Task<GenericResult> Update(TransactionUpdateModel model)
         {
             return await _transactionService.Update(model);
+        }
+
+        [HttpPut("approval")]
+        public async Task<GenericResult> Update(Guid id)
+        {
+            return await _transactionService.Approval(id);
+        }
+        [HttpPut("reject")]
+        public async Task<GenericResult> Reject(Guid id)
+        {
+            return await _transactionService.Reject(id);
         }
 
         [HttpDelete]

@@ -38,11 +38,6 @@ namespace ProfitAndLoss.Data.Models
 
         public string NoteMessage { get; set; }
 
-        [ForeignKey("Receipt")]
-        public Guid ReceiptId { get; set; }
-
-        public virtual Receipt Receipt { get; set; }
-
         [ForeignKey("Supplier")]
         public Guid SupplierId { get; set; }
 

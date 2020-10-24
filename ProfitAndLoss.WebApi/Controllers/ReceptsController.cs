@@ -33,16 +33,16 @@ namespace ProfitAndLoss.WebApi.Controllers
         [HttpPost]
         public async Task<GenericResult> Create([FromBody] ReceiptCreateModel model)
         {
-            if (_storeService.GetById(model.StoreId) == null)
-            {
-                return new GenericResult
-                {
-                    Data = model,
-                    Success = false,
-                    StatusCode = System.Net.HttpStatusCode.OK,
-                    Message = "Store not exists"
-                };
-            }
+            //if (_storeService.GetById(model.StoreId) == null)
+            //{
+            //    return new GenericResult
+            //    {
+            //        Data = model,
+            //        Success = false,
+            //        StatusCode = System.Net.HttpStatusCode.OK,
+            //        Message = "Store not exists"
+            //    };
+            //}
 
             return await _receptService.Create(model);
         }

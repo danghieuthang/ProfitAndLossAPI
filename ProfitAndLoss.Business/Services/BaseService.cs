@@ -59,7 +59,7 @@ namespace ProfitAndLoss.Business.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<GenericResult> Create(BaseCreateModel<T> model)
+        public virtual async Task<GenericResult> Create(BaseCreateModel<T> model)
         {
             var entity = model.ToEntity();
             var result = BaseRepository.Add(entity);

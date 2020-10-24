@@ -13,8 +13,8 @@ namespace ProfitAndLoss.Data.Models
         {
             Evidences = new HashSet<Evidence>();
         }
-
-
+        public string Code { get; set; }
+        public string Description { get; set; }
         public virtual ICollection<Evidence> Evidences { get; set; }
 
     }

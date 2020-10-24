@@ -10,8 +10,8 @@ using ProfitAndLoss.Data.Models;
 namespace ProfitAndLoss.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201024084128_Init")]
-    partial class Init
+    [Migration("20201024163314_v2")]
+    partial class v2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -394,6 +394,15 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
+                            Actived = true,
+                            CreatedDate = new DateTime(2020, 10, 24, 23, 33, 11, 780, DateTimeKind.Local).AddTicks(8209),
+                            ModifiedDate = new DateTime(2020, 10, 24, 23, 33, 11, 780, DateTimeKind.Local).AddTicks(8250)
+                        });
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Evidence", b =>
@@ -560,8 +569,14 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<bool>("Actived")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -597,17 +612,23 @@ namespace ProfitAndLoss.Data.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<Guid>("StoreAccountId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
 
-                    b.HasIndex("StoreAccountId")
-                        .IsUnique();
-
                     b.ToTable("Stores");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d143b569-6a5a-4da6-8d9e-d144af7f5f9b"),
+                            Actived = true,
+                            BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
+                            Code = "HCM-01",
+                            CreatedDate = new DateTime(2020, 10, 24, 23, 33, 11, 781, DateTimeKind.Local).AddTicks(8501),
+                            ModifiedDate = new DateTime(2020, 10, 24, 23, 33, 11, 781, DateTimeKind.Local).AddTicks(9398),
+                            Name = "Cửa hàng quyền lực HCM"
+                        });
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.StoreAccount", b =>
@@ -648,6 +669,8 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
+
+                    b.HasIndex("StoreId");
 
                     b.ToTable("StoreAccounts");
                 });
@@ -886,6 +909,44 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TransactionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("89cb4dcc-0ced-4c86-ad5f-fef3e96bbb04"),
+                            Actived = true,
+                            CreatedDate = new DateTime(2020, 10, 24, 23, 33, 11, 776, DateTimeKind.Local).AddTicks(6915),
+                            IsDebit = true,
+                            ModifiedDate = new DateTime(2020, 10, 24, 23, 33, 11, 778, DateTimeKind.Local).AddTicks(1960),
+                            Name = "Sales"
+                        },
+                        new
+                        {
+                            Id = new Guid("8bfe6b95-f6aa-4ed2-9b2f-c7e562fa857f"),
+                            Actived = true,
+                            CreatedDate = new DateTime(2020, 10, 24, 23, 33, 11, 778, DateTimeKind.Local).AddTicks(3120),
+                            IsDebit = true,
+                            ModifiedDate = new DateTime(2020, 10, 24, 23, 33, 11, 778, DateTimeKind.Local).AddTicks(3169),
+                            Name = "Revenues"
+                        },
+                        new
+                        {
+                            Id = new Guid("7ca9746d-31bc-406a-9c5b-c6dad555cacd"),
+                            Actived = true,
+                            CreatedDate = new DateTime(2020, 10, 24, 23, 33, 11, 778, DateTimeKind.Local).AddTicks(3235),
+                            IsDebit = true,
+                            ModifiedDate = new DateTime(2020, 10, 24, 23, 33, 11, 778, DateTimeKind.Local).AddTicks(3238),
+                            Name = "Expenses"
+                        },
+                        new
+                        {
+                            Id = new Guid("0aa150f8-c776-41ad-a974-230d1222a9b5"),
+                            Actived = true,
+                            CreatedDate = new DateTime(2020, 10, 24, 23, 33, 11, 778, DateTimeKind.Local).AddTicks(3242),
+                            IsDebit = true,
+                            ModifiedDate = new DateTime(2020, 10, 24, 23, 33, 11, 778, DateTimeKind.Local).AddTicks(3243),
+                            Name = "Invoice"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -893,7 +954,7 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasOne("ProfitAndLoss.Data.Models.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -902,7 +963,7 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasOne("ProfitAndLoss.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -911,7 +972,7 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasOne("ProfitAndLoss.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -920,13 +981,13 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasOne("ProfitAndLoss.Data.Models.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ProfitAndLoss.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -935,7 +996,7 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasOne("ProfitAndLoss.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -1018,12 +1079,6 @@ namespace ProfitAndLoss.Data.Migrations
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("ProfitAndLoss.Data.Models.StoreAccount", "StoreAccount")
-                        .WithOne("Store")
-                        .HasForeignKey("ProfitAndLoss.Data.Models.Store", "StoreAccountId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.StoreAccount", b =>
@@ -1031,6 +1086,12 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasOne("ProfitAndLoss.Data.Models.Account", "Account")
                         .WithMany("StoreAccounts")
                         .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ProfitAndLoss.Data.Models.Store", "Store")
+                        .WithMany("StoreAccounts")
+                        .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

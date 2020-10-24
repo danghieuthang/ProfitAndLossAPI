@@ -2,6 +2,7 @@
 using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.Constant;
 using System;
+using System.Collections.Generic;
 
 namespace ProfitAndLoss.Business.Models
 {
@@ -11,25 +12,10 @@ namespace ProfitAndLoss.Business.Models
         {
     
         }
-
-        [JsonProperty("store_id")]
-        public Guid StoreId { get; set; }
-
-        [JsonProperty("description")]
         public string Description { get; set; }
-
-        [JsonProperty("price")]
-        public decimal Price { get; set; }
-
-        [JsonProperty("type_id")]
-        public Guid TypeId { get; set; }
-
-        [JsonProperty("supplier_id")]
-        public Guid SupplierId { get; set; }
 
         [JsonIgnore]
         public int Status { get; set; }
-
     }
 
     public class ReceiptUpdateModel : BaseUpdateModel<Receipt>

@@ -72,15 +72,27 @@ namespace ProfitAndLoss.Data.Models
             //     .OnDelete(DeleteBehavior.NoAction);
 
             #endregion create relationship
+            base.OnModelCreating(modelBuilder);
 
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TransactionType>().HasData(
+                new TransactionType { Id = Guid.NewGuid(), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Sales", ModifiedDate = DateTime.Now },
+                new TransactionType { Id = Guid.NewGuid(), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Revenues", ModifiedDate = DateTime.Now },
+                new TransactionType { Id = Guid.NewGuid(), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Expenses", ModifiedDate = DateTime.Now },
+                new TransactionType { Id = Guid.NewGuid(), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Invoice", ModifiedDate = DateTime.Now }
+                );
+            modelBuilder.Entity<Brand>().HasData(
+                new Brand() { Id = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), Actived = true,
+                CreatedDate = DateTime.Now, ModifiedDate  = DateTime.Now});
+            modelBuilder.Entity<Store>().HasData(
+                new Store { Id = Guid.NewGuid(), BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), Actived  = true, CreatedDate = DateTime.Now, Code = "HCM-01",
+                ModifiedDate = DateTime.Now, Name = "Cửa hàng quyền lực HCM"}
+                );
 
         }
-
     }
 }

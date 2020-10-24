@@ -28,15 +28,11 @@ namespace ProfitAndLoss.Data.Models
         [MaxLength(255)]
         public string Name { get; set; }
 
-        [ForeignKey("StoreAccount")]
-        public Guid StoreAccountId { get; set; }
-
-        public StoreAccount StoreAccount { get; set; }
-
         public virtual ICollection<MemberStore> MemberStores { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }
 
         public virtual ICollection<AccountingPeriodInStore> AccountingPeriodInStores { get; set; }
+        public virtual ICollection<StoreAccount> StoreAccounts { get; set; }
     }
 }

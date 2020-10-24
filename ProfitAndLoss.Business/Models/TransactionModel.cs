@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.Constant;
 using ProfitAndLoss.Utilities.DTOs;
@@ -15,26 +16,20 @@ namespace ProfitAndLoss.Business.Models
         {
             Status = CommonConstants.TransactionStatus.NEW; // New
         }
-
         public Guid CreateMemberId { get; set; }
 
-        [JsonProperty("transaction-type-id")]
         public Guid TransactionTypeId { get; set; }
+        public Guid StoreId { get; set; }
+        public Guid SupplierId { get; set; }
 
-        [JsonProperty("name")]
         public string Name { get; set; }
 
-
-        [JsonProperty("code")]
         public string Code { get; set; }
 
-        [JsonProperty("balance")]
         public double Balance { get; set; }
 
-        [JsonProperty("note-message")]
         public string NoteMessage { get; set; }
 
-        [JsonIgnore]
         public int Status { get; set; }
     }
 

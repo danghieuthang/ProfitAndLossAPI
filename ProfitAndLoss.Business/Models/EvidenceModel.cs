@@ -14,21 +14,14 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        [FromForm(Name = "image")]
         public IFormFile Image { get; set; }
 
-        [FromForm(Name = "name")]
         public string Name { get; set; }
 
-        [FromForm(Name = "description")]
         public string Description { get; set; }
 
-        [FromForm(Name = "img_url")]
 
         public string ImgUrl { get; set; }
-
-        [FromForm(Name = "receipt_id")]
-        public Guid ReceiptId { get; set; }
     }
 
     public class EvidenceUpdateModel : BaseUpdateModel<Evidence>

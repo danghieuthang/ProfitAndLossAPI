@@ -14,8 +14,8 @@ namespace ProfitAndLoss.WebApi.Controllers
     [ApiController]
     public class TransactionsController : ControllerBase
     {
-        private readonly ITransactionService _transactionService;
-        public TransactionsController(ITransactionService transactionService)
+        private readonly ITransactionServices _transactionService;
+        public TransactionsController(ITransactionServices transactionService)
         {
             _transactionService = transactionService;
         }
@@ -39,8 +39,17 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<GenericResult> Create(TransactionCreateModel model)
+        public async Task<GenericResult> Create([FromForm]TransactionCreateModel model, [FromForm]List<EvidenceCreateModel> evidenceModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return new GenericResult(){
+                    Message = "Invalid object",
+                    Success = false,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+            }
+            
             return await _transactionService.Create(model);
         }
 

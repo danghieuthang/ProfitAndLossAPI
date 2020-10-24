@@ -24,13 +24,14 @@ namespace ProfitAndLoss.Data.Models
 
         public double Balance { get; set; }
 
+        [ForeignKey("Store")]
         public Guid StoreId { get; set; }
 
-        public Store Store { get; set; }
+        public virtual Store Store { get; set; }
 
-     
+        [ForeignKey("Account")]
         public Guid AccountId { get; set; }
 
-        public Account Account { get; set; }
+        public virtual Account Account { get; set; }
     }
 }

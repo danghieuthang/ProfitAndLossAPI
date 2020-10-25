@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IBrandService : IBaseService<Brand>
+    public interface IBrandServices : IBaseServices<Brand>
     {
         Task<GenericResult> CreateBrand(BrandCreateModel model);
         Task<GenericResult> DeleteAsync(Guid id);
         Task<GenericResult> GetAllBrandAsync();
         Task<GenericResult> GetBrand(Guid id);
     }
-    public class BrandService : BaseService<Brand>, IBrandService
+    public class BrandServices : BaseServices<Brand>, IBrandServices
     {
         private readonly IUnitOfWork _unitOfWork;
-        public BrandService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public BrandServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

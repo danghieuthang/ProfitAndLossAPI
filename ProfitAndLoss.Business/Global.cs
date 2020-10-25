@@ -57,9 +57,9 @@ namespace ProfitAndLoss.Business
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes())
-                    .Where(t => t.Name.EndsWith("Service") && t.Name.StartsWith("I") 
-                            && typeof(IBaseService).IsAssignableFrom(t) 
-                            && !t.Equals(typeof(IBaseService))
+                    .Where(t => t.Name.EndsWith("Services") && t.Name.StartsWith("I") 
+                            && typeof(IBaseServices).IsAssignableFrom(t) 
+                            && !t.Equals(typeof(IBaseServices))
                             && t.IsInterface 
                             && !t.IsGenericType)
                     .ToList()
@@ -70,13 +70,13 @@ namespace ProfitAndLoss.Business
                             var serviceClass = AppDomain.CurrentDomain
                                                     .GetAssemblies()
                                                     .SelectMany(st => st.GetTypes())
-                                                    .Where(st => st.Name.EndsWith("Service")
+                                                    .Where(st => st.Name.EndsWith("Services")
                                                                 && types.IsAssignableFrom(st)
                                                                 && st.IsClass
                                                                 && !st.IsAbstract)
                                                     .ToList();
                             var serviceType = serviceClass
-                                                .FirstOrDefault(s => !s.Name.Contains(nameof(IBaseService)));
+                                                .FirstOrDefault(s => !s.Name.Contains(nameof(IBaseServices)));
                             if (serviceType != null)
                             {
                                 services.AddScoped(types, serviceType);

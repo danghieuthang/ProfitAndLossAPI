@@ -14,8 +14,8 @@ namespace ProfitAndLoss.WebApi.Controllers
     [ApiController]
     public class TransactionTypesController : ControllerBase
     {
-        private readonly ITransactionTypeService _transactionTypeService;
-        public TransactionTypesController(ITransactionTypeService transactionTypeService)
+        private readonly ITransactionTypeServices _transactionTypeService;
+        public TransactionTypesController(ITransactionTypeServices transactionTypeService)
         {
             _transactionTypeService = transactionTypeService;
         }

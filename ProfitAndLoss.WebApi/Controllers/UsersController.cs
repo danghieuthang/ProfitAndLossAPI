@@ -40,11 +40,6 @@ namespace ProfitAndLoss.WebApi.Controllers
         //[Route(ApiVer1UrlConstant.User.LOGIN)]
         public async Task<GenericResult> LoginAsync([FromBody] RequestLoginModel login)
         {
-            //if (ModelState.IsValid)
-            //{
-
-            //}
-            //await _identityServices.CreateRoles();
             var appUser = await _identityServices.GetUserByUserNameAsync(login.Username);
             if (appUser == null)
             {
@@ -83,12 +78,25 @@ namespace ProfitAndLoss.WebApi.Controllers
                 UserName = model.Username,
                 Fullname = model.FullName
             };
-            var result = await _identityServices.CreateUserAsync(user, model.Password);
+            var result = await _identityServices.CreateUserWithDefaultRoleAsync(user, model.Password);
             if (result.Succeeded)
             {
                 return new GenericResult { Success = true };
             }
             return new GenericResult { Success = false, Data = result.Errors };
+        }
+        [HttpPost(RouteConstants.Role.INIT)]
+        public async Task<GenericResult> CreateAllRoleAsync()
+        {
+            var listRole = new List<string>()
+            {
+                RoleName.ADMIN,
+                RoleName.CHIEF_ACCOUNTANT,
+                RoleName.INVESTOR,
+                RoleName.MEMBER_IN_STORE
+            };
+            await _identityServices.CreateRoles(listRole);
+            return new GenericResult { Success = false };
         }
     }
 }

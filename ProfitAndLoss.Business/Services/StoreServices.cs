@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IStoreService : IBaseService<Store>
+    public interface IStoreServices : IBaseServices<Store>
     {
         Task<GenericResult> SearchStoreAsync(StoreSearchModel model);
     }
-    public class StoreService : BaseService<Store>, IStoreService
+    public class StoreServices : BaseServices<Store>, IStoreServices
     {
         private readonly IStoreRepository _storeRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public StoreService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public StoreServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _storeRepository = _unitOfWork.StoreRepository;

@@ -12,34 +12,25 @@ namespace ProfitAndLoss.Data.Models
         public Member()
         {
             Transactions = new HashSet<Transaction>();
-            MemberStores = new HashSet<MemberStore>();
         }
 
-        [Required]
-        [MaxLength(255)]
         public string FirstName { get; set; }
 
-        [Required]
-        [MaxLength(255)]
         public string LastName { get; set; }
 
-        [MaxLength(100)]
         public string Phone { get; set; }
 
-        [Required]
-        [MaxLength(255)]
         public string Email { get; set; }
 
         [Required]
         [MaxLength(255)]
         public string UserName { get; set; }
 
-        [ForeignKey("Brand")]
-        public Guid BrandId { get; set; }
+        [ForeignKey("Store")]
+        public Guid? StoreId { get; set; }
+        public virtual Store Store { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }
-
-        public virtual ICollection<MemberStore> MemberStores { get; set; }
 
         public virtual ICollection<Feedback> Feedbacks { get; set; }
 

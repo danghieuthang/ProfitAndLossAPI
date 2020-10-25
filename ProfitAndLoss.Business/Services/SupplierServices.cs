@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface ISupplierService : IBaseService<Supplier>
+    public interface ISupplierServices : IBaseServices<Supplier>
     {
         Task<GenericResult> GetAll();
     }
 
-    public class SupplierService : BaseService<Supplier>, ISupplierService
+    public class SupplierServices : BaseServices<Supplier>, ISupplierServices
     {
         private readonly ISupplierRepository _supplierRepository;
-        public SupplierService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public SupplierServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _supplierRepository = unitOfWork.SupplierRepository;
         }

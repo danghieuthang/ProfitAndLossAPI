@@ -18,14 +18,17 @@ namespace ProfitAndLoss.Business.Services
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly DataContext _context;
+        private readonly IMemberServices _memberServices;
         public IdentityServices(UserManager<AppUser> userManager,
                                   SignInManager<AppUser> signInManager,
-                                  RoleManager<AppRole> roleManager, DataContext context)
+                                  RoleManager<AppRole> roleManager, DataContext context,
+                                   IMemberServices memberServices)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _context = context;
+            _memberServices = memberServices;
         }
         protected void PrepareCreate(AppUser entity)
         {
@@ -44,7 +47,62 @@ namespace ProfitAndLoss.Business.Services
         public async Task<IdentityResult> CreateUserAsync(AppUser user, string password)
         {
             PrepareCreate(user);
-            return await _userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user, password);
+            if (result.Succeeded)
+            {
+                var memberModel = new MemberCreateModel()
+                {
+                    Email = user.Email,
+                    Phone = user.PhoneNumber,
+                    FirstName = user.Fullname,
+                    UserName = user.UserName
+                };
+                await _memberServices.CreateMemberAsync(memberModel);
+            }
+            return result;
+        }
+        public async Task<IdentityResult> CreateUserWithDefaultRoleAsync(AppUser user, string password)
+        {
+            PrepareCreate(user);
+            var listRole = new List<string>() { RoleName.MEMBER_IN_STORE };
+            await CreateRoles(listRole);
+            var result = await _userManager.CreateAsync(user, password);
+            if (listRole.Count != 0)
+            {
+                await _userManager.AddToRolesAsync(user, listRole);
+            }
+            if (result.Succeeded)
+            {
+                var memberModel = new MemberCreateModel()
+                {
+                    Id = new Guid(user.Id),
+                    Email = user.Email,
+                    Phone = user.PhoneNumber,
+                    FirstName = user.Fullname,
+                    UserName = user.UserName
+                };
+                await _memberServices.CreateMemberAsync(memberModel);
+            }
+            return result;
+        }
+        public async Task CreateRoles(List<string> roles)
+        {
+            IdentityResult roleResult = new IdentityResult();
+            //Adding Admin Role
+            foreach (var role in roles)
+            {
+                if (!string.IsNullOrEmpty(role))
+                {
+                    var roleCheck = await _roleManager.RoleExistsAsync(role);
+                    if (!roleCheck)
+                    {
+                        AppRole appRole = new AppRole(role);
+                        PrepareCreate(appRole);
+                        roleResult = await _roleManager.CreateAsync(appRole);
+                    }
+                }
+            }
+            _context.SaveChanges();
         }
         public async Task<SignInResult> SignInAsync(AppUser appUser, RequestLoginModel model)
         {
@@ -95,27 +153,6 @@ namespace ProfitAndLoss.Business.Services
         protected void PrepareCreate(AppRole entity)
         {
             entity.Id = Guid.NewGuid().ToString();
-        }
-        public async Task CreateRoles()
-        {
-            IdentityResult roleResult = new IdentityResult();
-            //Adding Admin Role
-            var roleCheck = await _roleManager.RoleExistsAsync(RoleName.ADMIN);
-            if (!roleCheck)
-            {
-                AppRole role = new AppRole(RoleName.ADMIN);
-                PrepareCreate(role);
-                roleResult = await _roleManager.CreateAsync(role);
-            }
-            //Adding User Role
-            roleCheck = await _roleManager.RoleExistsAsync(RoleName.USER);
-            if (!roleCheck)
-            {
-                AppRole role = new AppRole(RoleName.USER);
-                PrepareCreate(role);
-                roleResult = await _roleManager.CreateAsync(role);
-            }
-            _context.SaveChanges();
         }
         public async Task<IList<string>> GetRole(AppUser appUser)
         {

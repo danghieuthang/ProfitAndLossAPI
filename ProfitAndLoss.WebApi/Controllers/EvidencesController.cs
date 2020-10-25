@@ -10,8 +10,8 @@ namespace ProfitAndLoss.WebApi.Controllers
     [ApiController]
     public class EvidencesController : ControllerBase
     {
-        private readonly IEvidenceService _evidenceService;
-        public EvidencesController(IEvidenceService evidenceService)
+        private readonly IEvidenceServices _evidenceService;
+        public EvidencesController(IEvidenceServices evidenceService)
         {
             _evidenceService = evidenceService;
         }

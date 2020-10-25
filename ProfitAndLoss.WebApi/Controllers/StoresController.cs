@@ -14,9 +14,9 @@ namespace ProfitAndLoss.WebApi.Controllers
     [ApiController]
     public class StoresController : ControllerBase
     {
-        private readonly IStoreService _storeService;
-        private readonly IBrandService _brandService;
-        public StoresController(IStoreService storeService, IBrandService brandService)
+        private readonly IStoreServices _storeService;
+        private readonly IBrandServices _brandService;
+        public StoresController(IStoreServices storeService, IBrandServices brandService)
         {
             _storeService = storeService;
             _brandService = brandService;

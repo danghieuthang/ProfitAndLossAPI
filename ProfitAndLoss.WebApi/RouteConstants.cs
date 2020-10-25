@@ -30,6 +30,12 @@ namespace ProfitAndLoss.WebApi
             public const string LOGIN = PREFIX + "/login";
             public const string CREATE = PREFIX;
         }
+        public static class Role
+        {
+            public const string PREFIX = "api/" + VERSION + "/roles";
+            public const string INIT = PREFIX + "/init";
+            public const string CREATE = PREFIX;
+        }
 
         public static class Store
         {

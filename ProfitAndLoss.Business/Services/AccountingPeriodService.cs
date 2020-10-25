@@ -5,11 +5,11 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IAccountingPeriodService : IBaseService<AccountingPeriod>
+    public interface IAccountingPeriodService : IBaseServices<AccountingPeriod>
     {
 
     }
-    public class AccountingPeriodService : BaseService<AccountingPeriod>, IAccountingPeriodService
+    public class AccountingPeriodService : BaseServices<AccountingPeriod>, IAccountingPeriodService
     {
         public AccountingPeriodService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {

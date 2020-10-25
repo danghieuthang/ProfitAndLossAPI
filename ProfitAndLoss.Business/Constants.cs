@@ -13,6 +13,8 @@ namespace ProfitAndLoss.Business
     public class RoleName
     {
         public const string ADMIN = "Admin";
-        public const string USER = "User";
+        public const string INVESTOR = "Investor";
+        public const string CHIEF_ACCOUNTANT = "ChiefAccountant";
+        public const string MEMBER_IN_STORE = "MemberInStore";
     }
 }

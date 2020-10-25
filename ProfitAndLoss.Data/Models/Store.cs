@@ -13,7 +13,6 @@ namespace ProfitAndLoss.Data.Models
         {
             Actived = true;
             Transactions = new HashSet<Transaction>();
-            MemberStores = new HashSet<MemberStore>();
             AccountingPeriodInStores = new HashSet<AccountingPeriodInStore>();
         }
 
@@ -27,8 +26,6 @@ namespace ProfitAndLoss.Data.Models
 
         [MaxLength(255)]
         public string Name { get; set; }
-
-        public virtual ICollection<MemberStore> MemberStores { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }
 

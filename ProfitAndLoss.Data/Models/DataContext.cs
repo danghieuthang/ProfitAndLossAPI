@@ -25,7 +25,6 @@ namespace ProfitAndLoss.Data.Models
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountingPeriod> AccountingPeriods { get; set; }
-        public DbSet<MemberStore> MemberStores { get; set; }
         public DbSet<AccountingPeriodInStore> AccountingPeriodInStores { get; set; }
         public DbSet<StoreAccount> StoreAccounts { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
@@ -90,7 +89,7 @@ namespace ProfitAndLoss.Data.Models
                 CreatedDate = DateTime.Now, ModifiedDate  = DateTime.Now});
             modelBuilder.Entity<Store>().HasData(
                 new Store { Id = Guid.NewGuid(), BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), Actived  = true, CreatedDate = DateTime.Now, Code = "HCM-01",
-                ModifiedDate = DateTime.Now, Name = "Cửa hàng quyền lực HCM"}
+                ModifiedDate = DateTime.Now, Name = "Văn phòng quyền lực HCM"}
                 );
 
         }

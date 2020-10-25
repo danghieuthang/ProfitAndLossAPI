@@ -13,13 +13,13 @@ namespace ProfitAndLoss.WebApi.Controllers
     {
         #region fields
 
-        private readonly IReceiptService _receptService;
-        private readonly IStoreService _storeService;
+        private readonly IReceiptServices _receptService;
+        private readonly IStoreServices _storeService;
 
         #endregion fields
 
 
-        public ReceptsController(IReceiptService receptService, IStoreService storeService)
+        public ReceptsController(IReceiptServices receptService, IStoreServices storeService)
         {
             _receptService = receptService;
             _storeService = storeService;

@@ -16,16 +16,16 @@ using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IReceiptService : IBaseService<Receipt>
+    public interface IReceiptServices : IBaseServices<Receipt>
     {
         Task<GenericResult> SearchRecepts(ReceiptSearchModel model);
     }
-    public class ReceiptService : BaseService<Receipt>, IReceiptService
+    public class ReceiptServices : BaseServices<Receipt>, IReceiptServices
     {
         private readonly IReceiptRepository _receiptRepository;
         private readonly ISupplierRepository _supplierRepository;
         private readonly IStoreRepository _storeRepository;
-        public ReceiptService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public ReceiptServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _receiptRepository = unitOfWork.ReceptRepository;
             _supplierRepository = unitOfWork.SupplierRepository;

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface ITransactionHistoryServices : IBaseService<TransactionHistory>
+    public interface ITransactionHistoryServices : IBaseServices<TransactionHistory>
     {
 
     }
-    public class TransactionHistoryServices : BaseService<TransactionHistory>, ITransactionHistoryServices
+    public class TransactionHistoryServices : BaseServices<TransactionHistory>, ITransactionHistoryServices
     {
         public TransactionHistoryServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {

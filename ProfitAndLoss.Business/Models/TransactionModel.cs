@@ -16,10 +16,10 @@ namespace ProfitAndLoss.Business.Models
         {
             Status = CommonConstants.TransactionStatus.NEW; // New
         }
-        public Guid CreateMemberId { get; set; }
-        public Guid TransactionTypeId { get; set; }
-        public Guid StoreId { get; set; }
-        public Guid SupplierId { get; set; }
+        public Guid? CreateMemberId { get; set; }
+        public Guid? TransactionTypeId { get; set; }
+        public Guid? StoreId { get; set; }
+        public Guid? SupplierId { get; set; }
 
         public string Name { get; set; }
 

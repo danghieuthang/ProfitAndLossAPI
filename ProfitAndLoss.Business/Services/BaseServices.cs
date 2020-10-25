@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IBaseService
+    public interface IBaseServices
     {
     }
 
-    public interface IBaseService<T> : IDisposable, IBaseService
+    public interface IBaseServices<T> : IDisposable, IBaseServices
     {
         Task<GenericResult> Create(BaseCreateModel<T> model);
         Task<GenericResult> Update(BaseUpdateModel<T> model);
@@ -23,9 +23,11 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> Search(BaseSearchModel<T> model);
 
         Task<GenericResult> GetAll();
+        bool IsExist(Guid id);
+        IQueryable<T> GetEntity();
 
     }
-    public class BaseService<T> : IBaseService<T> where T : BaseEntity<Guid>
+    public class BaseServices<T> : IBaseServices<T> where T : BaseEntity<Guid>
     {
         #region fields
         protected readonly IUnitOfWork _unitOfWork;
@@ -37,7 +39,7 @@ namespace ProfitAndLoss.Business.Services
         /// 
         /// </summary>
         /// <param name="unitOfWork"></param>
-        public BaseService(IUnitOfWork unitOfWork)
+        public BaseServices(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -53,7 +55,16 @@ namespace ProfitAndLoss.Business.Services
                                     .FirstOrDefault(x => x is IBaseRepository<T, Guid>);
             }
         }
-
+        public IQueryable<T> GetEntity()
+        {
+            return BaseRepository.Entity();
+        }
+        public bool IsExist(Guid id)
+        {
+            var entity = BaseRepository.GetById(id);
+            if (entity != null) return true;
+            return false;
+        }
         /// <summary>
         /// Create
         /// </summary>

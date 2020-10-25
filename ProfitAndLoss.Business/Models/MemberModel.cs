@@ -9,23 +9,20 @@ namespace ProfitAndLoss.Business.Models
     {
         public MemberCreateModel()
         {
-
         }
-
+        public Guid Id { get; set; }
         [Required]
         public string UserName { get; set; }
 
         [Required]
         public string FirstName { get; set; }
 
-        [Required]
         public string LastName { get; set; }
 
-        [Required]
         public string Phone { get; set; }
 
-        [Required]
         public string Email { get; set; }
+        public Guid? StoreId { get; set; }
     }
 
     public class MemberSearchModel : BaseSearchModel<Member>

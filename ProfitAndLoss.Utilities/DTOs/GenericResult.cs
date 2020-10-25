@@ -39,10 +39,10 @@ namespace ProfitAndLoss.Utilities.DTOs
         [JsonProperty("message")]
         public string Message { get; set; }
 
-        //[JsonProperty("code")]
-        //public AppResultCode? ResultCode { get; set; }
+        [JsonProperty("code")]
+        public AppResultCode? ResultCode { get; set; }
 
-        
+
 
         #endregion properties
     }

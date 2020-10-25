@@ -27,10 +27,8 @@ namespace ProfitAndLoss.Data.Models
         public double Balance { get; set; }
 
         [ForeignKey("Brand")]
-        public Guid BrandId { get; set; }
-
-        [ForeignKey("Category")]
-        public Guid CategoryId { get; set; }
+        public Guid? BrandId { get; set; }
+        public virtual Brand Brand { get; set; }
 
         public virtual ICollection<StoreAccount> StoreAccounts { get; set; }
 

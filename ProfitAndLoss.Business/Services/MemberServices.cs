@@ -2,11 +2,12 @@
 using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IMemberService : IDisposable
+    public interface IMemberServices : IBaseServices<Member>
     {
         Task<GenericResult> LoginAsync(MemberLoginModel model);
         Task<GenericResult> CreateMemberAsync(MemberCreateModel model);
@@ -14,13 +15,19 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> DeleteMemberAsync(Guid id);
     }
 
-    public class MemberService : IMemberService
+    public class MemberServices : BaseServices<Member>, IMemberServices
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBrandServices _brandServices;
+        private readonly IStoreServices _storeServices;
 
-        public MemberService(IUnitOfWork unitOfWork)
+        public MemberServices(IUnitOfWork unitOfWork,
+            IBrandServices brandServices,
+            IStoreServices storeServices) : base (unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _brandServices = brandServices;
+            _storeServices = storeServices;
         }
 
         public void Dispose()
@@ -28,7 +35,7 @@ namespace ProfitAndLoss.Business.Services
             GC.SuppressFinalize(this);
         }
 
-        public async Task<GenericResult> Login(MemberLoginModel model)
+        public async Task<GenericResult> LoginAsync(MemberLoginModel model)
         {
             return new GenericResult
             {
@@ -40,22 +47,17 @@ namespace ProfitAndLoss.Business.Services
             };
         }
 
-        public async Task<GenericResult> CreateMember(MemberCreateModel model)
+        public async Task<GenericResult> CreateMemberAsync(MemberCreateModel model)
         {
-            Member member = new Member { UserName = model.UserName, Email = model.Email };
+            /* add default brand id */
+            if (model.StoreId == null)
+            {
+                model.StoreId = _storeServices.GetEntity().FirstOrDefault().Id;
+            }
+            Member member = new Member { Id = model.Id,FirstName = model.FirstName,  UserName = model.UserName, Email = model.Email };
             _unitOfWork.MemberRepository.Add(member);
             _unitOfWork.Commit();
             return new GenericResult { Success = true, Message = "Created member success!" };
-        }
-
-        public Task<GenericResult> LoginAsync(MemberLoginModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<GenericResult> CreateMemberAsync(MemberCreateModel model)
-        {
-            throw new NotImplementedException();
         }
 
         public Task<GenericResult> UpdateMemberAsync(MemberUpdateModel model)

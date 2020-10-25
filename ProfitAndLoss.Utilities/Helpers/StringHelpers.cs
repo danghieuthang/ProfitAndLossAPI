@@ -1,41 +1,14 @@
-﻿using Newtonsoft.Json.Serialization;
-using Pluralize.NET;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace ProfitAndLoss.WebApi.Helpers
+namespace ProfitAndLoss.Utilities.Helpers
 {
-    public class HypensNamingStrategy : NamingStrategy
+    public class StringHelpers
     {
         private const char hyphens = '-';
         private const char underscore = '_';
         private const char space = ' ';
-        
-        public HypensNamingStrategy(bool processDictionaryKeys, bool overrideSpecifiedNames)
-        {
-            ProcessDictionaryKeys = processDictionaryKeys;
-            OverrideSpecifiedNames = overrideSpecifiedNames;
-        }
-
-        public HypensNamingStrategy(bool processDictionaryKeys, bool overrideSpecifiedNames, bool processExtensionDataNames)
-            : this(processDictionaryKeys, overrideSpecifiedNames)
-        {
-            ProcessExtensionDataNames = processExtensionDataNames;
-        }
-
-        public HypensNamingStrategy()
-        {
-        }
-
-        protected override string ResolvePropertyName(string name)
-        {
-            return HyphensCase(name);
-        }
-
         enum WordState
         {
             Start,
@@ -44,11 +17,6 @@ namespace ProfitAndLoss.WebApi.Helpers
             NewWord,
             EndWord,
             Ignore
-        }
-        public static string Pluralize(string s)
-        {
-            Pluralizer pluralizationService = new Pluralizer();
-            return pluralizationService.Pluralize(s);
         }
         public static string HyphensCase(string s)
         {
@@ -80,9 +48,9 @@ namespace ProfitAndLoss.WebApi.Helpers
                         if (sb[sb.Length - 1] != hyphens) sb.Append(hyphens);
                         state = WordState.Ignore;
                     }
-                    else if (char.IsUpper(s[i]) && i != 0 && sb.Length >0)
+                    else if (char.IsUpper(s[i]) && i != 0 && sb.Length > 0)
                     {
-                        if (sb[sb.Length-1] != hyphens) sb.Append(hyphens);
+                        if (sb[sb.Length - 1] != hyphens) sb.Append(hyphens);
                         sb.Append(s[i]);
                         state = WordState.Ignore;
                     }

@@ -12,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IEvidenceService : IBaseService<Evidence>
+    public interface IEvidenceServices : IBaseServices<Evidence>
     {
         Task<List<Evidence>> AddMultiEvidences(List<EvidenceCreateModel> evidences);
         Task<GenericResult> CreateEvidence(EvidenceCreateModel model);
         Task<string> WriteFile(IFormFile file);
         Task<GenericResult> SearchEvidences(EvidenceSearchModel model);
     }
-    public class EvidenceService : BaseService<Evidence>, IEvidenceService
+    public class EvidenceServices : BaseServices<Evidence>, IEvidenceServices
     {
-        public EvidenceService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public EvidenceServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

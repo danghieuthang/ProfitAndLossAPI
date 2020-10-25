@@ -14,8 +14,8 @@ namespace ProfitAndLoss.WebApi.Controllers
     [ApiController]
     public class SuppliersController : ControllerBase
     {
-        private readonly ISupplierService _supplierService;
-        public SuppliersController(ISupplierService supplierService)
+        private readonly ISupplierServices _supplierService;
+        public SuppliersController(ISupplierServices supplierService)
         {
             _supplierService = supplierService;
         }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
+using ProfitAndLoss.Utilities;
 using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
@@ -46,15 +47,18 @@ namespace ProfitAndLoss.WebApi.Controllers
         [HttpPost]
         public async Task<GenericResult> Create([FromBody]TransactionCreateModel model)
         {
-            if (!ModelState.IsValid)
+            var validationModels = _transactionService.ValidateModel(model);
+            if (validationModels.Count() > 0)
             {
-                return new GenericResult(){
+                return new GenericResult() {
                     Message = "Invalid object",
-                    Success = false,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                    Success = true,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    ResultCode = AppResultCode.FailValidation,
+                    Data = validationModels
                 };
             }
-            
+            /* validate relation ship object */
             return await _transactionService.Create(model);
         }
 

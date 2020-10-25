@@ -3,6 +3,7 @@ using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.Constant;
 using ProfitAndLoss.Utilities.DTOs;
+using ProfitAndLoss.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,22 +13,52 @@ using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface ITransactionServices : IBaseService<Transaction>
+    public interface ITransactionServices : IBaseServices<Transaction>
     {
         Task<GenericResult> Approval(Guid id);
 
         Task<GenericResult> Reject(Guid id);
 
         Task<GenericResult> Search(TransactionSearchModel model);
+        List<ValidationModel> ValidateModel(TransactionCreateModel model);
     }
-    public class TransactionServices : BaseService<Transaction>, ITransactionServices
+    public class TransactionServices : BaseServices<Transaction>, ITransactionServices
     {
         private readonly ITransactionHistoryServices _transactionHistoryServices;
+        private readonly IMemberServices _memberServices;
+        private readonly ITransactionTypeServices _transactionTypeServices;
+        private readonly IStoreServices _storeServices;
+        private readonly ISupplierServices _supplierServices;
 
         public TransactionServices(IUnitOfWork unitOfWork,
-            ITransactionHistoryServices transactionHistoryServices) : base(unitOfWork)
+            ITransactionHistoryServices transactionHistoryServices,
+            IMemberServices memberServices,
+            ITransactionTypeServices transactionTypeServices,
+             IStoreServices storeServices,
+             ISupplierServices supplierServices) : base(unitOfWork)
         {
             _transactionHistoryServices = transactionHistoryServices;
+            _memberServices = memberServices;
+            _transactionTypeServices = transactionTypeServices;
+            _storeServices = storeServices;
+            _supplierServices = supplierServices;
+        }
+        public List<ValidationModel> ValidateModel(TransactionCreateModel model)
+        {
+            var lstValidationResults = new List<ValidationModel>();
+            /* validate member id */
+            if (!string.IsNullOrEmpty(model.CreateMemberId.ToString()))
+            {
+                if (!_memberServices.IsExist(model.CreateMemberId.Value))
+                {
+                    lstValidationResults.Add(new ValidationModel()
+                    {
+                        Data = StringHelpers.HyphensCase(nameof(model.CreateMemberId)),
+                        Message = "Create member is not exist"
+                    });
+                }
+            }
+            return lstValidationResults;
         }
         private void PrepareCreateEntity(TransactionCreateModel transactionCreateModel)
         {

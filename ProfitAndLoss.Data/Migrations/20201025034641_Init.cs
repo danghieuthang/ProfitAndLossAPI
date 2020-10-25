@@ -449,10 +449,10 @@ namespace ProfitAndLoss.Data.Migrations
                     Code = table.Column<string>(maxLength: 255, nullable: true),
                     StoreId = table.Column<Guid>(nullable: false),
                     CreateMemberId = table.Column<Guid>(nullable: false),
-                    TransactionTypeId = table.Column<Guid>(nullable: false),
+                    TransactionTypeId = table.Column<Guid>(nullable: true),
                     Balance = table.Column<double>(nullable: false),
                     NoteMessage = table.Column<string>(nullable: true),
-                    SupplierId = table.Column<Guid>(nullable: false),
+                    SupplierId = table.Column<Guid>(nullable: true),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -597,23 +597,23 @@ namespace ProfitAndLoss.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Brands",
                 columns: new[] { "Id", "Actived", "CreatedDate", "ModifiedDate" },
-                values: new object[] { new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), true, new DateTime(2020, 10, 25, 9, 40, 47, 381, DateTimeKind.Local).AddTicks(2200), new DateTime(2020, 10, 25, 9, 40, 47, 381, DateTimeKind.Local).AddTicks(2241) });
+                values: new object[] { new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), true, new DateTime(2020, 10, 25, 10, 46, 40, 214, DateTimeKind.Local).AddTicks(1063), new DateTime(2020, 10, 25, 10, 46, 40, 214, DateTimeKind.Local).AddTicks(1108) });
 
             migrationBuilder.InsertData(
                 table: "TransactionTypes",
                 columns: new[] { "Id", "Actived", "CreatedDate", "IsDebit", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("e89bde62-3a98-411e-a10b-aed662e30678"), true, new DateTime(2020, 10, 25, 9, 40, 47, 376, DateTimeKind.Local).AddTicks(7602), true, new DateTime(2020, 10, 25, 9, 40, 47, 378, DateTimeKind.Local).AddTicks(6907), "Sales" },
-                    { new Guid("f821573e-c67e-437c-bc72-b94a40521f04"), true, new DateTime(2020, 10, 25, 9, 40, 47, 378, DateTimeKind.Local).AddTicks(8302), true, new DateTime(2020, 10, 25, 9, 40, 47, 378, DateTimeKind.Local).AddTicks(8349), "Revenues" },
-                    { new Guid("78b73f48-b0c1-4dc8-b3f1-8ebb5036e172"), true, new DateTime(2020, 10, 25, 9, 40, 47, 378, DateTimeKind.Local).AddTicks(8366), true, new DateTime(2020, 10, 25, 9, 40, 47, 378, DateTimeKind.Local).AddTicks(8368), "Expenses" },
-                    { new Guid("1a121bfb-7bef-4c1c-b103-c4ecc0a57e5f"), true, new DateTime(2020, 10, 25, 9, 40, 47, 378, DateTimeKind.Local).AddTicks(8371), true, new DateTime(2020, 10, 25, 9, 40, 47, 378, DateTimeKind.Local).AddTicks(8373), "Invoice" }
+                    { new Guid("ac360862-f7da-4816-93c8-31cb52d9b381"), true, new DateTime(2020, 10, 25, 10, 46, 40, 209, DateTimeKind.Local).AddTicks(7799), true, new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(3832), "Sales" },
+                    { new Guid("016d8d62-a59a-4805-ac32-8921d8bbca5d"), true, new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5313), true, new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5381), "Revenues" },
+                    { new Guid("6c892ded-a7d3-4cb6-bad1-3d0a10db4de3"), true, new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5465), true, new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5468), "Expenses" },
+                    { new Guid("5224fd84-3843-4976-b461-325aad021e20"), true, new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5472), true, new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5474), "Invoice" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Stores",
                 columns: new[] { "Id", "Actived", "BrandId", "Code", "CreatedDate", "ModifiedDate", "Name" },
-                values: new object[] { new Guid("988b77c3-db60-4f95-b7e1-4565fada0e65"), true, new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), "HCM-01", new DateTime(2020, 10, 25, 9, 40, 47, 382, DateTimeKind.Local).AddTicks(1062), new DateTime(2020, 10, 25, 9, 40, 47, 382, DateTimeKind.Local).AddTicks(2052), "Văn phòng quyền lực HCM" });
+                values: new object[] { new Guid("a921f5ef-229d-4628-b70f-11640c38e4df"), true, new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), "HCM-01", new DateTime(2020, 10, 25, 10, 46, 40, 215, DateTimeKind.Local).AddTicks(7730), new DateTime(2020, 10, 25, 10, 46, 40, 215, DateTimeKind.Local).AddTicks(9471), "Văn phòng quyền lực HCM" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountingPeriodInStore_AccountingPeriodId",

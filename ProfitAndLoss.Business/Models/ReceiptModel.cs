@@ -12,6 +12,8 @@ namespace ProfitAndLoss.Business.Models
         {
     
         }
+        [JsonIgnore]
+        public Guid? TransactionId { get; set; }
         public string Description { get; set; }
 
         [JsonIgnore]

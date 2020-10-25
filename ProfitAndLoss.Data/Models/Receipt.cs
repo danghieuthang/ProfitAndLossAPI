@@ -19,7 +19,7 @@ namespace ProfitAndLoss.Data.Models
         [ForeignKey("Transaction")]
         public Guid TransactionId { get; set; }
 
-        public Transaction Transaction { get; set; }
+        public virtual Transaction Transaction { get; set; }
         public virtual ICollection<Evidence> Evidences { get; set; }
 
     }

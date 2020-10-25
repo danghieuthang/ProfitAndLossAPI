@@ -18,7 +18,7 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> Approval(Guid id);
 
         Task<GenericResult> Reject(Guid id);
-
+        Task<GenericResult> Create(TransactionCreateModel model);
         Task<GenericResult> Search(TransactionSearchModel model);
         List<ValidationModel> ValidateModel(TransactionCreateModel model);
     }
@@ -29,19 +29,22 @@ namespace ProfitAndLoss.Business.Services
         private readonly ITransactionTypeServices _transactionTypeServices;
         private readonly IStoreServices _storeServices;
         private readonly ISupplierServices _supplierServices;
+        private readonly IReceiptServices _receiptServices;
 
         public TransactionServices(IUnitOfWork unitOfWork,
             ITransactionHistoryServices transactionHistoryServices,
             IMemberServices memberServices,
             ITransactionTypeServices transactionTypeServices,
              IStoreServices storeServices,
-             ISupplierServices supplierServices) : base(unitOfWork)
+             ISupplierServices supplierServices,
+             IReceiptServices receiptServices) : base(unitOfWork)
         {
             _transactionHistoryServices = transactionHistoryServices;
             _memberServices = memberServices;
             _transactionTypeServices = transactionTypeServices;
             _storeServices = storeServices;
             _supplierServices = supplierServices;
+            this._receiptServices = receiptServices;
         }
         public List<ValidationModel> ValidateModel(TransactionCreateModel model)
         {
@@ -58,18 +61,57 @@ namespace ProfitAndLoss.Business.Services
                     });
                 }
             }
+            /* validate store id */
+            if (!string.IsNullOrEmpty(model.StoreId.ToString()))
+            {
+                if (!_storeServices.IsExist(model.StoreId.Value))
+                {
+                    lstValidationResults.Add(new ValidationModel()
+                    {
+                        Data = StringHelpers.HyphensCase(nameof(model.StoreId)),
+                        Message = "Store is not exist"
+                    });
+                }
+            }
+            /* validate transaction type id */
+            if (!string.IsNullOrEmpty(model.TransactionTypeId.ToString()))
+            {
+                if (!_transactionTypeServices.IsExist(model.TransactionTypeId.Value))
+                {
+                    lstValidationResults.Add(new ValidationModel()
+                    {
+                        Data = StringHelpers.HyphensCase(nameof(model.TransactionTypeId)),
+                        Message = "Transaction type is not exist"
+                    });
+                }
+            }
+            /* validate supplier id */
+            if (!string.IsNullOrEmpty(model.SupplierId.ToString()))
+            {
+                if (!_supplierServices.IsExist(model.SupplierId.Value))
+                {
+                    lstValidationResults.Add(new ValidationModel()
+                    {
+                        Data = StringHelpers.HyphensCase(nameof(model.SupplierId)),
+                        Message = "Supplier is not exist"
+                    });
+                }
+            }
             return lstValidationResults;
         }
-        private void PrepareCreateEntity(TransactionCreateModel transactionCreateModel)
+        public async Task<GenericResult> Create(TransactionCreateModel model)
         {
-
-        }
-        public override async Task<GenericResult> Create(BaseCreateModel<Transaction> model)
-        {
+            /*add new supplier if has new */
+            // do later
             var entity = model.ToEntity();
             var result = BaseRepository.Add(entity);
+            /* add new receipt */
+            if (model.Receipt != null)
+            {
+                model.Receipt.TransactionId = result.Id;
+                await _receiptServices.Create(model.Receipt);
+            }
             _unitOfWork.Commit();
-
             if (result == null)
             {
                 return new GenericResult
@@ -79,11 +121,15 @@ namespace ProfitAndLoss.Business.Services
                     Success = false
                 };
             }
+            var viewModel = new TransactionViewModel();
+            viewModel.ToModel(result);
             return new GenericResult
             {
-                Data = result,
+                Data = model,
                 Success = true,
-                StatusCode = HttpStatusCode.Created
+                StatusCode = HttpStatusCode.Created,
+                ResultCode = Utilities.AppResultCode.Success,
+                Message = EnumHelper.GetDisplayValue(Utilities.AppResultCode.Success)
             };
         }
 

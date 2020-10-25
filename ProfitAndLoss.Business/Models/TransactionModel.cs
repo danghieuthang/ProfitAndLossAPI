@@ -20,7 +20,8 @@ namespace ProfitAndLoss.Business.Models
         public Guid? TransactionTypeId { get; set; }
         public Guid? StoreId { get; set; }
         public Guid? SupplierId { get; set; }
-
+        public string SupplierName { get; set; }
+        public ReceiptCreateModel Receipt { get; set; }
         public string Name { get; set; }
 
         public string Code { get; set; }

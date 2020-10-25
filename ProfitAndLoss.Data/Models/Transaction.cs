@@ -29,7 +29,7 @@ namespace ProfitAndLoss.Data.Models
         public virtual Member Member { get; set; }
 
         [ForeignKey("TransactionType")]
-        public Guid TransactionTypeId { get; set; }
+        public Guid? TransactionTypeId { get; set; }
 
         public virtual TransactionType TransactionType { get; set; }
 
@@ -39,7 +39,7 @@ namespace ProfitAndLoss.Data.Models
         public string NoteMessage { get; set; }
 
         [ForeignKey("Supplier")]
-        public Guid SupplierId { get; set; }
+        public Guid? SupplierId { get; set; }
 
         public virtual Supplier Supplier { get; set; }
 

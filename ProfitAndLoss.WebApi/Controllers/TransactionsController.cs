@@ -8,6 +8,7 @@ using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
 using ProfitAndLoss.Utilities;
 using ProfitAndLoss.Utilities.DTOs;
+using ProfitAndLoss.Utilities.Helpers;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
@@ -51,7 +52,7 @@ namespace ProfitAndLoss.WebApi.Controllers
             if (validationModels.Count() > 0)
             {
                 return new GenericResult() {
-                    Message = "Invalid object",
+                    Message = EnumHelper.GetDisplayValue(AppResultCode.FailValidation),
                     Success = true,
                     StatusCode = System.Net.HttpStatusCode.BadRequest,
                     ResultCode = AppResultCode.FailValidation,

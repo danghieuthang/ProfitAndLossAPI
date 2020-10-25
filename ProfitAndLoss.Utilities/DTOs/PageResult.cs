@@ -29,7 +29,6 @@ namespace ProfitAndLoss.Utilities.DTOs
         /// <summary>
         /// Current Page
         /// </summary>
-        [JsonProperty("current")]
         public int PageIndex { get; set; }
 
         /// <summary>

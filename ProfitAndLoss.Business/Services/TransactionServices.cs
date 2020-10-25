@@ -170,7 +170,7 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Reject(Guid id)
         {
             var entity = BaseRepository.GetById(id);
-            entity.Status = CommonConstants.TransactionStatus.REJECT;
+            entity.Status = (int)TransactionStatus.REJECTED;
             if (entity == null)
             {
                 return new GenericResult

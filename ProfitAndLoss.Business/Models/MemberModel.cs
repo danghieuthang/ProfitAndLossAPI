@@ -73,9 +73,6 @@ namespace ProfitAndLoss.Business.Models
         [JsonProperty("first-name")]
         public string FirstName { get; set; }
 
-        [JsonProperty("last-name")]
-        public string LastName { get; set; }
-
         [JsonProperty("phone")]
         public string Phone { get; set; }
 

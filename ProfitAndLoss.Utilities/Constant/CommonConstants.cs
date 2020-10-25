@@ -10,13 +10,15 @@ namespace ProfitAndLoss.Utilities.Constant
         /// <summary>
         /// Receipt status
         /// </summary>
-        public static class TransactionStatus
-        {
-            public const int NEW = 1;
-            public const int APPROVAL = 2;
-            public const int REJECT = 3;
-        }
+       
+    }
+    public enum TransactionStatus
+    {
+        NEW = 1,
+        APPROVED,
+        REJECTED,
+        REMOVED,
     }
 
-   
+
 }

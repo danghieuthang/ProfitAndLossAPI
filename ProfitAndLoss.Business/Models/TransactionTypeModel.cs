@@ -47,10 +47,8 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("isdebit")]
         public bool IsDebit { get; set; }
     }
 }

@@ -136,7 +136,7 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Approval(Guid id)
         {
             var entity = BaseRepository.GetById(id);
-            entity.Status = CommonConstants.TransactionStatus.APPROVAL;
+            entity.Status = (int)TransactionStatus.APPROVED;
             if (entity == null)
             {
                 return new GenericResult
@@ -169,7 +169,7 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Reject(Guid id)
         {
             var entity = BaseRepository.GetById(id);
-            entity.Status = CommonConstants.TransactionStatus.REJECT;
+            entity.Status = (int)TransactionStatus.REJECTED;
             if (entity == null)
             {
                 return new GenericResult
@@ -202,7 +202,7 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Search(TransactionSearchModel model)
         {
             //
-            var entities = BaseRepository.GetAll().Include(x => x.Store).Include(x => x.Supplier).Include(x => x.TransactionType).ToList();
+            var entities = BaseRepository.GetAll().Include(x => x.Store).Include(x => x.Supplier).Include(x => x.TransactionType).Include(x => x.Member).ToList();
             //
             var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
             var currentPage = model.Page > 0 ? model.Page : 1;

@@ -54,7 +54,7 @@ namespace ProfitAndLoss.Business.Services
             {
                 model.StoreId = _storeServices.GetEntity().FirstOrDefault().Id;
             }
-            Member member = new Member { Id = model.Id,FirstName = model.FirstName,  UserName = model.UserName, Email = model.Email };
+            Member member = model.ToEntity();
             _unitOfWork.MemberRepository.Add(member);
             _unitOfWork.Commit();
             return new GenericResult { Success = true, Message = "Created member success!" };

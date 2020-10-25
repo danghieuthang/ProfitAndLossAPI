@@ -22,7 +22,7 @@ namespace ProfitAndLoss.WebApi.Controllers
             _transactionService = transactionService;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<GenericResult> GetAll()
         {
             return await _transactionService.GetAll();
@@ -39,19 +39,20 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpGet("{params}")]
-        public async Task<GenericResult> Search(TransactionSearchModel model)
+        [HttpGet]
+        public async Task<GenericResult> Search([FromQuery] TransactionSearchModel model)
         {
             return await _transactionService.Search(model);
         }
 
         [HttpPost]
-        public async Task<GenericResult> Create([FromBody]TransactionCreateModel model)
+        public async Task<GenericResult> Create([FromBody] TransactionCreateModel model)
         {
             var validationModels = _transactionService.ValidateModel(model);
             if (validationModels.Count() > 0)
             {
-                return new GenericResult() {
+                return new GenericResult()
+                {
                     Message = EnumHelper.GetDisplayValue(AppResultCode.FailValidation),
                     Success = true,
                     StatusCode = System.Net.HttpStatusCode.BadRequest,
@@ -71,12 +72,12 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpPut("approval")]
-        public async Task<GenericResult> Update(Guid id)
+        public async Task<GenericResult> Approval([FromForm]Guid id)
         {
             return await _transactionService.Approval(id);
         }
         [HttpPut("reject")]
-        public async Task<GenericResult> Reject(Guid id)
+        public async Task<GenericResult> Reject([FromForm] Guid id)
         {
             return await _transactionService.Reject(id);
         }

@@ -136,7 +136,6 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Approval(Guid id)
         {
             var entity = BaseRepository.GetById(id);
-            entity.Status = CommonConstants.TransactionStatus.APPROVAL;
             if (entity == null)
             {
                 return new GenericResult
@@ -146,6 +145,8 @@ namespace ProfitAndLoss.Business.Services
                     StatusCode = HttpStatusCode.NotFound
                 };
             }
+            entity.Status = CommonConstants.TransactionStatus.APPROVAL;
+
 
             var result = BaseRepository.Update(entity);
             _unitOfWork.Commit();
@@ -202,7 +203,7 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Search(TransactionSearchModel model)
         {
             //
-            var entities = BaseRepository.GetAll().Include(x => x.Store).Include(x => x.Supplier).Include(x => x.TransactionType).ToList();
+            var entities = BaseRepository.GetAll().Include(x => x.Store).Include(x => x.Supplier).Include(x => x.TransactionType).Include(x => x.Member).ToList();
             //
             var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
             var currentPage = model.Page > 0 ? model.Page : 1;
@@ -210,7 +211,8 @@ namespace ProfitAndLoss.Business.Services
             var pageResult = new PageResult<Transaction>
             {
                 PageIndex = currentPage,
-                TotalCount = entities.Count
+                TotalCount = entities.Count,
+                TotalPage = (int)Math.Ceiling(entities.Count * 1.0 / pageSize)
             };
 
             var strOrder = model.SortBy;

@@ -162,22 +162,19 @@ namespace ProfitAndLoss.WebApi
                     builder =>
                     {
                         builder.AllowAnyOrigin()
-                                .AllowAnyMethod()
-                                .AllowAnyHeader();
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
 
                     });
                 //options.AddPolicy(name: "MyPolicy",
                 //    builder =>
                 //    {
-                //        builder.WithOrigins("http://example.com",
-                //            "http://localhost:8080")
-                //            //.WithMethods("PUT", "DELETE", "GET");
-                //            .AllowAnyMethod()
-                //            .AllowAnyHeader();
-
+                //        builder.AllowAnyOrigin()
+                //              .AllowAnyMethod()
+                //              .AllowAnyHeader();
                 //    });
             });
-
+      
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

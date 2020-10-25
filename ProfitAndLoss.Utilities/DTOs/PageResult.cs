@@ -35,10 +35,8 @@ namespace ProfitAndLoss.Utilities.DTOs
         /// <summary>
         /// Total Row
         /// </summary>
-        [JsonProperty("totalCount")]
         public int TotalCount { get; set; }
 
-       [JsonProperty("totalPage")]
         public int TotalPage { get ; set; }
 
         #endregion properties

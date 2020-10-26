@@ -136,7 +136,6 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Approval(Guid id)
         {
             var entity = BaseRepository.GetById(id);
-            entity.Status = (int)TransactionStatus.APPROVED;
             if (entity == null)
             {
                 return new GenericResult
@@ -146,8 +145,25 @@ namespace ProfitAndLoss.Business.Services
                     StatusCode = HttpStatusCode.NotFound
                 };
             }
+            entity.Status = (int)TransactionStatus.APPROVED;
 
+            //
             var result = BaseRepository.Update(entity);
+
+            // Sau sửa lại
+            string member = "admin";
+            TransactionHistoryCreateModel transactionHistory = new TransactionHistoryCreateModel
+            {
+                Status = 1,
+                CreatedDate = DateTime.Now,
+                Actived = true,
+                ModifiedDate = DateTime.Now,
+                TransactionId = result.Id,
+                Message = member.ApprovalTransaction()
+            };
+
+            await _transactionHistoryServices.Create(transactionHistory);
+
             _unitOfWork.Commit();
             if (result == null)
             {
@@ -158,6 +174,7 @@ namespace ProfitAndLoss.Business.Services
                     StatusCode = HttpStatusCode.InternalServerError
                 };
             }
+
             return new GenericResult
             {
                 Data = result,
@@ -169,7 +186,6 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Reject(Guid id)
         {
             var entity = BaseRepository.GetById(id);
-            entity.Status = (int)TransactionStatus.REJECTED;
             if (entity == null)
             {
                 return new GenericResult
@@ -179,8 +195,24 @@ namespace ProfitAndLoss.Business.Services
                     StatusCode = HttpStatusCode.NotFound
                 };
             }
-
+            //
+            entity.Status = (int)TransactionStatus.REJECTED;
             var result = BaseRepository.Update(entity);
+
+            // Sau sửa lại
+            string member = "admin";
+            TransactionHistoryCreateModel transactionHistory = new TransactionHistoryCreateModel
+            {
+                Status = 1,
+                CreatedDate = DateTime.Now,
+                Actived = true,
+                ModifiedDate = DateTime.Now,
+                TransactionId = result.Id,
+                Message = member.RejectTransaction()
+            };
+
+            await _transactionHistoryServices.Create(transactionHistory);
+
             _unitOfWork.Commit();
             if (result == null)
             {
@@ -210,7 +242,8 @@ namespace ProfitAndLoss.Business.Services
             var pageResult = new PageResult<Transaction>
             {
                 PageIndex = currentPage,
-                TotalCount = entities.Count
+                TotalCount = entities.Count,
+                TotalPage = (int)Math.Ceiling(entities.Count * 1.0 / pageSize)
             };
 
             var strOrder = model.SortBy;

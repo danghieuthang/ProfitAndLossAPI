@@ -39,8 +39,6 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<GenericResult> Search([FromQuery] TransactionSearchModel model)
         [HttpPost("search")]
         public async Task<GenericResult> Search([FromBody]TransactionSearchModel model)
         {

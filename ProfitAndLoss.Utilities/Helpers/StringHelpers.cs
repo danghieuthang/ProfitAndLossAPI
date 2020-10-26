@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ProfitAndLoss.Utilities.Helpers
 {
-    public class StringHelpers
+    public static class StringHelpers
     {
         private const char hyphens = '-';
         private const char underscore = '_';
@@ -68,6 +68,15 @@ namespace ProfitAndLoss.Utilities.Helpers
                 return s.ToLower();
             }
             return sb.ToString().ToLower();
+        }
+
+        public static string ApprovalTransaction(this string member)
+        {
+            return $"Approval by {member} at {DateTime.Now.ToFormal()}";
+        }
+        public static string RejectTransaction(this string member)
+        {
+            return $"Reject by {member} at {DateTime.Now.ToFormal()}";
         }
     }
 }

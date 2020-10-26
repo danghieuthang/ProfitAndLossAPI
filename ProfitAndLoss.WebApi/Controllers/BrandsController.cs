@@ -13,7 +13,7 @@ namespace ProfitAndLoss.WebApi.Controllers
 {
     [Route(RouteConstants.Brand.PREFIX)]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class BrandsController : BaseController
     {
         private readonly IBrandServices _brandService;
         private readonly IDemoExcelService _demoExcelService;

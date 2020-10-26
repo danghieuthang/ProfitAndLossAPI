@@ -9,7 +9,7 @@ namespace ProfitAndLoss.WebApi.Controllers
 {
     [Route(RouteConstants.Receipt.PREFIX)]
     [ApiController]
-    public class ReceptsController : ControllerBase
+    public class ReceptsController : BaseController
     {
         #region fields
 

@@ -14,7 +14,7 @@ namespace ProfitAndLoss.WebApi.Controllers
 {
     [Route(RouteConstants.Transaction.PREFIX)]
     [ApiController]
-    public class TransactionsController : ControllerBase
+    public class TransactionsController : BaseController
     {
         private readonly ITransactionServices _transactionService;
         public TransactionsController(ITransactionServices transactionService)

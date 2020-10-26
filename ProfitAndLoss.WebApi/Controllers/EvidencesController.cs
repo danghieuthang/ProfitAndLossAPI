@@ -8,7 +8,7 @@ namespace ProfitAndLoss.WebApi.Controllers
 {
     [Route(RouteConstants.Evidence.PREFIX)]
     [ApiController]
-    public class EvidencesController : ControllerBase
+    public class EvidencesController : BaseController
     {
         private readonly IEvidenceServices _evidenceService;
         public EvidencesController(IEvidenceServices evidenceService)

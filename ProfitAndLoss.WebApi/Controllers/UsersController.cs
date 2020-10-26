@@ -12,7 +12,7 @@ using ProfitAndLoss.Utilities.DTOs;
 namespace ProfitAndLoss.WebApi.Controllers
 {
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseController
     {
         private readonly IdentityServices _identityServices;
         public UsersController(IdentityServices identityServices)

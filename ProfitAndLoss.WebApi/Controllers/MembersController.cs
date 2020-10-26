@@ -20,8 +20,7 @@ namespace ProfitAndLoss.WebApi.Controllers
 {
     [Route(RouteConstants.Member.PREFIX)]
     [ApiController]
-    [EnableCors("MyPolicy")]
-    public class MembersController : ControllerBase
+    public class MembersController : BaseController
     {
         private readonly DataContext _context;
         private readonly IActorServices _actorServices;

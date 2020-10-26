@@ -10,6 +10,10 @@ namespace ProfitAndLoss.Business
         public const string AUDIENCE = "efcoredemo";
         public const string SECRET_KEY = "ASDFOIPJJP812340-89ADSFPOUADSFH809-3152-798OHASDFHPOU1324-8ASDF";
     }
+    public class ConnectionString
+    {
+        public const string CNN = @"Server=115.165.166.32;Database=SWD_ProfitAndLoss_Dev;Trusted_Connection=False;User Id=Superuser;Password=ZNa1R3MTG15BdnYpX1CZ5MuO6IyNeA0+jaaAViYiK09h9TqimhNKC3VEh6yhjH5h;MultipleActiveResultSets=true";
+    }
     public class RoleName
     {
         public const string ADMIN = "Admin";

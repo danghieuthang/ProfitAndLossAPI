@@ -18,7 +18,7 @@ namespace ProfitAndLoss.Data.Models
         public string Description { get; set; }
 
         [ForeignKey("TransactionType")]
-        public Guid TransactionTypeId { get; set; }
+        public Guid? TransactionTypeId { get; set; }
 
         public virtual TransactionType TransactionType { get; set; }
 

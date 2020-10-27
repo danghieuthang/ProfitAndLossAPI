@@ -6,18 +6,35 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
+using ProfitAndLoss.Utilities.DTOs;
+using ProfitAndLoss.Utilities.Helpers;
+using ProfitAndLoss.Utilities;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [EnableCors("MyPolicy")]
     public class BaseController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        public BaseController(IMapper mapper)
+        public BaseController()
         {
-            _mapper = mapper;
+        }
+        public string UserId
+        {
+            get
+            {
+                return User.Identity.Name;
+            }
+        }
+        protected GenericResult Error(object obj = default)
+        {
+            return new GenericResult()
+            {
+                Data = obj,
+                Message = EnumHelper.GetDisplayValue(AppResultCode.FailValidation),
+                ResultCode = AppResultCode.FailValidation,
+                Success = false,
+                StatusCode = HttpStatusCode.InternalServerError
+            };
         }
     }
 }

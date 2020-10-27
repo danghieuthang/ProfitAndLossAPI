@@ -47,7 +47,7 @@ namespace ProfitAndLoss.WebApi
         {
             services.AddDbContextPool<DataContext>(
                 //options => options.UseMySql(Configuration.GetConnectionString("MySqlDbConnection"))
-                options => options.UseSqlServer(Configuration.GetConnectionString("DataContext"))
+                options => options.UseSqlServer(ConnectionString.CNN)
                 );
             services.AddScoped<IdentityServices>();
             //services.AddScoped<IActorServices, ActorServices>();
@@ -184,6 +184,11 @@ namespace ProfitAndLoss.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+
+            }
+            app.UseExceptionHandler("/error");
             //app.UseCors(builder =>
             //builder.AllowAnyOrigin()
             //.AllowAnyMethod()

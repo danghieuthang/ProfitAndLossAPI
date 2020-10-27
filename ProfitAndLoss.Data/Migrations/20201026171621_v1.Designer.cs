@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProfitAndLoss.Data.Models;
 
 namespace ProfitAndLoss.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201026171621_v1")]
+    partial class v1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -586,12 +588,12 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a921f5ef-229d-4628-b70f-11640c38e4df"),
+                            Id = new Guid("bd1d2296-42cb-4e75-bfbd-0933c476e5ee"),
                             Actived = true,
                             BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
                             Code = "HCM-01",
-                            CreatedDate = new DateTime(2020, 10, 25, 10, 46, 40, 215, DateTimeKind.Local).AddTicks(7730),
-                            ModifiedDate = new DateTime(2020, 10, 25, 10, 46, 40, 215, DateTimeKind.Local).AddTicks(9471),
+                            CreatedDate = new DateTime(2020, 10, 27, 0, 16, 20, 202, DateTimeKind.Local).AddTicks(7981),
+                            ModifiedDate = new DateTime(2020, 10, 27, 0, 16, 20, 202, DateTimeKind.Local).AddTicks(8890),
                             Name = "Văn phòng quyền lực HCM"
                         });
                 });
@@ -898,10 +900,6 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<bool>("Actived")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -922,39 +920,39 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ac360862-f7da-4816-93c8-31cb52d9b381"),
+                            Id = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
                             Actived = true,
-                            CreatedDate = new DateTime(2020, 10, 25, 10, 46, 40, 209, DateTimeKind.Local).AddTicks(7799),
+                            CreatedDate = new DateTime(2020, 10, 27, 0, 16, 20, 197, DateTimeKind.Local).AddTicks(2469),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(3832),
+                            ModifiedDate = new DateTime(2020, 10, 27, 0, 16, 20, 198, DateTimeKind.Local).AddTicks(8600),
                             Name = "Sales"
                         },
                         new
                         {
                             Id = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
                             Actived = true,
-                            CreatedDate = new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5313),
+                            CreatedDate = new DateTime(2020, 10, 27, 0, 16, 20, 199, DateTimeKind.Local).AddTicks(244),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5381),
+                            ModifiedDate = new DateTime(2020, 10, 27, 0, 16, 20, 199, DateTimeKind.Local).AddTicks(306),
                             Name = "Revenues"
                         },
                         new
                         {
                             Id = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"),
                             Actived = true,
-                            CreatedDate = new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5465),
+                            CreatedDate = new DateTime(2020, 10, 27, 0, 16, 20, 199, DateTimeKind.Local).AddTicks(331),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5468),
-                            Name = "Expenses"
+                            ModifiedDate = new DateTime(2020, 10, 27, 0, 16, 20, 199, DateTimeKind.Local).AddTicks(333),
+                            Name = "Invoice"
                         },
                         new
                         {
-                            Id = new Guid("5224fd84-3843-4976-b461-325aad021e20"),
+                            Id = new Guid("4e44153a-8703-4500-8d7c-a46048a5f2f5"),
                             Actived = true,
-                            CreatedDate = new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5472),
+                            CreatedDate = new DateTime(2020, 10, 27, 0, 16, 20, 199, DateTimeKind.Local).AddTicks(340),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 10, 25, 10, 46, 40, 211, DateTimeKind.Local).AddTicks(5474),
-                            Name = "Invoice"
+                            ModifiedDate = new DateTime(2020, 10, 27, 0, 16, 20, 199, DateTimeKind.Local).AddTicks(342),
+                            Name = "Expenses"
                         });
                 });
 
@@ -1029,7 +1027,7 @@ namespace ProfitAndLoss.Data.Migrations
             modelBuilder.Entity("ProfitAndLoss.Data.Models.AccountingPeriodInStore", b =>
                 {
                     b.HasOne("ProfitAndLoss.Data.Models.AccountingPeriod", null)
-                        .WithMany("AccountingPeriodInStores")
+                        .WithMany("AccountPeriodDetails")
                         .HasForeignKey("AccountingPeriodId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

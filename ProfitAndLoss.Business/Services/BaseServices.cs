@@ -2,6 +2,7 @@
 using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.Constant;
 using ProfitAndLoss.Utilities.DTOs;
+using ProfitAndLoss.Utilities.Helpers;
 using System;
 using System.Linq;
 using System.Net;
@@ -159,7 +160,9 @@ namespace ProfitAndLoss.Business.Services
                 {
                     Data = null,
                     StatusCode = HttpStatusCode.NotFound,
-                    Success = false
+                    Success = true,
+                    ResultCode = Utilities.AppResultCode.NotFound,
+                    Message = EnumHelper.GetDisplayValue(Utilities.AppResultCode.NotFound)
                 };
             }
             return new GenericResult

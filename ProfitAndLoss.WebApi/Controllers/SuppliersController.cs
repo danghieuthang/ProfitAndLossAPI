@@ -12,7 +12,7 @@ namespace ProfitAndLoss.WebApi.Controllers
 {
     [Route(RouteConstants.Supplier.PREFIX)]
     [ApiController]
-    public class SuppliersController : ControllerBase
+    public class SuppliersController : BaseController
     {
         private readonly ISupplierServices _supplierService;
         public SuppliersController(ISupplierServices supplierService)

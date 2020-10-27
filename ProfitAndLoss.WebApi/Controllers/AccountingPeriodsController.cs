@@ -12,7 +12,7 @@ namespace ProfitAndLoss.WebApi.Controllers
 {
     [Route(RouteConstants.AccountingPeriod.PREFIX)]
     [ApiController]
-    public class AccountingPeriodsController : ControllerBase
+    public class AccountingPeriodsController : BaseController
     {
         private readonly IAccountingPeriodServices _accountingPeriodService;
         public AccountingPeriodsController(IAccountingPeriodServices accountingPeriodService)

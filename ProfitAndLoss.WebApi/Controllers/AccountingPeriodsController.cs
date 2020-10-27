@@ -14,8 +14,8 @@ namespace ProfitAndLoss.WebApi.Controllers
     [ApiController]
     public class AccountingPeriodsController : ControllerBase
     {
-        private readonly IAccountingPeriodService _accountingPeriodService;
-        public AccountingPeriodsController(IAccountingPeriodService accountingPeriodService)
+        private readonly IAccountingPeriodServices _accountingPeriodService;
+        public AccountingPeriodsController(IAccountingPeriodServices accountingPeriodService)
         {
             _accountingPeriodService = accountingPeriodService;
         }
@@ -27,6 +27,12 @@ namespace ProfitAndLoss.WebApi.Controllers
         public async Task<GenericResult> GetAllAccountingPeriods()
         {
             return await _accountingPeriodService.GetAll();
+        }
+
+        [HttpGet("search")]
+        public async Task<GenericResult> Search([FromQuery]AccountingPeriodSearchModel model)
+        {
+            return await _accountingPeriodService.Search(model);
         }
 
         /// <summary>
@@ -46,7 +52,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// <param name="model">The accounting period create model</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<GenericResult> CreateAccountingPeriod(AccountingPeriodCreateModel model)
+        public async Task<GenericResult> CreateAccountingPeriod([FromBody]AccountingPeriodCreateModel model)
         {
             return await _accountingPeriodService.Create(model);
         }

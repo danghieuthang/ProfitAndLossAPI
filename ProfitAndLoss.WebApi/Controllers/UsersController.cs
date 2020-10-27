@@ -77,6 +77,8 @@ namespace ProfitAndLoss.WebApi.Controllers
             }
             return new GenericResult { Success = false, Data = result.Errors };
         }
+
+
         [HttpPost(RouteConstants.Role.INIT)]
         public async Task<GenericResult> CreateAllRoleAsync()
         {

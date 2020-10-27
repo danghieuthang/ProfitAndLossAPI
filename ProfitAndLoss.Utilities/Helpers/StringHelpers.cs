@@ -78,5 +78,10 @@ namespace ProfitAndLoss.Utilities.Helpers
         {
             return $"Reject by {member} at {DateTime.Now.ToFormal()}";
         }
+
+        public static string ToFormal(this string str)
+        {
+            return str ?? "N/A";
+        }
     }
 }

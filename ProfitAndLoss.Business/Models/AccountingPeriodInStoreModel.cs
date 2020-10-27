@@ -8,19 +8,20 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class AccountingPeriodCreateModel : BaseCreateModel<AccountingPeriod>
+    public class AccountingPeriodInStoreCreateModel : BaseCreateModel<AccountingPeriodInStore>
     {
-        public AccountingPeriodCreateModel()
+        public AccountingPeriodInStoreCreateModel()
         {
-            BrandId = new Guid("05FE5BBA-65AD-4B71-A5DD-08D878376F22");
+
         }
 
         public DateTime StartDate { get; set; }
 
         public DateTime CloseDate { get; set; }
 
-        [JsonIgnore]
-        public Guid BrandId { get; set; }
+        public Guid StoreId { get; set; }
+
+        public Guid AccountingPeriodId { get; set; }
 
         public string Title { get; set; }
 
@@ -29,9 +30,9 @@ namespace ProfitAndLoss.Business.Models
         public int Status { get; set; }
     }
 
-    public class AccountingPeriodUpdateModel : BaseUpdateModel<AccountingPeriod>
+    public class AccountingPeriodInStoreUpdateModel : BaseUpdateModel<AccountingPeriodInStore>
     {
-        public AccountingPeriodUpdateModel()
+        public AccountingPeriodInStoreUpdateModel()
         {
 
         }
@@ -52,31 +53,15 @@ namespace ProfitAndLoss.Business.Models
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty("status")]
         public int Status { get; set; }
     }
 
-    public class AccountingPeriodSearchModel : BaseSearchModel<AccountingPeriod>
+    public class AccountingPeriodInStoreSearchModel : BaseSearchModel<AccountingPeriodInStore>
     {
-        public AccountingPeriodSearchModel()
+        public AccountingPeriodInStoreSearchModel()
         {
 
         }
-    }
-
-    public class AccountingPeriodViewModel : BaseViewModel<AccountingPeriod>
-    {
-        public AccountingPeriodViewModel()
-        {
-
-        }
-        public DateTime StartDate { get; set; }
-
-        public DateTime CloseDate { get; set; }
-
-        public string Title { get; set; }
-
-        public string Description { get; set; }
-
     }
 }

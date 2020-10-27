@@ -31,6 +31,7 @@ namespace ProfitAndLoss.Business.Services
         private readonly ISupplierServices _supplierServices;
         private readonly IReceiptServices _receiptServices;
 
+
         public TransactionServices(IUnitOfWork unitOfWork,
             ITransactionHistoryServices transactionHistoryServices,
             IMemberServices memberServices,
@@ -104,6 +105,9 @@ namespace ProfitAndLoss.Business.Services
             /*add new supplier if has new */
             // do later
             var entity = model.ToEntity();
+            var transactionType = _transactionTypeServices.GetEntity().Where(x => x.Id == model.TransactionTypeId).FirstOrDefault();
+
+            entity.Code = transactionType.Code + "-" + (BaseRepository.GetAll().Count() + 1).ToString("0000");
             var result = BaseRepository.Add(entity);
             /* add new receipt */
             if (model.Receipt != null)
@@ -111,6 +115,7 @@ namespace ProfitAndLoss.Business.Services
                 model.Receipt.TransactionId = result.Id;
                 await _receiptServices.Create(model.Receipt);
             }
+
             _unitOfWork.Commit();
             if (result == null)
             {

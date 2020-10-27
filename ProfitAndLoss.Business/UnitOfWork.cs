@@ -1,4 +1,5 @@
-﻿using ProfitAndLoss.Business.Services;
+﻿using ProfitAndLoss.Business.Repositories;
+using ProfitAndLoss.Business.Services;
 using ProfitAndLoss.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace ProfitAndLoss.Business.Services
         IAccountingPeriodRepository AccountingPeriodRepository { get; }
         IAccountingPeriodDetailRepository AccountingPeriodDetailRepository { get; }
         ISupplierRepository SupplierRepository { get; }
+        IAccountingPeriodInStoreRepository AccountingPeriodInStoreRepository { get; }
+
         #endregion properties
 
         void Commit();
@@ -51,6 +54,7 @@ namespace ProfitAndLoss.Business.Services
         private IAccountingPeriodRepository _accountingPeriodRepository;
         private IAccountingPeriodDetailRepository _accountingPeriodDetailRepository;
         private ISupplierRepository _supplierRepository;
+        private IAccountingPeriodInStoreRepository _accountingPeriodInStoreRepository;
 
         #endregion fields
 
@@ -90,6 +94,8 @@ namespace ProfitAndLoss.Business.Services
         public IAccountingPeriodDetailRepository AccountingPeriodDetailRepository => _accountingPeriodDetailRepository ??= new AccountingPeriodDetailRepository(_context);
 
         public ISupplierRepository SupplierRepository => _supplierRepository ??= new SupplierRepository(_context);
+
+        public IAccountingPeriodInStoreRepository AccountingPeriodInStoreRepository => _accountingPeriodInStoreRepository ??= new AccountingPeriodInStoreRepository(_context);
 
         #endregion properties
 

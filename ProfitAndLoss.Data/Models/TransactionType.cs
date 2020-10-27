@@ -17,6 +17,9 @@ namespace ProfitAndLoss.Data.Models
         [MaxLength(255)]
         public string Name { get; set; }
 
+        [MaxLength(255)]
+        public string Code { get; set; }
+
         public bool IsDebit { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }

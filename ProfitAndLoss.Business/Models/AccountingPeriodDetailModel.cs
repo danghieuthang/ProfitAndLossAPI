@@ -32,6 +32,7 @@ namespace ProfitAndLoss.Business.Models
 
     }
 
+
     public class AccountingPeriodDetailUpdateModel : BaseUpdateModel<AccountingPeriodInStore>
     {
         public AccountingPeriodDetailUpdateModel()

@@ -30,8 +30,8 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// </summary>
         /// <param name="id">The transaction type id</param>
         /// <returns></returns>
-        [HttpGet("id")]
-        public async Task<GenericResult> GetTransactionCategoriesByTypeId([FromForm] Guid id)
+        [HttpGet("{id}")]
+        public async Task<GenericResult> GetTransactionCategoriesByTypeId(Guid id)
         {
             return await _transactionCategoryServices.GetTransactionCategoriesByTypeId(id);
         }

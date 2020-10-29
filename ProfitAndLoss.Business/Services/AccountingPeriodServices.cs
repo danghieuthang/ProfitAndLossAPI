@@ -3,6 +3,7 @@ using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.Constant;
 using ProfitAndLoss.Utilities.DTOs;
+using ProfitAndLoss.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,6 +74,15 @@ namespace ProfitAndLoss.Business.Services
 
         public async Task<GenericResult> Create(AccountingPeriodCreateModel model)
         {
+            if (model.CloseDate <= model.StartDate)
+            {
+                return new GenericResult
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = "Start date must be smaller than close date!"
+                };
+            }
             var isExists = BaseRepository.GetAll(x =>
                        (x.StartDate <= model.StartDate && x.CloseDate >= model.StartDate)
                      || (x.StartDate <= model.CloseDate && x.CloseDate >= model.CloseDate)
@@ -102,5 +112,30 @@ namespace ProfitAndLoss.Business.Services
             };
 
         }
+
+        //public override async Task<GenericResult> GetById(Guid id)
+        //{
+        //    var entity = BaseRepository.GetById(id);
+        //    var result = new AccountingPeriodViewModel();
+        //    Global.Mapper.Map(entity, result);
+
+        //    if (result == null)
+        //    {
+        //        return new GenericResult
+        //        {
+        //            Data = null,
+        //            StatusCode = HttpStatusCode.NotFound,
+        //            Success = true,
+        //            ResultCode = Utilities.AppResultCode.NotFound,
+        //            Message = EnumHelper.GetDisplayValue(Utilities.AppResultCode.NotFound)
+        //        };
+        //    }
+        //    return new GenericResult
+        //    {
+        //        Data = result,
+        //        Success = true,
+        //        StatusCode = HttpStatusCode.OK
+        //    };
+        //}
     }
 }

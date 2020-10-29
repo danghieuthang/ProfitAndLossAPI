@@ -63,7 +63,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<GenericResult> UpdateAccountingPeriod(AccountingPeriodUpdateModel model)
+        public async Task<GenericResult> UpdateAccountingPeriod([FromBody]AccountingPeriodUpdateModel model)
         {
             return await _accountingPeriodService.Update(model);
         }

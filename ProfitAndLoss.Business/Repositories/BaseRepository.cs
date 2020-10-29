@@ -92,7 +92,7 @@ namespace ProfitAndLoss.Business.Services
 
         public TEntity GetById(TKey id)
         {
-            return dbSet.Where(x => x.Actived && x.Id.Equals(id)).FirstOrDefault();
+            return dbSet.Where(x => x.Actived && x.Id.Equals(id)).AsNoTracking().FirstOrDefault();
         }
 
         public TEntity GetById(TKey id, Expression<Func<TEntity, object>> include)

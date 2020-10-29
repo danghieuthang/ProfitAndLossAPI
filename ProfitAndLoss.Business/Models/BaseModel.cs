@@ -43,6 +43,8 @@ namespace ProfitAndLoss.Business.Models
 
         [JsonIgnore]
         public DateTime ModifiedDate { get; set; }
+
+        public bool Actived { get; set; }
     }
 
     public class BaseCreateModel<T> : Mapping<T>

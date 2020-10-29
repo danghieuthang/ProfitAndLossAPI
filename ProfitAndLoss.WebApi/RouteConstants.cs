@@ -74,6 +74,11 @@ namespace ProfitAndLoss.WebApi
         {
             public const string PREFIX = "api/" + VERSION + "/transactions";
         }
+        public static class TransactionDetail
+        {
+            public const string PREFIX = "api/" + VERSION + "/transaction-details";
+        }
+
         public static class TransactionType
         {
             public const string PREFIX = "api/" + VERSION + "/transaction-types";

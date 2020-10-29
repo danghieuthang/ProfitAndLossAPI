@@ -31,6 +31,7 @@ namespace ProfitAndLoss.Data.Models
         public virtual Brand Brand { get; set; }
 
         public virtual ICollection<StoreAccount> StoreAccounts { get; set; }
+        public virtual ICollection<TransactionCategory> TransactionCategories { get; set; }
 
     }
 }

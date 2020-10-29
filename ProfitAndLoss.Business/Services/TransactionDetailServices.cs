@@ -14,7 +14,7 @@ namespace ProfitAndLoss.Business.Services
 {
     public interface ITransactionDetailServices : IBaseServices<TransactionDetail>
     {
-
+        Task<GenericResult> CreateTransactionDetails(List<TransactionDetailCreateModel> models);
     }
     public class TransactionDetailServices : BaseServices<TransactionDetail>, ITransactionDetailServices
     {
@@ -32,7 +32,7 @@ namespace ProfitAndLoss.Business.Services
 
         }
 
-        public async Task<GenericResult> Create(List<TransactionDetailCreateModel> models)
+        public async Task<GenericResult> CreateTransactionDetails(List<TransactionDetailCreateModel> models)
         {
             var transaction = _transactionRepository.GetAll(x => x.Id == models.FirstOrDefault().TransactionId)
                                                    .Include(x => x.Store).FirstOrDefault();
@@ -47,6 +47,7 @@ namespace ProfitAndLoss.Business.Services
                 };
             }
 
+            int countTransaction = (BaseRepository.GetAll().Count() + 1);
             foreach (var transactionDetail in models)
             {
                 // Get accoungingPeriod in store
@@ -67,13 +68,14 @@ namespace ProfitAndLoss.Business.Services
                         Title = $"{accoungtingPeriod.Title}-{transaction.Store.Code.ToFormal()}",
                         Description = string.Empty,
                         Status = 1,
-                        StoreId = transaction.StoreId
+                        StoreId = transaction.StoreId.Value
                     };
                     accountingPeriodInStore = _accountingPeriodInStoreRepository.Add(accountingPeriodCreateModel.ToEntity());
                 }
 
-                transactionDetail.AccountId = accountingPeriodInStore.Id;
-                transactionDetail.Code = "TD-" + (_transactionRepository.GetAll().Count() + 1).ToString("0000");
+                transactionDetail.AccountingPeriodInStoreId = accountingPeriodInStore.Id;
+                transactionDetail.Code = "TD-" + (countTransaction++).ToString("0000");
+                BaseRepository.Add(transactionDetail.ToEntity());
             }
             _unitOfWork.Commit();
             return new GenericResult { Success = true, StatusCode = System.Net.HttpStatusCode.OK };

@@ -27,19 +27,18 @@ namespace ProfitAndLoss.Data.Models
         [DefaultValue(0)]
         public double Balance { get; set; }
 
-        [ForeignKey("Account")]
-        public Guid AccountId { get; set; }
-
         [ForeignKey("Transaction")]
-        public Guid TransactionId { get; set; }
+        public Guid? TransactionId { get; set; }
+
+        public virtual Transaction Transaction { get; set; }
 
         [ForeignKey("TransactionCategory")]
-        public Guid TransactionCategoryId { get; set; }
+        public Guid? TransactionCategoryId { get; set; }
 
         public virtual TransactionCategory TransactionCategory { get; set; }
 
         [ForeignKey("AccountingPeriodInStore")]
-        public Guid AccountingPeriodInStoreId { get; set; }
+        public Guid? AccountingPeriodInStoreId { get; set; }
 
         public virtual AccountingPeriodInStore AccountingPeriodInStore { get; set; }
 

@@ -19,12 +19,12 @@ namespace ProfitAndLoss.Data.Models
         public string Code { get; set; }
 
         [ForeignKey("Store")]
-        public Guid StoreId { get; set; }
+        public Guid? StoreId { get; set; }
 
         public virtual Store Store { get; set; }
 
         [ForeignKey("Member")]
-        public Guid CreateMemberId { get; set; }
+        public Guid? CreateMemberId { get; set; }
 
         public virtual Member Member { get; set; }
 

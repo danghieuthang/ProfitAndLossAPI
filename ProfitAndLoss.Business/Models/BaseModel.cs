@@ -13,11 +13,11 @@ namespace ProfitAndLoss.Business.Models
 
         [FromQuery(Name = "from-date")]
         [JsonProperty("from-date")]
-        public DateTime FromDate { get; set; }
+        public DateTime? FromDate { get; set; }
 
         [FromQuery(Name = "to-date")]
         [JsonProperty("to-date")]
-        public DateTime ToDate { get; set; }
+        public DateTime? ToDate { get; set; }
 
         [FromQuery(Name = "page")]
         [JsonProperty("page")]
@@ -43,6 +43,8 @@ namespace ProfitAndLoss.Business.Models
 
         [JsonIgnore]
         public DateTime ModifiedDate { get; set; }
+
+        public bool Actived { get; set; }
     }
 
     public class BaseCreateModel<T> : Mapping<T>

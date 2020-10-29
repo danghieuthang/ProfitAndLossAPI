@@ -82,14 +82,27 @@ namespace ProfitAndLoss.Data.Models
                 new TransactionType { Id = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Sales", ModifiedDate = DateTime.Now },
                 new TransactionType { Id = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Revenues", ModifiedDate = DateTime.Now },
                 new TransactionType { Id = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Invoice", ModifiedDate = DateTime.Now },
-                new TransactionType { Id = new Guid("4e44153a-8703-4500-8d7c-a46048a5f2f5"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Expenses", ModifiedDate = DateTime.Now }
+                new TransactionType { Id = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Expenses", ModifiedDate = DateTime.Now }
                 );
             modelBuilder.Entity<Brand>().HasData(
-                new Brand() { Id = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), Actived = true,
-                CreatedDate = DateTime.Now, ModifiedDate  = DateTime.Now});
+                new Brand()
+                {
+                    Id = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
+                    Actived = true,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now
+                });
             modelBuilder.Entity<Store>().HasData(
-                new Store { Id = Guid.NewGuid(), BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), Actived  = true, CreatedDate = DateTime.Now, Code = "HCM-01",
-                ModifiedDate = DateTime.Now, Name = "Văn phòng quyền lực HCM"}
+                new Store
+                {
+                    Id = Guid.NewGuid(),
+                    BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
+                    Actived = true,
+                    CreatedDate = DateTime.Now,
+                    Code = "HCM-01",
+                    ModifiedDate = DateTime.Now,
+                    Name = "Văn phòng quyền lực HCM"
+                }
                 );
 
             modelBuilder.Entity<TransactionCategory>().HasData(
@@ -110,7 +123,7 @@ namespace ProfitAndLoss.Data.Models
                     Id = Guid.NewGuid()
                     },
                 new TransactionCategory() {
-                    TransactionTypeId = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"),  
+                    TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),  
                     Actived = true, Code = "Invoice-001",
                     Name = "Inventory Expense",
                     CreatedDate = DateTime.Now,
@@ -118,7 +131,7 @@ namespace ProfitAndLoss.Data.Models
                     Id = Guid.NewGuid()
                     },
                 new TransactionCategory() {
-                    TransactionTypeId = new Guid("4e44153a-8703-4500-8d7c-a46048a5f2f5"),  
+                    TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),  
                     Actived = true, Code = "Expense-001",
                     Name = "Wages Expense",
                     CreatedDate = DateTime.Now,
@@ -127,6 +140,30 @@ namespace ProfitAndLoss.Data.Models
                     }
                 );
 
+            modelBuilder.Entity<Supplier>().HasData(
+               new Supplier
+               {
+                   Id = Guid.NewGuid(),
+                   Actived = true,
+                   Name = "HP",
+                   Email = "hpcompany@hp.com",
+                   Phone = "090022333",
+                   Address = "This is address of hp company",
+                   CreatedDate = DateTime.Now,
+                   ModifiedDate = DateTime.Now
+               },
+                new Supplier
+                {
+                    Id = Guid.NewGuid(),
+                    Actived = true,
+                    Name = "Dell",
+                    Email = "dellcompany@dell.com",
+                    Phone = "0977737014",
+                    Address = "This is address of Dell company",
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now
+                }
+               );
         }
     }
 }

@@ -24,6 +24,7 @@ namespace ProfitAndLoss.Business.Models
         public ReceiptCreateModel Receipt { get; set; }
         public string Name { get; set; }
 
+        [JsonIgnore]
         public string Code { get; set; }
         public double Balance { get; set; }
 
@@ -50,7 +51,7 @@ namespace ProfitAndLoss.Business.Models
         }
     }
 
-    public class TransactionViewModel: BaseViewModel<Transaction>
+    public class TransactionViewModel : BaseViewModel<Transaction>
     {
         public TransactionViewModel()
         {

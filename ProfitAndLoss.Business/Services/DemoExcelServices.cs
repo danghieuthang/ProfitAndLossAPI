@@ -14,14 +14,14 @@ using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
 {
-    public interface IDemoExcelService : IBaseServices<Brand>
+    public interface IDemoExcelServices : IBaseServices<Brand>
     {
         Task<byte[]> ExportBrands();
     }
 
-    public class DemoExcelService : BaseServices<Brand>, IDemoExcelService
+    public class DemoExcelServices : BaseServices<Brand>, IDemoExcelServices
     {
-        public DemoExcelService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public DemoExcelServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

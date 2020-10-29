@@ -16,10 +16,10 @@ namespace ProfitAndLoss.WebApi.Controllers
     public class BrandsController : BaseController
     {
         private readonly IBrandServices _brandService;
-        private readonly IDemoExcelService _demoExcelService;
+        private readonly IDemoExcelServices _demoExcelService;
         private const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-        public BrandsController(IBrandServices brandService, IDemoExcelService demoExcelService)
+        public BrandsController(IBrandServices brandService, IDemoExcelServices demoExcelService)
         {
             _brandService = brandService;
             _demoExcelService = demoExcelService;

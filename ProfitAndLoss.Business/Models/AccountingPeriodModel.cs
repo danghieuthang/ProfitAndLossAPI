@@ -12,26 +12,20 @@ namespace ProfitAndLoss.Business.Models
     {
         public AccountingPeriodCreateModel()
         {
-
+            BrandId = new Guid("05FE5BBA-65AD-4B71-A5DD-08D878376F22");
         }
 
-        [JsonProperty("start_date")]
         public DateTime StartDate { get; set; }
 
-        [JsonProperty("close_date")]
         public DateTime CloseDate { get; set; }
 
-        [JsonProperty("brandId")]
         [JsonIgnore]
         public Guid BrandId { get; set; }
 
-        [JsonProperty("title")]
         public string Title { get; set; }
 
-        [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("status")]
         public int Status { get; set; }
     }
 
@@ -39,27 +33,22 @@ namespace ProfitAndLoss.Business.Models
     {
         public AccountingPeriodUpdateModel()
         {
+            BrandId = new Guid("05FE5BBA-65AD-4B71-A5DD-08D878376F22");
 
         }
 
-        [JsonProperty("start_date")]
-        public DateTime StartDate { get; set; }
-
-        [JsonProperty("close_date")]
-        public DateTime CloseDate { get; set; }
-
-        [JsonProperty("brandId")]
-        [JsonIgnore]
         public Guid BrandId { get; set; }
 
-        [JsonProperty("title")]
+        public DateTime CreateDate { get; set; }
+        public int Status { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime CloseDate { get; set; }
+
         public string Title { get; set; }
 
-        [JsonProperty("description")]
         public string Description { get; set; }
-
-        [JsonProperty("status")]
-        public int Status { get; set; }
     }
 
     public class AccountingPeriodSearchModel : BaseSearchModel<AccountingPeriod>
@@ -68,5 +57,21 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
+    }
+
+    public class AccountingPeriodViewModel : BaseViewModel<AccountingPeriod>
+    {
+        public AccountingPeriodViewModel()
+        {
+
+        }
+        public DateTime StartDate { get; set; }
+
+        public DateTime CloseDate { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
     }
 }

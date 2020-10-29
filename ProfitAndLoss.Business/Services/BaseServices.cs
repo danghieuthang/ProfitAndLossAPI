@@ -151,7 +151,7 @@ namespace ProfitAndLoss.Business.Services
             };
         }
 
-        public async Task<GenericResult> GetById(Guid id)
+        public virtual async Task<GenericResult> GetById(Guid id)
         {
             var result = BaseRepository.GetById(id);
             if (result == null)
@@ -222,7 +222,9 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Update(BaseUpdateModel<T> model)
         {
             var entity = model.ToEntity();
-            if (BaseRepository.GetById(entity.Id) == null)
+            entity.ModifiedDate = DateTime.Now;
+            var entityInDb = BaseRepository.GetById(entity.Id);
+            if (entityInDb == null)
             {
                 return new GenericResult
                 {

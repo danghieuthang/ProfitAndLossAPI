@@ -160,8 +160,13 @@ namespace ProfitAndLoss.WebApi
             Global.Init();
             services.AddRouting(options => options.LowercaseUrls = true);
 
-            // add json config
-
+            //// add json config
+            //services.AddNCacheDistributedCache(configuration =>
+            //{
+            //    configuration.CacheName = "demoClusteredCache";
+            //    configuration.EnableLogs = true;
+            //    configuration.ExceptionsEnabled = true;
+            //});
             // add Cors
             services.AddCors(options =>
             {

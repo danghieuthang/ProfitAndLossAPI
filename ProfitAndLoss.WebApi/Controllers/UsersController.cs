@@ -8,6 +8,8 @@ using ProfitAndLoss.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProfitAndLoss.Utilities.DTOs;
+using ProfitAndLoss.Utilities.Helpers;
+using ProfitAndLoss.Utilities;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
@@ -32,15 +34,38 @@ namespace ProfitAndLoss.WebApi.Controllers
         //[Route(ApiVer1UrlConstant.User.LOGIN)]
         public async Task<GenericResult> LoginAsync([FromBody] RequestLoginModel login)
         {
+            List<ValidationModel> listValidation = new List<ValidationModel>(); 
             var appUser = await _identityServices.GetUserByUserNameAsync(login.Username);
             if (appUser == null)
             {
-                return new GenericResult { Success = false, Data = Unauthorized("Invalid username") };
+                listValidation.Add(new ValidationModel()
+                {
+                    Data = StringHelpers.HyphensCase(nameof(login.Username)),
+                    Message = "Invalid username"
+                });
+                return new GenericResult
+                {
+                    Success = false,
+                    Data = listValidation,
+                    Message = EnumHelper.GetDisplayValue(AppResultCode.FailValidation),
+                    ResultCode =  AppResultCode.FailValidation
+                };
             }
             var result = await _identityServices.SignInAsync(appUser, login);
             if (!result.Succeeded)
             {
-                return new GenericResult { Success = false, Data = Unauthorized("Invalid password") };
+                listValidation.Add(new ValidationModel()
+                {
+                    Data = StringHelpers.HyphensCase(nameof(login.Password)),
+                    Message = "Invalid password"
+                });
+                return new GenericResult
+                {
+                    Success = false,
+                    Data = listValidation,
+                    Message = EnumHelper.GetDisplayValue(AppResultCode.FailValidation),
+                    ResultCode = AppResultCode.FailValidation
+                };
             }
             var tokenString = await _identityServices.GenerateJWTTokenAsync(appUser);
             var listRole = _identityServices.GetRole(appUser);

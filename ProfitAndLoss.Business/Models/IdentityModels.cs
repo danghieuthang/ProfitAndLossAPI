@@ -10,6 +10,7 @@ namespace ProfitAndLoss.Business.Models
     {
         public string Username { get; set; }
         public string Password { get; set; }
+        public string FirebaseToken { get; set; }
     }
     public class TokenResponseLoginModel
     {

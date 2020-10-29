@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using FirebaseAdmin.Auth;
 
 namespace ProfitAndLoss.Business.Services
 {
@@ -30,8 +31,9 @@ namespace ProfitAndLoss.Business.Services
             _context = context;
             _memberServices = memberServices;
         }
-        protected void PrepareCreate(AppUser entity)
+        protected void PrepareCreate(AppUser entity, string newGuid = "")
         {
+            var guid = !string.IsNullOrEmpty(newGuid)?newGuid:Guid.NewGuid().ToString();
             entity.Id = Guid.NewGuid().ToString();
         }
         public async Task<AppUser> GetUserByUserNameAsync(string username)
@@ -160,5 +162,39 @@ namespace ProfitAndLoss.Business.Services
             return user;
         }
 
+        public async Task<FirebaseToken> ValidateFirebaseToken(string tokenStr)
+        {
+            FirebaseToken decodedToken = null;
+            try
+            {
+                decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(tokenStr);
+            }
+            catch (FirebaseAuthException ex)
+            {
+
+            }
+            return decodedToken;
+        }
+        public AppUser ConvertToUser(UserRecord firebaseUser)
+        {
+            var entity = new AppUser
+            {
+                UserName = firebaseUser.Uid,
+                Fullname = firebaseUser.DisplayName,
+                Email = firebaseUser.Email,
+                EmailConfirmed = firebaseUser.EmailVerified,
+                PhoneNumber = firebaseUser.PhoneNumber,
+            };
+            return entity;
+        }
+        public async Task<IdentityResult> CreateUserWithoutPassAsync(AppUser entity)
+        {
+            if (!string.IsNullOrEmpty(entity.Id))
+            {
+                entity.Id = new Guid(entity.Id).ToString();
+            }
+            var result = await CreateUserWithDefaultRoleAsync(entity, string.Empty);
+            return result;
+        }
     }
 }

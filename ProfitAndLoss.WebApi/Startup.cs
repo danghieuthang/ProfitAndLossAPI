@@ -31,6 +31,8 @@ using ProfitAndLoss.Utilities.Helpers;
 using ProfitAndLoss.Utilities;
 using ProfitAndLoss.Business.Services;
 using System.Security.Claims;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 namespace ProfitAndLoss.WebApi
 {
@@ -45,6 +47,11 @@ namespace ProfitAndLoss.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var filename = Configuration.GetValue<string>("FirebaseCredentials");
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile(filename),
+            });
             services.AddDbContextPool<DataContext>(
                 //options => options.UseMySql(Configuration.GetConnectionString("MySqlDbConnection"))
                 options => options.UseSqlServer(ConnectionString.CNN)

@@ -14,6 +14,11 @@ namespace ProfitAndLoss.Business
     {
         public const string CNN = @"Server=115.165.166.32;Database=SWD_ProfitAndLoss_Dev;Trusted_Connection=False;User Id=Superuser;Password=ZNa1R3MTG15BdnYpX1CZ5MuO6IyNeA0+jaaAViYiK09h9TqimhNKC3VEh6yhjH5h;MultipleActiveResultSets=true";
     }
+    public class LoginRequestType
+    {
+        public const string LOCAL_USER = "default";
+        public const string FIREBASE_USER = "firebase";
+    }
     public class RoleName
     {
         public const string ADMIN = "Admin";

@@ -74,14 +74,34 @@ namespace ProfitAndLoss.WebApi.Controllers
                     break;
                 case LoginRequestType.LOCAL_USER:
                 default:
-                    // login with local user
-                    appUser = await _identityServices.GetUserByUserNameAsync(login.Username);
-                    if (appUser == null)
+                    if (!string.IsNullOrEmpty(login.Password))
+                    {
+                        // login with local user
+                        appUser = await _identityServices.GetUserByUserNameAsync(login.Username);
+                        if (appUser == null)
+                        {
+                            listValidation.Add(new ValidationModel()
+                            {
+                                Data = StringHelpers.HyphensCase(nameof(login.Username)),
+                                Message = "Invalid username"
+                            });
+                        }
+                        var result = await _identityServices.SignInAsync(appUser, login);
+                        if (!result.Succeeded)
+                        {
+                            listValidation.Add(new ValidationModel()
+                            {
+                                Data = StringHelpers.HyphensCase(nameof(login.Password)),
+                                Message = "Invalid password"
+                            });
+                        }
+                    }
+                    else
                     {
                         listValidation.Add(new ValidationModel()
                         {
-                            Data = StringHelpers.HyphensCase(nameof(login.Username)),
-                            Message = "Invalid username"
+                            Data = StringHelpers.HyphensCase(nameof(login.Password)),
+                            Message = "Invalid password"
                         });
                     }
                     break;
@@ -91,7 +111,7 @@ namespace ProfitAndLoss.WebApi.Controllers
                 return new GenericResult
                 {
                     Success = false,
-                    Data = listValidation,
+                    Error = listValidation,
                     Message = EnumHelper.GetDisplayValue(AppResultCode.FailValidation),
                     ResultCode = AppResultCode.FailValidation
                 };

@@ -14,6 +14,7 @@ namespace ProfitAndLoss.Utilities.DTOs
         public GenericResult()
         {
             Data = new object();
+            Error = new object();
             Success = true;
             Message = string.Empty;
         }
@@ -29,6 +30,7 @@ namespace ProfitAndLoss.Utilities.DTOs
         #region properties
         [JsonProperty("results")]
         public Object Data { get; set; }
+        public Object Error { get; set; }
         
         [JsonProperty("success")]
         public bool Success { get; set; }

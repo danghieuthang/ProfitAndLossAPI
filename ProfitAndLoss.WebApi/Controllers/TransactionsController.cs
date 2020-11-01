@@ -40,7 +40,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("search")]
-        public async Task<GenericResult> Search([FromBody]TransactionSearchModel model)
+        public async Task<GenericResult> Search([FromBody] TransactionSearchModel model)
         {
             return await _transactionService.Search(model);
         }
@@ -48,6 +48,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         [HttpPost]
         public async Task<GenericResult> Create([FromBody] TransactionCreateModel model)
         {
+            //model.CreateMemberId = new Guid(UserId);
             var validationModels = _transactionService.ValidateModel(model);
             if (validationModels.Count() > 0)
             {
@@ -72,7 +73,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpPut("approval")]
-        public async Task<GenericResult> Approval([FromForm]Guid id)
+        public async Task<GenericResult> Approval([FromForm] Guid id)
         {
             return await _transactionService.Approval(id);
         }

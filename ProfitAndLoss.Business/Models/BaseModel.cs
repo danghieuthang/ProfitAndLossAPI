@@ -84,7 +84,6 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        [JsonProperty("id")]
         public Guid Id { get; set; }
     }
 

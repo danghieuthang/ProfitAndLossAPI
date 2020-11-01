@@ -74,6 +74,8 @@ namespace ProfitAndLoss.Business.Models
 
         public SupplierViewModel Supplier { get; set; }
 
+        public Guid ReceiptId { get; set; }
+
         public int Status { get; set; }
     }
 }

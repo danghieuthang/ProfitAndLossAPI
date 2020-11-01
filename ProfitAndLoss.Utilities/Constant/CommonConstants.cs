@@ -18,6 +18,7 @@ namespace ProfitAndLoss.Utilities.Constant
         APPROVED,
         REJECTED,
         REMOVED,
+        SPLITED
     }
 
 

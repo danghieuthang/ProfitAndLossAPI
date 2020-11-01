@@ -2,6 +2,7 @@
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Repositories;
 using ProfitAndLoss.Data.Models;
+using ProfitAndLoss.Utilities.Constant;
 using ProfitAndLoss.Utilities.DTOs;
 using ProfitAndLoss.Utilities.Helpers;
 using System;
@@ -77,6 +78,9 @@ namespace ProfitAndLoss.Business.Services
                 transactionDetail.Code = "TD-" + (countTransaction++).ToString("0000");
                 BaseRepository.Add(transactionDetail.ToEntity());
             }
+            // Change status tran to SPLITED
+            transaction.Status = (int)TransactionStatus.SPLITED;
+            _transactionRepository.Update(transaction);
             _unitOfWork.Commit();
             return new GenericResult { Success = true, StatusCode = System.Net.HttpStatusCode.OK };
         }

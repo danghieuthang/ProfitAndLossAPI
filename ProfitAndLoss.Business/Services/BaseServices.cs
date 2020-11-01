@@ -63,8 +63,7 @@ namespace ProfitAndLoss.Business.Services
         public bool IsExist(Guid id)
         {
             var entity = BaseRepository.GetById(id);
-            if (entity != null) return true;
-            return false;
+            return entity != null;
         }
         /// <summary>
         /// Create

@@ -14,7 +14,7 @@ namespace ProfitAndLoss.Business.Services
 {
     public interface IEvidenceServices : IBaseServices<Evidence>
     {
-        Task<List<Evidence>> AddMultiEvidences(List<EvidenceCreateModel> evidences);
+        Task<GenericResult> AddMultiEvidences(List<EvidenceCreateModel> evidences);
         Task<GenericResult> CreateEvidence(EvidenceCreateModel model);
         Task<string> WriteFile(IFormFile file);
         Task<GenericResult> SearchEvidences(EvidenceSearchModel model);
@@ -26,16 +26,22 @@ namespace ProfitAndLoss.Business.Services
 
         }
 
-        public async Task<List<Evidence>> AddMultiEvidences(List<EvidenceCreateModel> evidences)
+        public async Task<GenericResult> AddMultiEvidences(List<EvidenceCreateModel> evidences)
         {
             var result = new List<Evidence>();
             foreach (var evidence in evidences)
             {
-                evidence.ImgUrl = WriteFile(evidence.Image).Result;
+                //evidence.ImgUrl = WriteFile(evidence.Image).Result;
                 result.Add(BaseRepository.Add(evidence.ToEntity()));
             }
-            _unitOfWork.CommitAsync();
-            return result;
+            _unitOfWork.Commit();
+            return new GenericResult
+            {
+                Data = result,
+                Success = true,
+                ResultCode = Utilities.AppResultCode.Success,
+                StatusCode = System.Net.HttpStatusCode.Created
+            };
         }
 
         /// <summary>

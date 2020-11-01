@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
@@ -16,10 +17,16 @@ namespace ProfitAndLoss.WebApi.Controllers
             _evidenceService = evidenceService;
         }
 
+        //[HttpPost]
+        //public async Task<GenericResult> CreateEvidence([FromForm] EvidenceCreateModel model)
+        //{
+        //    return await _evidenceService.CreateEvidence(model);
+        //}
+
         [HttpPost]
-        public async Task<GenericResult> CreateEvidence([FromForm] EvidenceCreateModel model)
+        public async Task<GenericResult> CreateEvidence([FromBody] List<EvidenceCreateModel> models)
         {
-            return await _evidenceService.CreateEvidence(model);
+            return await _evidenceService.AddMultiEvidences(models);
         }
 
         [HttpGet]

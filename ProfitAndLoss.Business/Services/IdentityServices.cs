@@ -183,7 +183,7 @@ namespace ProfitAndLoss.Business.Services
                 Fullname = firebaseUser.DisplayName,
                 Email = firebaseUser.Email,
                 EmailConfirmed = firebaseUser.EmailVerified,
-                PhoneNumber = firebaseUser.PhoneNumber,
+                PhoneNumber = firebaseUser.PhoneNumber
             };
             return entity;
         }
@@ -193,7 +193,7 @@ namespace ProfitAndLoss.Business.Services
             {
                 entity.Id = new Guid(entity.Id).ToString();
             }
-            var result = await CreateUserWithDefaultRoleAsync(entity, string.Empty);
+            var result = await CreateUserWithDefaultRoleAsync(entity, "ReadlyStrongPassword123");
             return result;
         }
     }

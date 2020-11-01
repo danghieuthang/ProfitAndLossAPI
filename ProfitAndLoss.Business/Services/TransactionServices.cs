@@ -30,7 +30,7 @@ namespace ProfitAndLoss.Business.Services
         private readonly IStoreServices _storeServices;
         private readonly ISupplierServices _supplierServices;
         private readonly IReceiptServices _receiptServices;
-
+        private readonly IReceiptRepository _receiptRepository;
 
         public TransactionServices(IUnitOfWork unitOfWork,
             ITransactionHistoryServices transactionHistoryServices,
@@ -46,6 +46,7 @@ namespace ProfitAndLoss.Business.Services
             _storeServices = storeServices;
             _supplierServices = supplierServices;
             this._receiptServices = receiptServices;
+            _receiptRepository = unitOfWork.ReceptRepository;
         }
         public List<ValidationModel> ValidateModel(TransactionCreateModel model)
         {
@@ -106,14 +107,16 @@ namespace ProfitAndLoss.Business.Services
             // do later
             var entity = model.ToEntity();
             var transactionType = _transactionTypeServices.GetEntity().Where(x => x.Id == model.TransactionTypeId).FirstOrDefault();
-
+            entity.Supplier = null;
             entity.Code = transactionType.Code + "-" + (BaseRepository.GetAll().Count() + 1).ToString("0000");
             var result = BaseRepository.Add(entity);
             /* add new receipt */
+            var viewModel = new TransactionViewModel();
+
             if (model.Receipt != null)
             {
                 model.Receipt.TransactionId = result.Id;
-                await _receiptServices.Create(model.Receipt);
+                viewModel.ReceiptId = _receiptRepository.Add(model.Receipt.ToEntity()).Id;
             }
 
             _unitOfWork.Commit();
@@ -126,11 +129,10 @@ namespace ProfitAndLoss.Business.Services
                     Success = false
                 };
             }
-            var viewModel = new TransactionViewModel();
             viewModel.ToModel(result);
             return new GenericResult
             {
-                Data = model,
+                Data = viewModel,
                 Success = true,
                 StatusCode = HttpStatusCode.Created,
                 ResultCode = Utilities.AppResultCode.Success,

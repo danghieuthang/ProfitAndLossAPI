@@ -30,5 +30,16 @@ namespace ProfitAndLoss.WebApi.Controllers
         {
             return await _transactionDetailServices.CreateTransactionDetails(models);
         }
+
+        /// <summary>
+        /// Get all transaction detail by transaction id
+        /// </summary>
+        /// <param name="id">The transaction id</param>
+        /// <returns></returns>
+        [HttpGet("search/{id}")]
+        public async Task<GenericResult> GetTransactionDetailByTransactionId(Guid id)
+        {
+            return await _transactionDetailServices.GetAllByTransactionId(id);
+        }
     }
 }

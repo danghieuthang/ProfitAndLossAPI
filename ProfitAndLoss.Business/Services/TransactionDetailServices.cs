@@ -8,6 +8,7 @@ using ProfitAndLoss.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace ProfitAndLoss.Business.Services
     public interface ITransactionDetailServices : IBaseServices<TransactionDetail>
     {
         Task<GenericResult> CreateTransactionDetails(List<TransactionDetailCreateModel> models);
+        Task<GenericResult> GetAllByTransactionId(Guid id);
     }
     public class TransactionDetailServices : BaseServices<TransactionDetail>, ITransactionDetailServices
     {
@@ -52,7 +54,7 @@ namespace ProfitAndLoss.Business.Services
             foreach (var transactionDetail in models)
             {
                 // Get accoungingPeriod in store
-                var accountingPeriodInStore = _accountingPeriodInStoreRepository.GetAll(x => x.StoreId == transaction.StoreId && x.AccountingPeriodId == transactionDetail.AccountingPeriodId).FirstOrDefault();
+                var accountingPeriodInStore = _accountingPeriodInStoreRepository.GetAll(x => x.StoreId == transactionDetail.StoreId && x.AccountingPeriodId == transactionDetail.AccountingPeriodId).FirstOrDefault();
                 //Get accounting Period
                 var accoungtingPeriod = _accountingPeriodRepository.GetById(transactionDetail.AccountingPeriodId);
                 // Create accounting Period In Store if none exists
@@ -69,7 +71,7 @@ namespace ProfitAndLoss.Business.Services
                         Title = $"{accoungtingPeriod.Title}-{transaction.Store.Code.ToFormal()}",
                         Description = string.Empty,
                         Status = 1,
-                        StoreId = transaction.StoreId.Value
+                        StoreId = transactionDetail.StoreId
                     };
                     accountingPeriodInStore = _accountingPeriodInStoreRepository.Add(accountingPeriodCreateModel.ToEntity());
                 }
@@ -83,6 +85,45 @@ namespace ProfitAndLoss.Business.Services
             _transactionRepository.Update(transaction);
             _unitOfWork.Commit();
             return new GenericResult { Success = true, StatusCode = System.Net.HttpStatusCode.OK };
+        }
+
+        public async Task<GenericResult> GetAllByTransactionId(Guid id)
+        {
+            var data = BaseRepository.GetAll(x => x.TransactionId == id)
+                                    .Include(x => x.TransactionCategory)
+                             .Join(_accountingPeriodInStoreRepository.GetAll()
+                                        .Include(y => y.Store)
+                                        .Include(y => y.AccountingPeriod),
+                              x => x.AccountingPeriodInStoreId, y => y.Id,
+                             (x, y) => new
+                             {
+                                 x.Id,
+                                 x.Description,
+                                 x.Balance,
+                                 x.TransactionCategory,
+                                 Store = new { y.Store.Code, y.Store.Name },
+                                 AccountingPeriod = y.AccountingPeriod.Title 
+                             })
+                                    .ToList();
+            //var result = new List<TransactionDetailViewModel>();
+            //Global.Mapper.Map(data, result);
+            if (data == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Success = true,
+                    ResultCode = Utilities.AppResultCode.NotFound,
+                    Message = EnumHelper.GetDisplayValue(Utilities.AppResultCode.NotFound)
+                };
+            }
+            return new GenericResult
+            {
+                Data = data,
+                Success = true,
+                StatusCode = HttpStatusCode.OK
+            };
         }
     }
 }

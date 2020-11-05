@@ -26,6 +26,8 @@ namespace ProfitAndLoss.Data.Models
         [ForeignKey("AccountingPeriod")]
         public Guid AccountingPeriodId { get; set; }
 
+        public AccountingPeriod AccountingPeriod { get; set; }
+
         [MaxLength(255)]
         public string Title { get; set; }
 

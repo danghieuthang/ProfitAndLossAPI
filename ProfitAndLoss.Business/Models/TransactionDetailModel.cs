@@ -34,6 +34,8 @@ namespace ProfitAndLoss.Business.Models
         [Required]
         public Guid TransactionCategoryId { get; set; }
 
+        public Guid StoreId { get; set; }
+
     }
 
     public class TransactionDetailItem : BaseCreateModel<TransactionDetail>
@@ -93,5 +95,23 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
+    }
+
+    public class TransactionDetailViewModel : BaseViewModel<TransactionDetail>
+    {
+        public TransactionDetailViewModel()
+        {
+
+        }
+
+        public string Description { get; set; }
+
+        public double Balance { get; set; }
+
+        public StoreViewModel Store { get; set; }
+
+        public AccountingPeriodViewModel AccountingPeriod { get; set; }
+
+        public TransactionCategoryViewModel TransactionCategory { get; set; }
     }
 }

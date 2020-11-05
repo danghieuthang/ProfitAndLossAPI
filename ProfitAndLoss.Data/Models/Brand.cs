@@ -14,6 +14,8 @@ namespace ProfitAndLoss.Data.Models
 
         }
 
+        public string Code { get; set; }
+
         public virtual ICollection<Account> Accounts { get; set; }
 
         public virtual ICollection<AccountingPeriod> AccountingPeriods { get; set; }

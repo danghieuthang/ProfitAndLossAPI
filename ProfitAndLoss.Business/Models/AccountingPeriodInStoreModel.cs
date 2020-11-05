@@ -64,4 +64,16 @@ namespace ProfitAndLoss.Business.Models
 
         }
     }
+
+    public class AccountingPeriodInStoreViewModel : BaseSearchModel<AccountingPeriodInStore>
+    {
+        public AccountingPeriodInStoreViewModel()
+        {
+
+        }
+
+        public StoreViewModel Store { get; set; }
+
+        public AccountingPeriodViewModel AccountingPeriod { get; set; }
+    }
 }

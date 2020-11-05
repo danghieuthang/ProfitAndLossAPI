@@ -14,7 +14,7 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
-        
+
         [JsonProperty("brand-id")]
         public Guid BrandId { get; set; }
 
@@ -52,10 +52,10 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        [JsonProperty("code")]
         public string Code { get; set; }
 
-        [JsonProperty("name")]
         public string Name { get; set; }
+
+        public BrandViewModel Brand { get; set; }
     }
 }

@@ -241,7 +241,18 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Search(TransactionSearchModel model)
         {
             //
-            var entities = BaseRepository.GetAll().Include(x => x.Store).Include(x => x.Supplier).Include(x => x.TransactionType).Include(x => x.Member).ToList();
+            var entities = BaseRepository.GetAll(x =>
+                                    (model.StoreId == null || x.StoreId == model.StoreId.Value)
+                                    && (model.Code.IsEmpty() || x.Code.Contains(model.Code))
+                                    && (model.TransactionTypeId == null || x.TransactionTypeId == model.TransactionTypeId)
+                                    && (model.Status == 0 || x.Status == model.Status)
+                                    && (model.FromDate == null || x.CreatedDate >= model.FromDate)
+                                    && (model.ToDate == null || x.CreatedDate <= model.ToDate))
+                                    .Include(x => x.Store).Include(x => x.Store.Brand)
+                                    .Include(x => x.Supplier)
+                                    .Include(x => x.TransactionType)
+                                    .Include(x => x.Member)
+                                    .ToList();
             //
             var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
             var currentPage = model.Page > 0 ? model.Page : 1;
@@ -283,15 +294,6 @@ namespace ProfitAndLoss.Business.Services
                     Success = false
                 };
             }
-            if (listResult.Count == 0)
-            {
-                return new GenericResult
-                {
-                    Data = null,
-                    StatusCode = HttpStatusCode.NotFound,
-                    Success = true
-                };
-            }
             return new GenericResult
             {
                 Data = pageResult,
@@ -299,5 +301,34 @@ namespace ProfitAndLoss.Business.Services
                 StatusCode = HttpStatusCode.OK
             };
         }
+
+   
+        public override async Task<GenericResult> GetById(Guid id)
+        {
+            var data = BaseRepository.GetAll(x => x.Id == id)
+                                    .Include(x => x.Store)
+                                    .Include(x => x.Supplier)
+                                    .Include(x => x.TransactionType)
+                                    .FirstOrDefault();
+            if (data == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Success = true,
+                    ResultCode = Utilities.AppResultCode.NotFound,
+                    Message = EnumHelper.GetDisplayValue(Utilities.AppResultCode.NotFound)
+                };
+            }
+            return new GenericResult
+            {
+                Data = data,
+                Success = true,
+                StatusCode = HttpStatusCode.OK
+            };
+        }
+
+
     }
 }

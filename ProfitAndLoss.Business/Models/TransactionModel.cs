@@ -20,7 +20,7 @@ namespace ProfitAndLoss.Business.Models
         public Guid? TransactionTypeId { get; set; }
         public Guid? StoreId { get; set; }
         public Guid? SupplierId { get; set; }
-        public string SupplierName { get; set; }
+        //public string SupplierName { get; set; }
         public ReceiptCreateModel Receipt { get; set; }
         public string Name { get; set; }
 
@@ -49,6 +49,11 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
+
+        public Guid? TransactionTypeId { get; set; }
+        public Guid? StoreId { get; set; }
+        public int Status { get; set; }
+        public string Code { get; set; }
     }
 
     public class TransactionViewModel : BaseViewModel<Transaction>
@@ -77,5 +82,9 @@ namespace ProfitAndLoss.Business.Models
         public Guid ReceiptId { get; set; }
 
         public int Status { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
     }
 }

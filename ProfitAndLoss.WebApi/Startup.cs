@@ -1,22 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using ProfitAndLoss.Business;
 using ProfitAndLoss.Business.Services;
 using ProfitAndLoss.Data.Models;
-using ProfitAndLoss.WebApi.Controllers;
 using ProfitAndLoss.WebApi.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,15 +18,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Newtonsoft;
 using Newtonsoft.Json.Serialization;
-using ProfitAndLoss.Business.Services;
-using ProfitAndLoss.Utilities.Helpers;
-using ProfitAndLoss.Utilities;
-using ProfitAndLoss.Business.Services;
-using System.Security.Claims;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using Newtonsoft.Json;
 
 namespace ProfitAndLoss.WebApi
 {
@@ -52,10 +41,17 @@ namespace ProfitAndLoss.WebApi
             {
                 Credential = GoogleCredential.FromFile(filename),
             });
+            // Stop self referenceing loop
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+            #region dbContext
             services.AddDbContextPool<DataContext>(
                 //options => options.UseMySql(Configuration.GetConnectionString("MySqlDbConnection"))
                 options => options.UseSqlServer(ConnectionString.CNN)
                 );
+            #endregion dbcontext
             services.AddScoped<IdentityServices>();
             //services.AddScoped<IActorServices, ActorServices>();
             services.AddScoped<IActorServices, ActorServices>();
@@ -91,7 +87,7 @@ namespace ProfitAndLoss.WebApi
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
             });
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+          services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters()

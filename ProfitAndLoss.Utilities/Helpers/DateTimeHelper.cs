@@ -35,5 +35,15 @@ namespace ProfitAndLoss.Utilities.Helpers
             }
             return "N/A";
         }
+
+        public static string GetMonthYear(this DateTime time)
+        {
+            if (time != null)
+            {
+                return $"{time.Month}-{time.Year}";
+            }
+            return "N/A";
+        }
+
     }
 }

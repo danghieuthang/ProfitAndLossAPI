@@ -43,28 +43,10 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
-        [JsonProperty("description")]
+
         public string Description { get; set; }
 
-        [JsonProperty("price")]
-        public decimal Price { get; set; }
-
-
-        [JsonProperty("supplier")]
-        //public string SupplierId { get; set; }
-        public SupplierViewModel Supplier { get; set; }
-
-        [JsonProperty("store")]
-        //public string StoreId { get; set; }
-        public StoreViewModel Store { get; set; }
-
-        [JsonProperty("modified_date")]
-        public DateTime ModifiedDate { get; set; }
-
-        [JsonProperty("created_date")]
-        public DateTime CreatedDate { get; set; }
-
-        [JsonProperty("status")]
-        public int Status { get; set; }
+        public List<EvidenceViewModel> Evidences { get; set; }
     }
+
 }

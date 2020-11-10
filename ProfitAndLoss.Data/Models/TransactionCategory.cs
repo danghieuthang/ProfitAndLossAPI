@@ -27,5 +27,7 @@ namespace ProfitAndLoss.Data.Models
 
         public Account Account { get; set; }
 
+        public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
+
     }
 }

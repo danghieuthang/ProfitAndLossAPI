@@ -10,6 +10,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using FirebaseAdmin.Auth;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProfitAndLoss.Business.Services
 {
@@ -33,7 +35,7 @@ namespace ProfitAndLoss.Business.Services
         }
         protected void PrepareCreate(AppUser entity, string newGuid = "")
         {
-            var guid = !string.IsNullOrEmpty(newGuid)?newGuid:Guid.NewGuid().ToString();
+            var guid = !string.IsNullOrEmpty(newGuid) ? newGuid : Guid.NewGuid().ToString();
             entity.Id = Guid.NewGuid().ToString();
         }
         public async Task<AppUser> GetUserByUserNameAsync(string username)
@@ -87,6 +89,8 @@ namespace ProfitAndLoss.Business.Services
             }
             return result;
         }
+
+
         public async Task CreateRoles(List<string> roles)
         {
             IdentityResult roleResult = new IdentityResult();
@@ -195,6 +199,15 @@ namespace ProfitAndLoss.Business.Services
             }
             var result = await CreateUserWithDefaultRoleAsync(entity, "ReadlyStrongPassword123");
             return result;
+        }
+
+        /// <summary>
+        /// Get All Email of user has role is Investor
+        /// </summary>
+        /// <returns>List emails</returns>
+        public async Task<List<string>> GetAllInvestor()
+        {
+            return _userManager.GetUsersInRoleAsync(RoleName.INVESTOR).Result.Select(x => x.Email).ToList();
         }
     }
 }

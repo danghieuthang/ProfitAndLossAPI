@@ -48,11 +48,16 @@ namespace ProfitAndLoss.WebApi
             });
             #region dbContext
             services.AddDbContextPool<DataContext>(
-                //options => options.UseMySql(Configuration.GetConnectionString("MySqlDbConnection"))
+                //options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection"))
                 options => options.UseSqlServer(ConnectionString.CNN)
                 );
             #endregion dbcontext
+            #region add backgroup job
+            //services.AddHostedService<ScheduleServices>();
+            #endregion add backgroup job
+
             services.AddScoped<IdentityServices>();
+            services.AddScoped<IDashboardService, DashboardService>();
             //services.AddScoped<IActorServices, ActorServices>();
             services.AddScoped<IActorServices, ActorServices>();
 
@@ -87,21 +92,21 @@ namespace ProfitAndLoss.WebApi
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
             });
-          services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = JWT.ISSUER,
-                    ValidAudience = JWT.AUDIENCE,
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.Default.GetBytes(JWT.SECRET_KEY)),
-                    ClockSkew = TimeSpan.Zero
-                };
-            }).AddCookie();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+              .AddJwtBearer(options =>
+              {
+                  options.TokenValidationParameters = new TokenValidationParameters()
+                  {
+                      ValidateAudience = true,
+                      ValidateLifetime = true,
+                      ValidateIssuerSigningKey = true,
+                      ValidIssuer = JWT.ISSUER,
+                      ValidAudience = JWT.AUDIENCE,
+                      IssuerSigningKey = new SymmetricSecurityKey(
+                              Encoding.Default.GetBytes(JWT.SECRET_KEY)),
+                      ClockSkew = TimeSpan.Zero
+                  };
+              }).AddCookie();
             //services.AddAuthorization(config =>
             //{
             //    config.AddPolicy(Policies.Admin, Policies.AdminPolicy());
@@ -182,7 +187,7 @@ namespace ProfitAndLoss.WebApi
                 //              .AllowAnyHeader();
                 //    });
             });
-      
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

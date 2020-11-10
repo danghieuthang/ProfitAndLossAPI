@@ -92,5 +92,9 @@ namespace ProfitAndLoss.WebApi
         {
             public const string PREFIX = "api/" + VERSION + "/transaction-categories";
         }
+        public static class Dashboard
+        {
+            public const string PREFIX = "api/" + VERSION + "/dashboards";
+        }
     }
 }

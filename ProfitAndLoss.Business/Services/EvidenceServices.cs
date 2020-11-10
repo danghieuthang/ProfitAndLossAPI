@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Firebase.Auth;
+using Firebase.Storage;
+using Microsoft.AspNetCore.Http;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.Constant;
 using ProfitAndLoss.Utilities.DTOs;
+using ProfitAndLoss.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
@@ -21,6 +25,10 @@ namespace ProfitAndLoss.Business.Services
     }
     public class EvidenceServices : BaseServices<Evidence>, IEvidenceServices
     {
+        private static string ApiKey = "AIzaSyB0bAvWYtuR-EP0YiultKtT2yhdW40HgMw";
+        private static string Bucket = "swdk13.appspot.com";
+        private static string AuthEmail = "dhthang1998@gmail.com";
+        private static string AuthPassword = "anhthangdepZai123";
         public EvidenceServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
@@ -44,6 +52,31 @@ namespace ProfitAndLoss.Business.Services
             };
         }
 
+        private async Task<string> PutImageToFireBase(IFormFile file)
+        {
+            var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+            var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+
+            // you can use CancellationTokenSource to cancel the upload midway
+            var cancellation = new CancellationTokenSource();
+
+            var task = new FirebaseStorage(
+                Bucket,
+                new FirebaseStorageOptions
+                {
+                    AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                    ThrowOnCancel = true //Exception is thrown when cancel upload
+                })
+            .Child("Evidence")
+            .Child(file.FileName)
+            .PutAsync(file.OpenReadStream(), cancellation.Token);
+            var imgUrl = await task;
+            return imgUrl;
+        }
+        private void PrepareCreateEvidence(EvidenceCreateModel model)
+        {
+            model.Name = model.Image.Name;
+        }
         /// <summary>
         /// Create evidence
         /// </summary>
@@ -51,14 +84,26 @@ namespace ProfitAndLoss.Business.Services
         /// <returns>Evidence created</returns>
         public async Task<GenericResult> CreateEvidence(EvidenceCreateModel model)
         {
-            model.ImgUrl = WriteFile(model.Image).Result;
+            PrepareCreateEvidence(model);
+            if (!model.Image.FileName.IsImageFile())
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    Success = false,
+                    ResultCode = Utilities.AppResultCode.FailValidation
+                };
+            }
+            model.ImgUrl = await PutImageToFireBase(model.Image);
             var data = BaseRepository.Add(model.ToEntity());
             _unitOfWork.Commit();
             return new GenericResult
             {
                 Data = data,
                 StatusCode = System.Net.HttpStatusCode.Created,
-                Success = true
+                Success = true,
+                ResultCode = Utilities.AppResultCode.Success
             };
         }
 

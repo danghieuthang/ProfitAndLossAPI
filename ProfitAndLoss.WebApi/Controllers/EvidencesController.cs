@@ -17,13 +17,13 @@ namespace ProfitAndLoss.WebApi.Controllers
             _evidenceService = evidenceService;
         }
 
-        //[HttpPost]
-        //public async Task<GenericResult> CreateEvidence([FromForm] EvidenceCreateModel model)
-        //{
-        //    return await _evidenceService.CreateEvidence(model);
-        //}
-
         [HttpPost]
+        public async Task<GenericResult> CreateEvidence([FromForm] EvidenceCreateModel model)
+        {
+            return await _evidenceService.CreateEvidence(model);
+        }
+
+        [HttpPost("add-multi")]
         public async Task<GenericResult> CreateEvidence([FromBody] List<EvidenceCreateModel> models)
         {
             return await _evidenceService.AddMultiEvidences(models);

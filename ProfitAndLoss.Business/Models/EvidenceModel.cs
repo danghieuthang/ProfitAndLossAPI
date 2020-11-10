@@ -15,11 +15,15 @@ namespace ProfitAndLoss.Business.Models
         }
 
         [JsonIgnore]
+        [FromForm(Name ="image")]
         public IFormFile Image { get; set; }
+        [FromForm(Name = "receipt-id")]
         public Guid ReceiptId { get; set; }
 
+        [FromForm(Name = "name")]
         public string Name { get; set; }
 
+        [FromForm(Name ="img-url")]
         public string ImgUrl { get; set; }
 
     }
@@ -54,5 +58,16 @@ namespace ProfitAndLoss.Business.Models
         [JsonProperty("receipt-id")]
         public Guid ReceiptId { get; set; }
 
+    }
+
+    public class EvidenceViewModel: BaseViewModel<Evidence>
+    {
+        public EvidenceViewModel()
+        {
+
+        }
+        public string Name { get; set; }
+
+        public string ImgUrl { get; set; }
     }
 }

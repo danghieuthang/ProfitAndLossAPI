@@ -19,6 +19,7 @@ namespace ProfitAndLoss.Business.Services
     public interface IReceiptServices : IBaseServices<Receipt>
     {
         Task<GenericResult> SearchRecepts(ReceiptSearchModel model);
+        Task<GenericResult> GetReceiptByTransactionId(Guid id);
     }
     public class ReceiptServices : BaseServices<Receipt>, IReceiptServices
     {
@@ -125,6 +126,34 @@ namespace ProfitAndLoss.Business.Services
                 Success = true,
                 StatusCode = HttpStatusCode.OK
             };
+        }
+
+        public async Task<GenericResult> GetReceiptByTransactionId(Guid id)
+        {
+            var data = BaseRepository.GetAll(x => x.TransactionId == id)
+                                    .Include(x => x.Evidences)
+                                    .FirstOrDefault();
+            var result = new ReceiptViewModel();
+            Global.Mapper.Map(data, result);
+
+            if (result == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Success = true,
+                    ResultCode = Utilities.AppResultCode.NotFound,
+                    Message = EnumHelper.GetDisplayValue(Utilities.AppResultCode.NotFound)
+                };
+            }
+            return new GenericResult
+            {
+                Data = result,
+                Success = true,
+                StatusCode = HttpStatusCode.OK
+            };
+
         }
     }
 }

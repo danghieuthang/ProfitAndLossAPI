@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ProfitAndLoss.Utilities.Helpers;
 using System;
 
 namespace ProfitAndLoss.Business.Models
@@ -57,11 +58,11 @@ namespace ProfitAndLoss.Business.Models
         }
 
         [JsonIgnore]
-        [FromForm(Name = "created_date")]
+        [FromForm(Name = "created-date")]
         public DateTime CreatedDate { get; set; }
 
         [JsonIgnore]
-        [FromForm(Name = "modified_date")]
+        [FromForm(Name = "modified-date")]
         public DateTime ModifiedDate { get; set; }
 
         [JsonIgnore]

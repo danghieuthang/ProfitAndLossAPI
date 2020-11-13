@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route(RouteConstants.Member.PREFIX)]
     [ApiController]
     public class MembersController : BaseController

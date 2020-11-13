@@ -30,6 +30,10 @@ namespace ProfitAndLoss.Business.Models
         public string Code { get; set; }
         public double Balance { get; set; }
 
+        public double ShippingFee { get; set; }
+        public double DiscountPercent { get; set; }
+        public double DiscountValue { get; set; }
+
         public string NoteMessage { get; set; }
 
         [JsonIgnore]

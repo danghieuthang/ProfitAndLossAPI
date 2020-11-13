@@ -49,36 +49,15 @@ namespace ProfitAndLoss.Business.Services
                     Success = false
                 };
             }
-
-            int countTransaction = (BaseRepository.GetAll().Count() + 1);
+            // Get total count of transaction
+            int transactionCount = (BaseRepository.GetAll().Count() + 1);
+            // Add list tranasction detail
             foreach (var transactionDetail in models)
             {
-                // Get accoungingPeriod in store
-                var accountingPeriodInStore = _accountingPeriodInStoreRepository.GetAll(x => x.StoreId == transactionDetail.StoreId && x.AccountingPeriodId == transactionDetail.AccountingPeriodId).FirstOrDefault();
-                //Get accounting Period
-                var accoungtingPeriod = _accountingPeriodRepository.GetById(transactionDetail.AccountingPeriodId);
-                // Create accounting Period In Store if none exists
-                if (accountingPeriodInStore == null)
-                {
-                    AccountingPeriodInStoreCreateModel accountingPeriodCreateModel = new AccountingPeriodInStoreCreateModel
-                    {
-                        Actived = true,
-                        AccountingPeriodId = transactionDetail.AccountingPeriodId,
-                        StartDate = accoungtingPeriod.StartDate,
-                        CloseDate = accoungtingPeriod.CloseDate,
-                        CreatedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-                        Title = $"{accoungtingPeriod.Title}-{transaction.Store.Code.ToFormal()}",
-                        Description = string.Empty,
-                        Status = 1,
-                        StoreId = transactionDetail.StoreId
-                    };
-                    accountingPeriodInStore = _accountingPeriodInStoreRepository.Add(accountingPeriodCreateModel.ToEntity());
-                }
-
-                transactionDetail.AccountingPeriodInStoreId = accountingPeriodInStore.Id;
-                transactionDetail.Code = "TD-" + (countTransaction++).ToString("0000");
+                var transactionDetailModel = GetTransactionDetail(transactionDetail, transactionCount);
                 BaseRepository.Add(transactionDetail.ToEntity());
+                transactionCount++;
+
             }
             // Change status tran to SPLITED
             transaction.Status = (int)TransactionStatus.SPLITED;
@@ -102,7 +81,7 @@ namespace ProfitAndLoss.Business.Services
                                  x.Balance,
                                  x.TransactionCategory,
                                  Store = new { y.Store.Code, y.Store.Name },
-                                 AccountingPeriod = y.AccountingPeriod.Title 
+                                 AccountingPeriod = y.AccountingPeriod.Title
                              })
                                     .ToList();
             //var result = new List<TransactionDetailViewModel>();
@@ -124,6 +103,46 @@ namespace ProfitAndLoss.Business.Services
                 Success = true,
                 StatusCode = HttpStatusCode.OK
             };
+        }
+
+        /// <summary>
+        /// Create A Transaction Detail
+        /// </summary>
+        /// <param name="transactionDetail">The transaction detail create model</param>
+        /// <param name="transactionCount">The transaction count</param>
+        /// <returns></returns>
+        public async Task<TransactionDetail> GetTransactionDetail(TransactionDetailCreateModel transactionDetail, int transactionCount = 1)
+        {
+
+            var accountingPeriodInStore = _accountingPeriodInStoreRepository.GetAll(x => x.StoreId == transactionDetail.StoreId && x.AccountingPeriodId == transactionDetail.AccountingPeriodId).FirstOrDefault();
+            //Get accounting Period
+            // Create accounting Period In Store if none exists
+            if (accountingPeriodInStore == null)
+            {
+                // Get tranasction period
+                var accoungtingPeriod = _accountingPeriodRepository.GetById(transactionDetail.AccountingPeriodId);
+                // Get transaction
+                var transaction = _transactionRepository.GetById(transactionDetail.StoreId);
+
+                AccountingPeriodInStore acountingPeriodInStore = new AccountingPeriodInStore
+                {
+                    Actived = true,
+                    AccountingPeriodId = transactionDetail.AccountingPeriodId,
+                    StartedDate = accoungtingPeriod.StartDate,
+                    ClosedDate = accoungtingPeriod.CloseDate,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    Title = $"{accoungtingPeriod.Title}-{transaction.Store.Code.ToFormal()}",
+                    Description = string.Empty,
+                    Status = 1,
+                    StoreId = transactionDetail.StoreId
+                };
+                accountingPeriodInStore = _accountingPeriodInStoreRepository.Add(acountingPeriodInStore);
+            }
+
+            transactionDetail.AccountingPeriodInStoreId = accountingPeriodInStore.Id;
+            transactionDetail.Code = "TD-" + transactionCount.ToString("0000");
+            return transactionDetail.ToEntity();
         }
     }
 }

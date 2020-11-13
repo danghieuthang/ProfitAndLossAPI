@@ -19,7 +19,7 @@ namespace ProfitAndLoss.Business
         public const string LOCAL_USER = "default";
         public const string FIREBASE_USER = "firebase";
     }
-    public class RoleName
+    public static class RoleName
     {
         public const string ADMIN = "Admin";
         public const string INVESTOR = "Investor";
@@ -34,5 +34,14 @@ namespace ProfitAndLoss.Business
         };
 
     }
+
+    public static class TransactionTypeCode
+    {
+        public const string EXPENSE = "EXP";
+        public const string REVENUES = "REV";
+        public const string INVOICE = "INV";
+        public const string SALES = "SAL";
+    }
+
 
 }

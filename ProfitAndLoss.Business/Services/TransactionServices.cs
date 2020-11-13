@@ -31,6 +31,7 @@ namespace ProfitAndLoss.Business.Services
         private readonly ISupplierServices _supplierServices;
         private readonly IReceiptServices _receiptServices;
         private readonly IReceiptRepository _receiptRepository;
+        private readonly ITransactionDetailServices _transactionDetailServices;
 
         public TransactionServices(IUnitOfWork unitOfWork,
             ITransactionHistoryServices transactionHistoryServices,
@@ -38,15 +39,17 @@ namespace ProfitAndLoss.Business.Services
             ITransactionTypeServices transactionTypeServices,
              IStoreServices storeServices,
              ISupplierServices supplierServices,
-             IReceiptServices receiptServices) : base(unitOfWork)
+             IReceiptServices receiptServices,
+             ITransactionDetailServices transactionDetailServices) : base(unitOfWork)
         {
             _transactionHistoryServices = transactionHistoryServices;
             _memberServices = memberServices;
             _transactionTypeServices = transactionTypeServices;
             _storeServices = storeServices;
             _supplierServices = supplierServices;
-            this._receiptServices = receiptServices;
+            _receiptServices = receiptServices;
             _receiptRepository = unitOfWork.ReceptRepository;
+            _transactionDetailServices = transactionDetailServices;
         }
         public List<ValidationModel> ValidateModel(TransactionCreateModel model)
         {
@@ -105,13 +108,28 @@ namespace ProfitAndLoss.Business.Services
         {
             /*add new supplier if has new */
             // do later
-            var entity = model.ToEntity();
+            var transaction = model.ToEntity();
             // get transaction type
-            var transactionType = _transactionTypeServices.GetRepository().GetById(entity.TransactionTypeId.Value);
+            TransactionType transactionType = _transactionTypeServices.GetRepository().GetById(transaction.TransactionTypeId.Value);
+            transaction.Supplier = null;
+            transaction.Code = transactionType.Code + "-" + (BaseRepository.GetAll().Count() + 1).ToString("0000");
 
-            entity.Supplier = null;
-            entity.Code = transactionType.Code + "-" + (BaseRepository.GetAll().Count() + 1).ToString("0000");
-            var result = BaseRepository.Add(entity);
+            //Create transaction
+            Transaction result = _unitOfWork.TransactionRepository.Add(transaction);
+
+            switch (transactionType.Code)
+            {
+                case TransactionTypeCode.SALES:
+                    var transactionDetails = await GenerateTransactionDetails(transaction);
+                    _unitOfWork.TransactionDetailRepository.AddMulti(transactionDetails);
+                    break;
+                //case TransactionTypeCode.EXPENSE:
+                //    break;
+                //case TransactionTypeCode.INVOICE:
+                //    break;
+                //case TransactionTypeCode.REVENUES:
+                //    break;
+            }
             /* add new receipt */
             var viewModel = new TransactionViewModel();
 
@@ -140,6 +158,80 @@ namespace ProfitAndLoss.Business.Services
                 ResultCode = Utilities.AppResultCode.Success,
                 Message = EnumHelper.GetDisplayValue(Utilities.AppResultCode.Success)
             };
+        }
+
+        public async Task<List<TransactionDetail>> GenerateTransactionDetails(Transaction transaction)
+        {
+            var result = new List<TransactionDetail>();
+
+            // Get Current Accounting Period
+            var currentAccouningtPeriod = _unitOfWork.AccountingPeriodRepository.GetAll(x => x.StartDate <= DateTime.Now && DateTime.Now <= x.CloseDate).FirstOrDefault();
+
+            // Get Store
+            var store = _unitOfWork.StoreRepository.GetById(transaction.StoreId.Value);
+
+            //Get accounting Period In Store
+            var accountingPeriodInStore = _unitOfWork.AccountingPeriodInStoreRepository.GetAll(x => x.StoreId == transaction.StoreId && x.AccountingPeriodId == currentAccouningtPeriod.Id).FirstOrDefault();
+
+            // Create accounting Period In Store if none exists
+            if (accountingPeriodInStore == null)
+            {
+
+                AccountingPeriodInStore acountingPeriodInStore = new AccountingPeriodInStore
+                {
+                    Actived = true,
+                    AccountingPeriodId = currentAccouningtPeriod.Id,
+                    StartedDate = currentAccouningtPeriod.StartDate,
+                    ClosedDate = currentAccouningtPeriod.CloseDate,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    Title = $"{currentAccouningtPeriod.Title}-{store.Code.ToFormal()}",
+                    Description = string.Empty,
+                    Status = 1,
+                    StoreId = store.Id
+                };
+                accountingPeriodInStore = _unitOfWork.AccountingPeriodInStoreRepository.Add(acountingPeriodInStore);
+            }
+
+            //Create transaction detail for shopping fee
+            result.Add(new TransactionDetail
+            {
+                AccountingPeriodInStoreId = accountingPeriodInStore.Id,
+                Description = "Shipping Fee",
+                Balance = transaction.ShippingFee,
+                TransactionId = transaction.Id,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                TransactionCategoryId = new Guid("1B58AB8F-7288-4144-92C3-E9B4BAA4F521"),
+                Actived = true
+            });
+
+            //Create transaction detail for shopping fee
+            result.Add(new TransactionDetail
+            {
+                AccountingPeriodInStoreId = accountingPeriodInStore.Id,
+                Description = "Discount",
+                Balance = transaction.DiscountValue,
+                TransactionId = transaction.Id,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                TransactionCategoryId = new Guid("18A8D756-19A9-4E7A-AB4B-E3438C43C9E8"),
+                Actived = true
+            });
+
+            //Create transaction detail for cost of goods sold
+            result.Add(new TransactionDetail
+            {
+                AccountingPeriodInStoreId = accountingPeriodInStore.Id,
+                Description = "Cost of goods sold",
+                Balance = 0,
+                TransactionId = transaction.Id,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                TransactionCategoryId = new Guid("6080D750-69D9-4554-97F5-5F90AED3E407"),
+                Actived = true
+            });
+            return result;
         }
 
         public async Task<GenericResult> Approval(Guid id)
@@ -243,7 +335,7 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Search(TransactionSearchModel model)
         {
             //
-            
+
             var queryz = BaseRepository.GetAll(x =>
                                     (model.StoreId == null || x.StoreId == model.StoreId.Value)
                                     && (model.Code.IsEmpty() || x.Code.Contains(model.Code))
@@ -306,7 +398,7 @@ namespace ProfitAndLoss.Business.Services
             };
         }
 
-   
+
         public override async Task<GenericResult> GetById(Guid id)
         {
             var data = BaseRepository.GetAll(x => x.Id == id)

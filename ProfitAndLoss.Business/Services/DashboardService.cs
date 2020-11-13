@@ -22,22 +22,10 @@ namespace ProfitAndLoss.Business.Services
     public class DashboardService : IDashboardService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ITransactionRepository _transactionRepository;
-        private readonly ITransactionDetailRepository _transactionDetailRepository;
-        private readonly ITransactionCategoryRepository _transactionCategoryRepository;
-        private readonly ITransactionTypeRepository _transactionTypeRepository;
-        private readonly IAccountingPeriodInStoreRepository _accountingPeriodInStoreRepository;
-        private readonly IAccountingPeriodRepository _accountingPeriodRepository;
 
         public DashboardService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _transactionRepository = unitOfWork.TransactionRepository;
-            _transactionDetailRepository = unitOfWork.TransactionDetailRepository;
-            _transactionCategoryRepository = unitOfWork.TransactionCategoryRepository;
-            _transactionTypeRepository = unitOfWork.TransactionTypeRepository;
-            _accountingPeriodInStoreRepository = unitOfWork.AccountingPeriodInStoreRepository;
-            _accountingPeriodRepository = unitOfWork.AccountingPeriodRepository;
         }
 
         public void Dispose()
@@ -98,7 +86,7 @@ namespace ProfitAndLoss.Business.Services
             //            TotalBalance = group.Sum(x => x.TotalBalance)
             //        })
             //        .ToList();
-            var result = _transactionCategoryRepository.GetAll(x => x.TransactionType.IsDebit == isDebit)
+            var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.IsDebit == isDebit)
                 .Select(x => new DashboardPieViewModel
                 {
                     TransactionCategoryId = x.Id,
@@ -129,24 +117,25 @@ namespace ProfitAndLoss.Business.Services
         }
         public async Task<GenericResult> GetRevenueExpense(DashboardSearchModel model)
         {
+            // default get current Accounting Period
             if (model.AccountingPeriodId == null)
             {
-                model.AccountingPeriodId = _accountingPeriodRepository.GetAll(x =>
+                model.AccountingPeriodId = _unitOfWork.AccountingPeriodRepository.GetAll(x =>
                         x.StartDate <= DateTime.Now
                         && x.CloseDate >= DateTime.Now
                         ).FirstOrDefault().Id;
             }
 
-            var result = _transactionDetailRepository.GetAll(x =>
+            var result = _unitOfWork.TransactionDetailRepository.GetAll(x =>
             (model.StoreId == null || x.AccountingPeriodInStore.StoreId == model.StoreId.Value)
             && (model.AccountingPeriodId == x.AccountingPeriodInStore.AccountingPeriodId))
-                .Include(x=>x.TransactionCategory.TransactionType)
+                .Include(x => x.TransactionCategory)
                 .ToList()
                 .Select(x => new
                 {
                     x.Balance,
                     Date = x.CreatedDate.GetMonthYear(),
-                    x.TransactionCategory.TransactionType.IsDebit
+                    x.TransactionCategory.IsDebit
                 })
                 .GroupBy(x => x.Date, (key, trans) => new
                 {

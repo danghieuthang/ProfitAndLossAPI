@@ -81,7 +81,7 @@ namespace ProfitAndLoss.Business.Services
                                  x.Balance,
                                  x.TransactionCategory,
                                  Store = new { y.Store.Code, y.Store.Name },
-                                 AccountingPeriod = y.AccountingPeriod.Title
+                                 AccountingPeriod = new { y.AccountingPeriod.Id, y.AccountingPeriod.Title }
                              })
                                     .ToList();
             //var result = new List<TransactionDetailViewModel>();

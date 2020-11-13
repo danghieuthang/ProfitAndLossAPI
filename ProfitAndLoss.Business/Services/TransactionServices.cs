@@ -123,12 +123,12 @@ namespace ProfitAndLoss.Business.Services
                     var transactionDetails = await GenerateTransactionDetails(transaction);
                     _unitOfWork.TransactionDetailRepository.AddMulti(transactionDetails);
                     break;
-                //case TransactionTypeCode.EXPENSE:
-                //    break;
-                //case TransactionTypeCode.INVOICE:
-                //    break;
-                //case TransactionTypeCode.REVENUES:
-                //    break;
+                    //case TransactionTypeCode.EXPENSE:
+                    //    break;
+                    //case TransactionTypeCode.INVOICE:
+                    //    break;
+                    //case TransactionTypeCode.REVENUES:
+                    //    break;
             }
             /* add new receipt */
             var viewModel = new TransactionViewModel();
@@ -139,6 +139,18 @@ namespace ProfitAndLoss.Business.Services
                 viewModel.ReceiptId = _receiptRepository.Add(model.Receipt.ToEntity()).Id;
             }
 
+            //Add history 
+
+            _unitOfWork.TransactionHistoryRepository.Add(
+                new TransactionHistory
+                {
+                    Message = $"Created in {DateTime.Now.Date} ",
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    TransactionId = transaction.Id,
+                    Actived = true
+                });
+            // Save
             _unitOfWork.Commit();
             if (result == null)
             {

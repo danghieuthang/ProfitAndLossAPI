@@ -28,8 +28,9 @@ namespace ProfitAndLoss.Business.Models
 
         [JsonIgnore]
         public string Code { get; set; }
-        public double Balance { get; set; }
-
+        public double TotalBalance { get; set; }
+        [JsonIgnore]
+        public double SubTotal { get { return TotalBalance - (ShippingFee + DiscountValue); } }
         public double ShippingFee { get; set; }
         public double DiscountPercent { get; set; }
         public double DiscountValue { get; set; }
@@ -59,7 +60,7 @@ namespace ProfitAndLoss.Business.Models
         public Guid? TransactionTypeId { get; set; }
         public Guid? StoreId { get; set; }
         public int Status { get; set; }
-        public string Code { get; set; } 
+        public string Code { get; set; }
     }
 
     public class TransactionViewModel : BaseViewModel<Transaction>
@@ -77,7 +78,15 @@ namespace ProfitAndLoss.Business.Models
 
         public string Code { get; set; }
 
-        public double Balance { get; set; }
+        public double TotalBalance { get; set; }
+
+        public double SubTotal { get; set; }
+
+        public double ShippingFee { get; set; }
+
+        public double DiscountPercent { get; set; }
+
+        public double DiscountValue { get; set; }
 
         public string NoteMessage { get; set; }
 

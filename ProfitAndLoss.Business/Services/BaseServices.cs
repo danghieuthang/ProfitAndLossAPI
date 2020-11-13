@@ -14,7 +14,7 @@ namespace ProfitAndLoss.Business.Services
     {
     }
 
-    public interface IBaseServices<T> : IDisposable, IBaseServices
+    public interface IBaseServices<T> : IDisposable, IBaseServices where T : BaseEntity<Guid>
     {
         Task<GenericResult> Create(BaseCreateModel<T> model);
         Task<GenericResult> Update(BaseUpdateModel<T> model);
@@ -26,6 +26,7 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> GetAll();
         bool IsExist(Guid id);
         IQueryable<T> GetEntity();
+        IBaseRepository<T, Guid> GetRepository();
 
     }
     public class BaseServices<T> : IBaseServices<T> where T : BaseEntity<Guid>
@@ -55,6 +56,10 @@ namespace ProfitAndLoss.Business.Services
                                     .Select(c => c.GetValue(_unitOfWork)) // Select the repositories in UnitOfWork
                                     .FirstOrDefault(x => x is IBaseRepository<T, Guid>);
             }
+        }
+        public IBaseRepository<T, Guid> GetRepository()
+        {
+            return BaseRepository;
         }
         public IQueryable<T> GetEntity()
         {

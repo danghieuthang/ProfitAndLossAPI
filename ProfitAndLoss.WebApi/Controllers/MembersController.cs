@@ -18,6 +18,7 @@ using ProfitAndLoss.Business.Models;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route(RouteConstants.Member.PREFIX)]
     [ApiController]
     public class MembersController : BaseController

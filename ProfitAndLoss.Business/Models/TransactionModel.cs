@@ -5,6 +5,7 @@ using ProfitAndLoss.Utilities.Constant;
 using ProfitAndLoss.Utilities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -53,7 +54,7 @@ namespace ProfitAndLoss.Business.Models
         public Guid? TransactionTypeId { get; set; }
         public Guid? StoreId { get; set; }
         public int Status { get; set; }
-        public string Code { get; set; }
+        public string Code { get; set; } 
     }
 
     public class TransactionViewModel : BaseViewModel<Transaction>

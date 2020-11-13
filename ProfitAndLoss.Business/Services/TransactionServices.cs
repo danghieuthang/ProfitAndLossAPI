@@ -106,7 +106,9 @@ namespace ProfitAndLoss.Business.Services
             /*add new supplier if has new */
             // do later
             var entity = model.ToEntity();
-            var transactionType = _transactionTypeServices.GetEntity().Where(x => x.Id == model.TransactionTypeId).FirstOrDefault();
+            // get transaction type
+            var transactionType = _transactionTypeServices.GetRepository().GetById(entity.TransactionTypeId.Value);
+
             entity.Supplier = null;
             entity.Code = transactionType.Code + "-" + (BaseRepository.GetAll().Count() + 1).ToString("0000");
             var result = BaseRepository.Add(entity);
@@ -241,7 +243,8 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> Search(TransactionSearchModel model)
         {
             //
-            var entities = BaseRepository.GetAll(x =>
+            
+            var queryz = BaseRepository.GetAll(x =>
                                     (model.StoreId == null || x.StoreId == model.StoreId.Value)
                                     && (model.Code.IsEmpty() || x.Code.Contains(model.Code))
                                     && (model.TransactionTypeId == null || x.TransactionTypeId == model.TransactionTypeId)
@@ -251,8 +254,8 @@ namespace ProfitAndLoss.Business.Services
                                     .Include(x => x.Store).Include(x => x.Store.Brand)
                                     .Include(x => x.Supplier)
                                     .Include(x => x.TransactionType)
-                                    .Include(x => x.Member)
-                                    .ToList();
+                                    .Include(x => x.Member).ToList();
+            var query = queryz.AsQueryable();
             //
             var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
             var currentPage = model.Page > 0 ? model.Page : 1;
@@ -260,23 +263,24 @@ namespace ProfitAndLoss.Business.Services
             var pageResult = new PageResult<Transaction>
             {
                 PageIndex = currentPage,
-                TotalCount = entities.Count,
-                TotalPage = (int)Math.Ceiling(entities.Count * 1.0 / pageSize)
+                TotalCount = query.Count(),
+                TotalPage = (int)Math.Ceiling(query.Count() * 1.0 / pageSize)
             };
 
             var strOrder = model.SortBy;
             switch (strOrder)
             {
                 case "asc":
-                    entities = entities.OrderBy(x => x.CreatedDate).ToList();
+                    query = query.OrderBy(x => x.CreatedDate).AsQueryable();
                     break;
                 case "desc":
-                    entities = entities.OrderByDescending(x => x.CreatedDate).ToList();
+                    query = query.OrderByDescending(x => x.CreatedDate).AsQueryable();
                     break;
                 default:
+                    query = query.OrderBy(x => x.CreatedDate).AsQueryable();
                     break;
             }
-            entities = entities.Skip((currentPage - 1) * pageSize)
+            var entities = query.Skip((currentPage - 1) * pageSize)
                                     .Take(pageSize)
                                     .ToList();
 

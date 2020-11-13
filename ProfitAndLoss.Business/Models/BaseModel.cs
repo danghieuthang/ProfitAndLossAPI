@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ProfitAndLoss.Utilities.Helpers;
 using System;
+using System.ComponentModel;
 
 namespace ProfitAndLoss.Business.Models
 {

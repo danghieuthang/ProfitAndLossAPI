@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
@@ -16,25 +19,18 @@ namespace ProfitAndLoss.Business.Services
     public class ScheduleServices : BackgroundService, IDisposable
     {
         #region fields
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IAccountingPeriodRepository _accountingPeriodRepository;
-        private readonly IMemberRepository _memberRepository;
-        private readonly IdentityServices _identityServices;
+        private IUnitOfWork _unitOfWork;
         private readonly ILogger<ScheduleServices> _logger;
-
+        private IServiceScopeFactory _serviceScopeFactory;
         #endregion fields
         #region consts
         private const string APP_EMAIL = "dhthang1998@gmail.com";
         private const string APP_PASSWORD = "anhthangdepZai123";
         #endregion consts
-        public ScheduleServices(ILogger<ScheduleServices> logger, IUnitOfWork unitOfWork)
+        public ScheduleServices(ILogger<ScheduleServices> logger, IServiceScopeFactory serviceScopeFactory)
         {
             _logger = logger;
-            _unitOfWork = unitOfWork;
-            _accountingPeriodRepository = unitOfWork.AccountingPeriodRepository;
-            _memberRepository = unitOfWork.MemberRepository;
-
- 
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
 
@@ -48,16 +44,21 @@ namespace ProfitAndLoss.Business.Services
             {
                 mainClient.EnableSsl = true;
                 mainClient.Credentials = new NetworkCredential("dhthang1998@gmail.com", "anhthangdepZai123");
-                //Get all email of investor
-                var emails = _identityServices.GetAllInvestor().Result;
-                foreach (var email in emails)
+                using (var scope = _serviceScopeFactory.CreateScope())
                 {
-                    MailMessage message = new MailMessage(APP_EMAIL, APP_PASSWORD);
-                    message.Subject = "Báo cáo P&L cuối kì";
-                    string bodyMessage = "This is body";
-                    message.Body = bodyMessage;
-                    mainClient.Send(message);
+                    //Get all email of investor
+                    var _identityServices = scope.ServiceProvider.GetRequiredService<IdentityServices>();
+                    var emails = _identityServices.GetAllInvestor().Result;
+                    foreach (var email in emails)
+                    {
+                        MailMessage message = new MailMessage(APP_EMAIL, APP_PASSWORD);
+                        message.Subject = "Báo cáo P&L cuối kì";
+                        string bodyMessage = "This is body";
+                        message.Body = bodyMessage;
+                        mainClient.Send(message);
+                    }
                 }
+
 
             }
 
@@ -68,15 +69,22 @@ namespace ProfitAndLoss.Business.Services
         /// <returns></returns>
         private Tuple<bool, Guid?> CurrentCloseAccountingPeriod()
         {
-            var data = _accountingPeriodRepository
+
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                _unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                var _accountingPeriodRepository = _unitOfWork.AccountingPeriodRepository;
+                var data = _accountingPeriodRepository
                 .GetAll(x => x.CloseDate.Date.AddDays(1) == DateTime.Now.Date)
                 .Select(x => x.Id).ToList();
-            if (data.Any()) // if close accounting period 
-            {
-                return new Tuple<bool, Guid?>(true, data.FirstOrDefault());
+                if (data.Any()) // if close accounting period 
+                {
+                    return new Tuple<bool, Guid?>(true, data.FirstOrDefault());
+                }
+                // if is not close accounting period
+                return new Tuple<bool, Guid?>(false, null);
             }
-            // if is not close accounting period
-            return new Tuple<bool, Guid?>(false, null);
+
         }
 
         public void Dispose()

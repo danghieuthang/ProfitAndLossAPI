@@ -34,7 +34,23 @@ namespace ProfitAndLoss.Data.Models
         public virtual TransactionType TransactionType { get; set; }
 
         [DefaultValue(0)]
-        public double Balance { get; set; }
+        public double TotalBalance { get; set; }
+
+        [DefaultValue(0)]
+        public double ShippingFee { get; set; }
+
+        [DefaultValue(0)]
+        public double DiscountPercent { get; set; }
+
+        [DefaultValue(0)]
+        public double DiscountValue { get; set; }
+
+        [DefaultValue(0)]
+        public double SubTotal { get; set; }
+
+        public double AmountPaid { get; set; }
+
+        public double DueBalance { get; set; }
 
         public string NoteMessage { get; set; }
 

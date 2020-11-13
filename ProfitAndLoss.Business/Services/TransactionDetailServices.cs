@@ -39,7 +39,7 @@ namespace ProfitAndLoss.Business.Services
         {
             var transaction = _transactionRepository.GetAll(x => x.Id == models.FirstOrDefault().TransactionId)
                                                    .Include(x => x.Store).FirstOrDefault();
-            if (models.Sum(x => x.Balance) != transaction.Balance)
+            if (models.Sum(x => x.Balance) != transaction.TotalBalance)
             {
                 return new GenericResult
                 {

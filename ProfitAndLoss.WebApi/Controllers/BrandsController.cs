@@ -3,10 +3,12 @@ using System.Data;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
@@ -19,7 +21,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         private readonly IDemoExcelServices _demoExcelService;
         private const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-        public BrandsController(IBrandServices brandService, IDemoExcelServices demoExcelService)
+        public BrandsController(IBrandServices brandService, IDemoExcelServices demoExcelService, IdentityServices identityServices) : base(identityServices)
         {
             _brandService = brandService;
             _demoExcelService = demoExcelService;

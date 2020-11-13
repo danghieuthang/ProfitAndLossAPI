@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
@@ -12,7 +14,7 @@ namespace ProfitAndLoss.WebApi.Controllers
     public class EvidencesController : BaseController
     {
         private readonly IEvidenceServices _evidenceService;
-        public EvidencesController(IEvidenceServices evidenceService)
+        public EvidencesController(IEvidenceServices evidenceService, IdentityServices identityServices) : base(identityServices)
         {
             _evidenceService = evidenceService;
         }

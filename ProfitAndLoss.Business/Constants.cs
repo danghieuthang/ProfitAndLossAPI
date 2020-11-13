@@ -25,5 +25,14 @@ namespace ProfitAndLoss.Business
         public const string INVESTOR = "Investor";
         public const string CHIEF_ACCOUNTANT = "ChiefAccountant";
         public const string MEMBER_IN_STORE = "MemberInStore";
+
+        public static IDictionary<int, string> USER_ROLE = new Dictionary<int, string>(){
+            {1, ADMIN },
+            {2, INVESTOR },
+            {3, CHIEF_ACCOUNTANT },
+            {4, MEMBER_IN_STORE }
+        };
+
     }
+
 }

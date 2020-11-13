@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
@@ -19,7 +21,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         #endregion fields
 
 
-        public ReceptsController(IReceiptServices receptService, IStoreServices storeService)
+        public ReceptsController(IReceiptServices receptService, IStoreServices storeService, IdentityServices identityServices) : base(identityServices)
         {
             _receptService = receptService;
             _storeService = storeService;

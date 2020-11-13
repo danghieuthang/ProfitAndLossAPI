@@ -16,6 +16,7 @@ namespace ProfitAndLoss.Business.Models
         {
             Status = (int)TransactionStatus.NEW; // New
         }
+        [JsonIgnore]
         public Guid? CreateMemberId { get; set; }
         public Guid? TransactionTypeId { get; set; }
         public Guid? StoreId { get; set; }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
@@ -15,7 +17,7 @@ namespace ProfitAndLoss.WebApi.Controllers
     public class AccountingPeriodsController : BaseController
     {
         private readonly IAccountingPeriodServices _accountingPeriodService;
-        public AccountingPeriodsController(IAccountingPeriodServices accountingPeriodService)
+        public AccountingPeriodsController(IAccountingPeriodServices accountingPeriodService, IdentityServices identityServices) : base(identityServices)
         {
             _accountingPeriodService = accountingPeriodService;
         }

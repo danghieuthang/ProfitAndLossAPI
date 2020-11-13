@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
@@ -15,7 +17,7 @@ namespace ProfitAndLoss.WebApi.Controllers
     public class SuppliersController : BaseController
     {
         private readonly ISupplierServices _supplierService;
-        public SuppliersController(ISupplierServices supplierService)
+        public SuppliersController(ISupplierServices supplierService, IdentityServices identityServices) : base(identityServices)
         {
             _supplierService = supplierService;
         }

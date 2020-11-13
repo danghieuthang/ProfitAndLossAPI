@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities;
 using ProfitAndLoss.Utilities.DTOs;
 using ProfitAndLoss.Utilities.Helpers;
@@ -17,7 +19,7 @@ namespace ProfitAndLoss.WebApi.Controllers
     public class TransactionsController : BaseController
     {
         private readonly ITransactionServices _transactionService;
-        public TransactionsController(ITransactionServices transactionService)
+        public TransactionsController(ITransactionServices transactionService, IdentityServices identityServices) : base(identityServices)
         {
             _transactionService = transactionService;
         }
@@ -48,7 +50,17 @@ namespace ProfitAndLoss.WebApi.Controllers
         [HttpPost]
         public async Task<GenericResult> Create([FromBody] TransactionCreateModel model)
         {
-            //model.CreateMemberId = new Guid(UserId);
+            var user = await _identityServices.GetUserByIdAsync(HttpContext.User.Identity.Name);
+            if (user == null)
+            {
+                return new GenericResult
+                {
+                    Success = false,
+                    StatusCode = System.Net.HttpStatusCode.Unauthorized,
+                    ResultCode = AppResultCode.Unauthorized
+                };
+            }
+            model.CreateMemberId = new Guid(user.Id);
             var validationModels = _transactionService.ValidateModel(model);
             if (validationModels.Count() > 0)
             {

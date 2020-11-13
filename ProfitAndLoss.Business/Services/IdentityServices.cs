@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using FirebaseAdmin.Auth;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace ProfitAndLoss.Business.Services
 {
@@ -65,12 +66,17 @@ namespace ProfitAndLoss.Business.Services
             }
             return result;
         }
-        public async Task<IdentityResult> CreateUserWithDefaultRoleAsync(AppUser user, string password)
+        public async Task<IdentityResult> CreateUserWithDefaultRoleAsync(AppUser user, UserCreateModel model)
         {
             PrepareCreate(user);
             var listRole = new List<string>() { RoleName.MEMBER_IN_STORE };
+
+            if (RoleName.USER_ROLE.ContainsKey(model.Role))
+            {
+                listRole.Add(RoleName.USER_ROLE[model.Role]);
+            }
             await CreateRoles(listRole);
-            var result = await _userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user, model.Password);
             if (listRole.Count != 0)
             {
                 await _userManager.AddToRolesAsync(user, listRole);
@@ -110,10 +116,14 @@ namespace ProfitAndLoss.Business.Services
             }
             _context.SaveChanges();
         }
-        public async Task<SignInResult> SignInAsync(AppUser appUser, RequestLoginModel model)
+        public async Task<SignInResult> SignInAsync(AppUser appUser, UserLoginModel model)
         {
             var result = await _signInManager.CheckPasswordSignInAsync(appUser,
                 password: model.Password, false);
+            //if (result.Succeeded)
+            //{
+            //    _ = await _signInManager.PasswordSignInAsync(appUser, password: model.Password, model.RememberMe, lockoutOnFailure: false);
+            //}
             return result;
         }
         public async Task<ClaimsIdentity> GetIdentityAsync(AppUser entity, string scheme)
@@ -197,7 +207,7 @@ namespace ProfitAndLoss.Business.Services
             {
                 entity.Id = new Guid(entity.Id).ToString();
             }
-            var result = await CreateUserWithDefaultRoleAsync(entity, "ReadlyStrongPassword123");
+            var result = await CreateUserWithDefaultRoleAsync(entity, new UserCreateModel { Password = "ReadlyStrongPassword" });
             return result;
         }
 
@@ -209,5 +219,15 @@ namespace ProfitAndLoss.Business.Services
         {
             return _userManager.GetUsersInRoleAsync(RoleName.INVESTOR).Result.Select(x => x.Email).ToList();
         }
+
+        public void Logout()
+        {
+            _signInManager.SignOutAsync();
+        }
+
+        //public async Task<AppUser> GetCurrentUser(Da)
+        //{
+        //    return await _userManager.GetUserAsync()
+        //}
     }
 }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
@@ -16,7 +18,7 @@ namespace ProfitAndLoss.WebApi.Controllers
     {
         private readonly IStoreServices _storeService;
         private readonly IBrandServices _brandService;
-        public StoresController(IStoreServices storeService, IBrandServices brandService)
+        public StoresController(IStoreServices storeService, IBrandServices brandService, IdentityServices identityServices) : base(identityServices)
         {
             _storeService = storeService;
             _brandService = brandService;

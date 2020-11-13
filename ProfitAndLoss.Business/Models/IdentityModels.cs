@@ -6,12 +6,13 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class RequestLoginModel
+    public class UserLoginModel
     {
         public string Username { get; set; }
         public string Password { get; set; }
         public string FirebaseToken { get; set; }
         public string RequestType { get; set; }
+        public bool RememberMe { get; set; }
     }
     public class TokenResponseLoginModel
     {
@@ -21,10 +22,11 @@ namespace ProfitAndLoss.Business.Models
         public string Role { get; set; }
     }
 
-    public class RequestCreateModel
+    public class UserCreateModel
     {
         public string Username { get; set; }
         public string FullName { get; set; }
         public string Password { get; set; }
+        public int Role { get; set; }
     }
 }

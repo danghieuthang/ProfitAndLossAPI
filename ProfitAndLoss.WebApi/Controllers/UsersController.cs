@@ -11,16 +11,17 @@ using ProfitAndLoss.Utilities.DTOs;
 using ProfitAndLoss.Utilities.Helpers;
 using ProfitAndLoss.Utilities;
 using FirebaseAdmin.Auth;
+using System.Net;
+using ProfitAndLoss.WebApi.Helpers;
+using Microsoft.AspNetCore.Identity;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
     [ApiController]
     public class UsersController : BaseController
     {
-        private readonly IdentityServices _identityServices;
-        public UsersController(IdentityServices identityServices)
+        public UsersController(IdentityServices identityServices) : base(identityServices)
         {
-            _identityServices = identityServices;
         }
         /// <summary>
         /// Using for login an account 
@@ -33,7 +34,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         [Route(RouteConstants.User.LOGIN)]
         [AllowAnonymous]
         //[Route(ApiVer1UrlConstant.User.LOGIN)]
-        public async Task<GenericResult> LoginAsync([FromBody] RequestLoginModel login)
+        public async Task<GenericResult> LoginAsync([FromBody] UserLoginModel login)
         {
             List<ValidationModel> listValidation = new List<ValidationModel>();
             AppUser appUser = new AppUser();
@@ -86,14 +87,17 @@ namespace ProfitAndLoss.WebApi.Controllers
                                 Message = "Invalid username"
                             });
                         }
-                        var result = await _identityServices.SignInAsync(appUser, login);
-                        if (!result.Succeeded)
+                        else
                         {
-                            listValidation.Add(new ValidationModel()
+                            var result = await _identityServices.SignInAsync(appUser, login);
+                            if (!result.Succeeded)
                             {
-                                Data = StringHelpers.HyphensCase(nameof(login.Password)),
-                                Message = "Invalid password"
-                            });
+                                listValidation.Add(new ValidationModel()
+                                {
+                                    Data = StringHelpers.HyphensCase(nameof(login.Password)),
+                                    Message = "Invalid password"
+                                });
+                            }
                         }
                     }
                     else
@@ -106,6 +110,7 @@ namespace ProfitAndLoss.WebApi.Controllers
                     }
                     break;
             }
+
             if (listValidation.Count > 0)
             {
                 return new GenericResult
@@ -113,7 +118,8 @@ namespace ProfitAndLoss.WebApi.Controllers
                     Success = false,
                     Error = listValidation,
                     Message = EnumHelper.GetDisplayValue(AppResultCode.FailValidation),
-                    ResultCode = AppResultCode.FailValidation
+                    ResultCode = AppResultCode.FailValidation,
+                    StatusCode = HttpStatusCode.BadRequest
                 };
             }
             var tokenString = await _identityServices.GenerateJWTTokenAsync(appUser);
@@ -137,14 +143,14 @@ namespace ProfitAndLoss.WebApi.Controllers
 
         [HttpPost]
         [Route(RouteConstants.User.PREFIX)]
-        public async Task<GenericResult> CreateUserAsync([FromBody] RequestCreateModel model)
+        public async Task<GenericResult> CreateUserAsync([FromBody] UserCreateModel model)
         {
             AppUser user = new AppUser()
             {
                 UserName = model.Username,
-                Fullname = model.FullName
+                Fullname = model.FullName,
             };
-            var result = await _identityServices.CreateUserWithDefaultRoleAsync(user, model.Password);
+            var result = await _identityServices.CreateUserWithDefaultRoleAsync(user, model);
             if (result.Succeeded)
             {
                 return new GenericResult { Success = true };
@@ -165,6 +171,17 @@ namespace ProfitAndLoss.WebApi.Controllers
             };
             await _identityServices.CreateRoles(listRole);
             return new GenericResult { Success = false };
+        }
+
+        /// <summary>
+        /// Logout
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("/logout")]
+        public async Task<GenericResult> Logout()
+        {
+            _identityServices.Logout();
+            return new GenericResult { Success = true, StatusCode = HttpStatusCode.OK };
         }
     }
 }

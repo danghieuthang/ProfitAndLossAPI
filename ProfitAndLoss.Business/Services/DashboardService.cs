@@ -75,7 +75,7 @@ namespace ProfitAndLoss.Business.Services
             //        {
             //            x.Id,
             //            x.Name,
-            //            y.Balance,
+            //            y.TotalBalance,
             //            y.AccountingPeriodInStoreId,
             //        })
             //        .Join(_accountingPeriodInStoreRepository.GetAll(
@@ -87,7 +87,7 @@ namespace ProfitAndLoss.Business.Services
             //        {
             //            x.Id,
             //            x.Name,
-            //            x.Balance
+            //            x.TotalBalance
             //        })
             //        .GroupBy(x => x.Id)
             //        .Select(group =>
@@ -95,7 +95,7 @@ namespace ProfitAndLoss.Business.Services
             //        {
             //            TransactionCategoryId = group.Key,
             //            //TransactionCategoryName = group.Select(x=>x.Name).FirstOrDefault(),
-            //            TotalBalance = group.Sum(x => x.Balance)
+            //            TotalBalance = group.Sum(x => x.TotalBalance)
             //        })
             //        .ToList();
             var result = _transactionCategoryRepository.GetAll(x => x.TransactionType.IsDebit == isDebit)

@@ -52,9 +52,7 @@ namespace ProfitAndLoss.WebApi
                 options => options.UseSqlServer(ConnectionString.CNN)
                 );
             #endregion dbcontext
-            #region add backgroup job
-            //services.AddHostedService<ScheduleServices>();
-            #endregion add backgroup job
+
 
             services.AddScoped<IdentityServices>();
             services.AddScoped<IDashboardService, DashboardService>();
@@ -68,6 +66,8 @@ namespace ProfitAndLoss.WebApi
             //services.AddScoped<IStoreService, StoreService>();
 
             #endregion Registration services
+
+
             services.AddIdentityCore<AppUser>(options =>
             {
                 options.SignIn.RequireConfirmedEmail = false;
@@ -75,6 +75,9 @@ namespace ProfitAndLoss.WebApi
             .AddDefaultTokenProviders()
             .AddSignInManager()
             .AddEntityFrameworkStores<DataContext>();
+
+            #region Configure Identity
+
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -92,6 +95,9 @@ namespace ProfitAndLoss.WebApi
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
             });
+
+            #endregion Configure Identity
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
               .AddJwtBearer(options =>
               {
@@ -187,6 +193,10 @@ namespace ProfitAndLoss.WebApi
                 //              .AllowAnyHeader();
                 //    });
             });
+
+            #region add backgroup job
+            services.AddHostedService<ScheduleServices>();
+            #endregion add backgroup job
 
         }
 

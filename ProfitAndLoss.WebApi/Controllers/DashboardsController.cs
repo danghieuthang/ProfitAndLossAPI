@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Services;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
@@ -15,7 +17,7 @@ namespace ProfitAndLoss.WebApi.Controllers
     public class DashboardsController : BaseController
     {
         private readonly IDashboardService _dashboardService;
-        public DashboardsController(IDashboardService dashboardService)
+        public DashboardsController(IDashboardService dashboardService, IdentityServices identityServices) : base(identityServices)
         {
             _dashboardService = dashboardService;
         }

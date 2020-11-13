@@ -15,6 +15,7 @@ using ProfitAndLoss.Business.Services;
 using System.Net;
 using ProfitAndLoss.WebApi.Helpers;
 using ProfitAndLoss.Business.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
@@ -25,7 +26,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         private readonly DataContext _context;
         private readonly IActorServices _actorServices;
 
-        public MembersController(IActorServices actorServices)
+        public MembersController(IActorServices actorServices, IdentityServices identityServices) : base(identityServices)
         {
             var logger = this.Log();
             logger.Info("my message");

@@ -1,6 +1,9 @@
 ﻿using log4net;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ProfitAndLoss.Business.Services;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 using ProfitAndLoss.WebApi.Helpers;
 using System;
@@ -16,7 +19,7 @@ namespace ProfitAndLoss.WebApi.Controllers
     public class ErrorController : BaseController
     {
         private static ILog _logger;
-        public ErrorController()
+        public ErrorController(IdentityServices identityServices) : base(identityServices)
         {
             _logger = this.Log();
         }

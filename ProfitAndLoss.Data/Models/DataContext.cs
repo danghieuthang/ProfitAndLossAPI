@@ -116,46 +116,116 @@ namespace ProfitAndLoss.Data.Models
                  }
                 );
 
-            modelBuilder.Entity<TransactionCategory>().HasData(
+            _ = modelBuilder.Entity<TransactionCategory>().HasData(
                 new TransactionCategory()
                 {
                     TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
                     Actived = true,
-                    Code = "SAL-001",
+                    Code = "SAL-PS",
                     Name = "Product Sale",
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid()
+                    Id = Guid.NewGuid(),
+                    IsDebit = true
+                },
+                 new TransactionCategory()
+                 {
+                     TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
+                     Actived = true,
+                     Code = "SAL-COGS",
+                     Name = "Cost of goods sold",
+                     CreatedDate = DateTime.Now,
+                     ModifiedDate = DateTime.Now,
+                     Id = Guid.NewGuid(),
+                     IsDebit = false,
+                 },
+                new TransactionCategory()
+                {
+                    TransactionTypeId = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"),
+                    Actived = true,
+                    Code = "INV-INVENTORY",
+                    Name = "Inventory",
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    Id = Guid.NewGuid(),
+                    IsDebit = true
+                },
+                new TransactionCategory()
+                {
+                    TransactionTypeId = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"),
+                    Actived = true,
+                    Code = "INV-DIS",
+                    Name = "Inventory Discount",
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    Id = Guid.NewGuid(),
+                    IsDebit = true
                 },
                 new TransactionCategory()
                 {
                     TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
                     Actived = true,
-                    Code = "REV-001",
-                    Name = "Room Revenues",
+                    Code = "REV-COMMON",
+                    Name = "Common Revenues",
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid()
+                    Id = Guid.NewGuid(),
+                    IsDebit = true
+                },
+                 new TransactionCategory()
+                 {
+                     TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
+                     Actived = true,
+                     Code = "REV-PAKING",
+                     Name = "Paking Revenues",
+                     CreatedDate = DateTime.Now,
+                     ModifiedDate = DateTime.Now,
+                     Id = Guid.NewGuid(),
+                     IsDebit = true
+                 },
+                  new TransactionCategory()
+                  {
+                      TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
+                      Actived = true,
+                      Code = "REV-BRAND",
+                      Name = "Brand Revenues",
+                      CreatedDate = DateTime.Now,
+                      ModifiedDate = DateTime.Now,
+                      Id = Guid.NewGuid(),
+                      IsDebit = true,
+                  },
+                new TransactionCategory()
+                {
+                    TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),
+                    Actived = true,
+                    Code = "EXP-WAGES",
+                    Name = "Wages Expense", //  Tiền lương
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    Id = Guid.NewGuid(),
+                    IsDebit = false
                 },
                 new TransactionCategory()
                 {
                     TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),
                     Actived = true,
-                    Code = "Invoice-001",
-                    Name = "Inventory Expense",
+                    Code = "EXP-SHIP",
+                    Name = "Shipping Fee",
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid()
+                    Id = Guid.NewGuid(),
+                    IsDebit = false
                 },
                 new TransactionCategory()
                 {
                     TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),
                     Actived = true,
-                    Code = "EXP-001",
-                    Name = "Wages Expense",
+                    Code = "EXP-DIS",
+                    Name = "Discount",
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid()
+                    Id = Guid.NewGuid(),
+                    IsDebit = false
                 }
                 );
 

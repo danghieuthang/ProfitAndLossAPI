@@ -82,7 +82,7 @@ namespace ProfitAndLoss.Data.Models
                 new TransactionType { Id = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Sales", ModifiedDate = DateTime.Now, Code = "SAL" },
                 new TransactionType { Id = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Revenues", ModifiedDate = DateTime.Now, Code = "REV" },
                 new TransactionType { Id = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Invoice", ModifiedDate = DateTime.Now, Code = "INV" },
-                new TransactionType { Id = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Expenses", ModifiedDate = DateTime.Now, Code = "EXP" }
+                new TransactionType { Id = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"), Actived = true, CreatedDate = DateTime.Now, IsDebit = false, Name = "Expenses", ModifiedDate = DateTime.Now, Code = "EXP" }
                 );
             modelBuilder.Entity<Brand>().HasData(
                 new Brand()

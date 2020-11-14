@@ -35,7 +35,7 @@ namespace ProfitAndLoss.Business.Services
 
         public async Task<GenericResult> GetExpensePie(DashboardSearchModel model)
         {
-            var result = await GetPie(model, false);
+            var result = await GetPieByTranactionType(model, false);
             return new GenericResult
             {
                 Data = result,
@@ -45,47 +45,8 @@ namespace ProfitAndLoss.Business.Services
             };
         }
 
-        private async Task<List<DashboardPieViewModel>> GetPie(DashboardSearchModel model, bool isDebit)
+        private async Task<List<DashboardPieViewModel>> GetPieByTranactionCategory(DashboardSearchModel model, bool isDebit)
         {
-            //var result =  _transactionCategoryRepository.GetAll(x => x.TransactionType.IsDebit == isDebit).ToList();
-
-            //var result = _transactionCategoryRepository.GetAll()
-            //        .Join(_transactionTypeRepository.GetAll(x => x.IsDebit == isDebit), x => x.TransactionTypeId, y => y.Id,
-            //        (x, y) =>
-            //        new
-            //        {
-            //            x.Id,
-            //            x.Name
-            //        })
-            //        .Join(_transactionDetailRepository.GetAll(), x => x.Id, y => y.TransactionCategoryId,
-            //        (x, y) =>
-            //        new
-            //        {
-            //            x.Id,
-            //            x.Name,
-            //            y.TotalBalance,
-            //            y.AccountingPeriodInStoreId,
-            //        })
-            //        .Join(_accountingPeriodInStoreRepository.GetAll(
-            //            x => (model.StoreId == null || x.StoreId == model.StoreId.Value)
-            //              && (model.AccountingPeriodId == null || x.AccountingPeriodId == model.AccountingPeriodId.Value))
-            //            , x => x.AccountingPeriodInStoreId, y => y.Id,
-            //        (x, y) =>
-            //        new
-            //        {
-            //            x.Id,
-            //            x.Name,
-            //            x.TotalBalance
-            //        })
-            //        .GroupBy(x => x.Id)
-            //        .Select(group =>
-            //        new DashboardPieViewModel
-            //        {
-            //            TransactionCategoryId = group.Key,
-            //            //TransactionCategoryName = group.Select(x=>x.Name).FirstOrDefault(),
-            //            TotalBalance = group.Sum(x => x.TotalBalance)
-            //        })
-            //        .ToList();
             var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.IsDebit == isDebit)
                 .Select(x => new DashboardPieViewModel
                 {
@@ -99,9 +60,55 @@ namespace ProfitAndLoss.Business.Services
 
             return result;
         }
+
+        private async Task<List<DashboardPieViewModel>> GetPieByTranactionType(DashboardSearchModel model, bool isDebit)
+        {
+
+            //var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.IsDebit == isDebit)
+            //    .Include(x => x.TransactionType)
+            //    .Where(x => x.TransactionType.IsDebit == isDebit)
+            //    .Select(x => new DashboardPieViewModel
+            //    {
+            //        TransactionCategoryId = x.TransactionType.Id,
+            //        TransactionCategoryName = x.TransactionType.Name,
+            //        TotalBalance = x.TransactionDetails.Where(t =>
+            //        (model.StoreId == null || model.StoreId.Value == t.AccountingPeriodInStore.StoreId)
+            //        && (model.AccountingPeriodId == null || model.AccountingPeriodId.Value == t.AccountingPeriodInStore.AccountingPeriodId))
+            //        .Sum(t => t.Balance)
+            //    })
+            //    .Where(x => x.TotalBalance > 0)
+            //    .Distinct()
+            //    .ToList();
+            var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.IsDebit == isDebit)
+                .Include(x => x.TransactionType)
+                .Where(x => x.IsDebit == x.TransactionType.IsDebit)
+                .Select(x => new
+                {
+                    ID = x.TransactionType.Id,
+                    Name = x.TransactionType.Name,
+                    TotalBalance = x.TransactionDetails.Where(t =>
+                        (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
+                        && (model.AccountingPeriodId == null || t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
+                        .Sum(t => t.Balance)
+                })
+                .Where(x => x.TotalBalance > 0)
+                .Distinct()
+                .ToList()
+                .GroupBy(x => x.ID)
+                .Select(g => new DashboardPieViewModel
+                {
+                    TransactionCategoryId = g.Key,
+                    TransactionCategoryName = g.Select(x => x.Name).FirstOrDefault(),
+                    TotalBalance = g.Sum(x => x.TotalBalance)
+                })
+                .Where(x => x.TotalBalance > 0)
+                .ToList();
+            return result;
+        }
+
         public async Task<GenericResult> GetRevenuesPie(DashboardSearchModel model)
         {
-            var result = await GetPie(model, true);
+            var result = await GetPieByTranactionType(model, true);
             return new GenericResult
             {
                 Data = result,
@@ -125,7 +132,7 @@ namespace ProfitAndLoss.Business.Services
                         && x.CloseDate >= DateTime.Now
                         ).FirstOrDefault().Id;
             }
-
+            // Query revenues and expense
             var result = _unitOfWork.TransactionDetailRepository.GetAll(x =>
             (model.StoreId == null || x.AccountingPeriodInStore.StoreId == model.StoreId.Value)
             && (model.AccountingPeriodId == x.AccountingPeriodInStore.AccountingPeriodId))

@@ -18,6 +18,7 @@ namespace ProfitAndLoss.Business.Services
     {
         Task<GenericResult> CreateTransactionDetails(List<TransactionDetailCreateModel> models);
         Task<GenericResult> GetAllByTransactionId(Guid id);
+        Task<GenericResult> UpdateTransactionDetails(List<TransactionDetailUpdateModel> models);
     }
     public class TransactionDetailServices : BaseServices<TransactionDetail>, ITransactionDetailServices
     {
@@ -39,13 +40,14 @@ namespace ProfitAndLoss.Business.Services
         {
             var transaction = _transactionRepository.GetAll(x => x.Id == models.FirstOrDefault().TransactionId)
                                                    .Include(x => x.Store).FirstOrDefault();
-            if (models.Sum(x => x.Balance) != transaction.TotalBalance)
+            if (models.Sum(x => x.Balance) != transaction.SubTotal)
             {
                 return new GenericResult
                 {
                     Data = null,
                     Message = "Total balance of transaction not equal total balance spited!",
                     StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    ResultCode = Utilities.AppResultCode.FailValidation,
                     Success = false
                 };
             }
@@ -68,7 +70,7 @@ namespace ProfitAndLoss.Business.Services
 
         public async Task<GenericResult> GetAllByTransactionId(Guid id)
         {
-            var data = BaseRepository.GetAll(x => x.TransactionId == id)
+            var data = BaseRepository.GetAll(x => x.TransactionId == id).AsNoTracking()
                                     .Include(x => x.TransactionCategory)
                              .Join(_accountingPeriodInStoreRepository.GetAll()
                                         .Include(y => y.Store)
@@ -80,7 +82,7 @@ namespace ProfitAndLoss.Business.Services
                                  x.Description,
                                  x.Balance,
                                  x.TransactionCategory,
-                                 Store = new { y.Store.Code, y.Store.Name },
+                                 Store = new { y.Store.Id, y.Store.Code, y.Store.Name },
                                  AccountingPeriod = new { y.AccountingPeriod.Id, y.AccountingPeriod.Title }
                              })
                                     .ToList();
@@ -122,7 +124,8 @@ namespace ProfitAndLoss.Business.Services
                 // Get tranasction period
                 var accoungtingPeriod = _accountingPeriodRepository.GetById(transactionDetail.AccountingPeriodId);
                 // Get transaction
-                var transaction = _transactionRepository.GetById(transactionDetail.StoreId);
+                var transaction = _transactionRepository.GetAll(x => x.Id == transactionDetail.TransactionId)
+                    .Include(x => x.Store).FirstOrDefault();
 
                 AccountingPeriodInStore acountingPeriodInStore = new AccountingPeriodInStore
                 {
@@ -144,5 +147,71 @@ namespace ProfitAndLoss.Business.Services
             transactionDetail.Code = "TD-" + transactionCount.ToString("0000");
             return transactionDetail.ToEntity();
         }
+
+        public async Task<GenericResult> UpdateTransactionDetails(List<TransactionDetailUpdateModel> models)
+        {
+
+            //Update list transaction detail
+            foreach (var item in models)
+            {
+                var transactionDetail = _unitOfWork.TransactionDetailRepository.GetById(item.Id);
+                var accountinPeriodInStore = await GetAccountingPeriodInStore(item.AccountingPeriodId, item.StoreId, transactionDetail.TransactionId);
+                transactionDetail.AccountingPeriodInStoreId = accountinPeriodInStore.Id;
+                transactionDetail.Description = item.Description;
+                _unitOfWork.TransactionDetailRepository.Update(transactionDetail);
+            }
+
+            _unitOfWork.Commit();
+            return new GenericResult
+            {
+                Success = true,
+                ResultCode = Utilities.AppResultCode.Success,
+                StatusCode = HttpStatusCode.OK
+            };
+        }
+
+        /// <summary>
+        /// Get Accounting period in store
+        /// </summary>
+        /// <param name="accountingPeriodId">The accounting period id</param>
+        /// <param name="storeID">The store id</param>
+        /// <param name="transactionID">The tranaction ID</param>
+        /// <returns></returns>
+        private async Task<AccountingPeriodInStore> GetAccountingPeriodInStore(Guid accountingPeriodId, Guid storeID, Guid? transactionID)
+        {
+            if (transactionID == null)
+            {
+                return null;
+            }
+
+            // Get accounting period in store 
+            AccountingPeriodInStore acountingPeriodInStore = _unitOfWork.AccountingPeriodInStoreRepository.GetAll(x => x.AccountingPeriodId == accountingPeriodId && x.StoreId == storeID).FirstOrDefault();
+
+            if (acountingPeriodInStore == null)
+            {
+                var accountingPeriod = _accountingPeriodRepository.GetById(accountingPeriodId);
+
+                // Get transaction
+                var transaction = _transactionRepository.GetById(transactionID.Value);
+
+                acountingPeriodInStore = new AccountingPeriodInStore
+                {
+                    Actived = true,
+                    AccountingPeriodId = accountingPeriodId,
+                    StartedDate = accountingPeriod.StartDate,
+                    ClosedDate = accountingPeriod.CloseDate,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    Title = $"{accountingPeriod.Title}-{transaction.Store.Code.ToFormal()}",
+                    Description = string.Empty,
+                    Status = 1,
+                    StoreId = storeID
+                };
+                acountingPeriodInStore = _accountingPeriodInStoreRepository.Add(acountingPeriodInStore);
+            }
+
+            return acountingPeriodInStore;
+        }
     }
+
 }

@@ -415,6 +415,7 @@ namespace ProfitAndLoss.Business.Services
         {
             var data = BaseRepository.GetAll(x => x.Id == id)
                                     .Include(x => x.Store)
+                                    .Include(x=>x.Store.Brand)
                                     .Include(x => x.Supplier)
                                     .Include(x => x.TransactionType)
                                     .FirstOrDefault();

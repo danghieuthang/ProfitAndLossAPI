@@ -70,23 +70,18 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        [Required]
-        public string Name { get; set; }
-
-        [Required]
         public string Code { get; set; }
 
-        [Required]
-        public string Decription { get; set; }
+        public string Description { get; set; }
 
         [Required]
-        public decimal Balance { get; set; }
+        public Guid AccountingPeriodId { get; set; }
 
+        [JsonIgnore]
+        public Guid AccountingPeriodInStoreId { get; set; }
+        
         [Required]
-        public Guid TransactionId { get; set; }
-
-        [Required]
-        public Guid TransactionCategoryId { get; set; }
+        public Guid StoreId { get; set; }
     }
 
     public class TransactionDetailSearchModel : BaseSearchModel<TransactionDetail>

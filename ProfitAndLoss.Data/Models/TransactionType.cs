@@ -23,5 +23,7 @@ namespace ProfitAndLoss.Data.Models
         public bool IsDebit { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }
+
+        public virtual ICollection<TransactionCategory> TransactionCategories { get; set; }
     }
 }

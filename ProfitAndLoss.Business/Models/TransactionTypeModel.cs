@@ -49,6 +49,8 @@ namespace ProfitAndLoss.Business.Models
 
         public string Name { get; set; }
 
+        public string Code { get; set; }
+
         public bool IsDebit { get; set; }
     }
 }

@@ -50,17 +50,17 @@ namespace ProfitAndLoss.WebApi.Controllers
         [HttpPost]
         public async Task<GenericResult> Create([FromBody] TransactionCreateModel model)
         {
-            var user = await _identityServices.GetUserByIdAsync(HttpContext.User.Identity.Name);
-            if (user == null)
-            {
-                return new GenericResult
-                {
-                    Success = false,
-                    StatusCode = System.Net.HttpStatusCode.Unauthorized,
-                    ResultCode = AppResultCode.Unauthorized
-                };
-            }
-            model.CreateMemberId = new Guid(user.Id);
+            //var user = await _identityServices.GetUserByIdAsync(HttpContext.User.Identity.Name);
+            //if (user == null)
+            //{
+            //    return new GenericResult
+            //    {
+            //        Success = false,
+            //        StatusCode = System.Net.HttpStatusCode.Unauthorized,
+            //        ResultCode = AppResultCode.Unauthorized
+            //    };
+            //}
+            //model.CreateMemberId = new Guid(user.Id);
             var validationModels = _transactionService.ValidateModel(model);
             if (validationModels.Count() > 0)
             {

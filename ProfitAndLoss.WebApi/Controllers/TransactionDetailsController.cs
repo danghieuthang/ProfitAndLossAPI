@@ -36,7 +36,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// </summary>
         /// <param name="id">The transaction id</param>
         /// <returns></returns>
-        [HttpGet("search/{id}")]
+        [HttpGet("transactions/{id}")]
         public async Task<GenericResult> GetTransactionDetailByTransactionId(Guid id)
         {
             return await _transactionDetailServices.GetAllByTransactionId(id);

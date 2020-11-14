@@ -55,7 +55,6 @@ namespace ProfitAndLoss.Business.Models
         public string Code { get; set; }
 
         public string Name { get; set; }
-
         public BrandViewModel Brand { get; set; }
     }
 }

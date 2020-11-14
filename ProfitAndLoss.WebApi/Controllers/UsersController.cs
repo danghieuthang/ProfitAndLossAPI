@@ -20,8 +20,12 @@ namespace ProfitAndLoss.WebApi.Controllers
     [ApiController]
     public class UsersController : BaseController
     {
-        public UsersController(IdentityServices identityServices) : base(identityServices)
+        readonly IMemberServices _memberService;
+
+        public UsersController(IdentityServices identityServices,
+            IMemberServices memberService) : base(identityServices)
         {
+            _memberService = memberService;
         }
         /// <summary>
         /// Using for login an account 
@@ -124,13 +128,15 @@ namespace ProfitAndLoss.WebApi.Controllers
             }
             var tokenString = await _identityServices.GenerateJWTTokenAsync(appUser);
             var listRole = _identityServices.GetRole(appUser);
-
+            // get store
+            var store = await _memberService.GetStoreByMemberId(appUser.Id);
             response = new TokenResponseLoginModel()
             {
                 UserId = appUser.Id,
                 Username = appUser.UserName,
                 AccessToken = tokenString,
-                Role = listRole == null ? "" : listRole.Result.FirstOrDefault()
+                Role = listRole == null ? "" : listRole.Result.FirstOrDefault(),
+                Store = store
             };
             return new GenericResult { Data = response, Success = true };
         }

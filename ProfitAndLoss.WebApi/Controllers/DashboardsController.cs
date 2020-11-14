@@ -43,10 +43,26 @@ namespace ProfitAndLoss.WebApi.Controllers
             return await _dashboardService.GetRevenuesPie(model);
         }
 
+        /// <summary>
+        /// Get revenue and expense data
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpGet("revenue-expenses")]
         public async Task<GenericResult> GetRevenueExpense([FromQuery] DashboardSearchModel model)
         {
             return await _dashboardService.GetRevenueExpense(model);
+        }
+
+        /// <summary>
+        /// Get profit and loss data
+        /// </summary>
+        /// <param name="model">The Profit And Loss Search Model</param>
+        /// <returns></returns>
+        [HttpGet("profit-and-loss")]
+        public async Task<GenericResult> GetProfitAndLoss([FromQuery]ProfitAndLossSearchModel model)
+        {
+            return await _dashboardService.GetProfitAndLoss(model);
         }
 
 

@@ -17,6 +17,7 @@ namespace ProfitAndLoss.Business.Services
     {
         Task<GenericResult> Search(AccountingPeriodSearchModel model);
         Task<GenericResult> Create(AccountingPeriodCreateModel model);
+        Task<GenericResult> GetAccountingPeriodStillOpen();
     }
     public class AccountingPeriodServices : BaseServices<AccountingPeriod>, IAccountingPeriodServices
     {
@@ -111,6 +112,20 @@ namespace ProfitAndLoss.Business.Services
                 StatusCode = HttpStatusCode.OK,
             };
 
+        }
+
+        public async Task<GenericResult> GetAccountingPeriodStillOpen()
+        {
+            var result = _unitOfWork.AccountingPeriodRepository.GetAll(x => x.Status == AccountingPeriodStatus.STILL_OPEN).ToList();
+            var dataView = new List<AccountingPeriodViewModel>();
+            Global.Mapper.Map(result, dataView);
+            return new GenericResult
+            {
+                Data = dataView,
+                Success = true,
+                ResultCode = Utilities.AppResultCode.Success,
+                StatusCode = HttpStatusCode.OK
+            };
         }
 
         //public override async Task<GenericResult> GetById(Guid id)

@@ -28,10 +28,10 @@ namespace ProfitAndLoss.Business.Models
         }
 
         [JsonIgnore]
-        public Guid TransactionCategoryId { get; set; }
+        public Guid Id { get; set; }
 
         [JsonProperty("name")]
-        public string TransactionCategoryName { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("balance")]
         public double TotalBalance { get; set; }

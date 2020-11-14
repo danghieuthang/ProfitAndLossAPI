@@ -36,7 +36,15 @@ namespace ProfitAndLoss.WebApi.Controllers
         {
             return await _accountingPeriodService.Search(model);
         }
-
+        /// <summary>
+        /// Get the accounting periods that are still open
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("still-open")]
+        public async Task<GenericResult> GetAccountingPeriodStillOpen()
+        {
+            return await _accountingPeriodService.GetAccountingPeriodStillOpen();
+        }
         /// <summary>
         /// Get a accounting period by id
         /// </summary>

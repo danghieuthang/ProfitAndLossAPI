@@ -17,6 +17,7 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> GetRevenuesPie(DashboardSearchModel model);
         Task<GenericResult> GetExpensePie(DashboardSearchModel model);
         Task<GenericResult> GetRevenueExpense(DashboardSearchModel model);
+        Task<GenericResult> GetProfitAndLoss(ProfitAndLossSearchModel model);
     }
 
     public class DashboardService : IDashboardService
@@ -50,8 +51,8 @@ namespace ProfitAndLoss.Business.Services
             var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.IsDebit == isDebit)
                 .Select(x => new DashboardPieViewModel
                 {
-                    TransactionCategoryId = x.Id,
-                    TransactionCategoryName = x.Name,
+                    Id = x.Id,
+                    Name = x.Name,
                     TotalBalance = x.TransactionDetails.Where(t =>
                         (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                         && (model.AccountingPeriodId == null || t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
@@ -63,22 +64,6 @@ namespace ProfitAndLoss.Business.Services
 
         private async Task<List<DashboardPieViewModel>> GetPieByTranactionType(DashboardSearchModel model, bool isDebit)
         {
-
-            //var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.IsDebit == isDebit)
-            //    .Include(x => x.TransactionType)
-            //    .Where(x => x.TransactionType.IsDebit == isDebit)
-            //    .Select(x => new DashboardPieViewModel
-            //    {
-            //        TransactionCategoryId = x.TransactionType.Id,
-            //        TransactionCategoryName = x.TransactionType.Name,
-            //        TotalBalance = x.TransactionDetails.Where(t =>
-            //        (model.StoreId == null || model.StoreId.Value == t.AccountingPeriodInStore.StoreId)
-            //        && (model.AccountingPeriodId == null || model.AccountingPeriodId.Value == t.AccountingPeriodInStore.AccountingPeriodId))
-            //        .Sum(t => t.Balance)
-            //    })
-            //    .Where(x => x.TotalBalance > 0)
-            //    .Distinct()
-            //    .ToList();
             var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.IsDebit == isDebit)
                 .Include(x => x.TransactionType)
                 .Where(x => x.IsDebit == x.TransactionType.IsDebit)
@@ -97,8 +82,8 @@ namespace ProfitAndLoss.Business.Services
                 .GroupBy(x => x.ID)
                 .Select(g => new DashboardPieViewModel
                 {
-                    TransactionCategoryId = g.Key,
-                    TransactionCategoryName = g.Select(x => x.Name).FirstOrDefault(),
+                    Id = g.Key,
+                    Name = g.Select(x => x.Name).FirstOrDefault(),
                     TotalBalance = g.Sum(x => x.TotalBalance)
                 })
                 .Where(x => x.TotalBalance > 0)
@@ -157,6 +142,77 @@ namespace ProfitAndLoss.Business.Services
                 StatusCode = System.Net.HttpStatusCode.OK,
                 ResultCode = Utilities.AppResultCode.Success
             };
+        }
+
+        public async Task<GenericResult> GetProfitAndLoss(ProfitAndLossSearchModel model)
+        {
+            // Get current accounting period if accounting period id null
+            if (model.AccountingPeriodId == null)
+            {
+                model.AccountingPeriodId = _unitOfWork.AccountingPeriodRepository
+                    .GetAll(x => x.StartDate <= DateTime.Now && x.CloseDate >= DateTime.Now)
+                    .FirstOrDefault().Id;
+            }
+
+            var incomes = GetProfitAndLoss(model, isIncome: true);
+            var expenses = GetProfitAndLoss(model, isIncome: false);
+            // Cost of goods sold
+            var costOfGoodsSold = _unitOfWork.TransactionDetailRepository.GetAll(t =>
+                        (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
+                        && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
+                    .Include(x => x.TransactionCategory)
+                    .Where(x => x.TransactionCategory.Code == TransactionCategoryCode.COST_OF_GOOGS_SOLD)
+                    .Sum(x => x.Balance);
+            var result = new ProfitAndLossViewModel
+            {
+                Incomes = incomes.Result,
+                Expenses = expenses.Result,
+                CostOfGoodsSold = costOfGoodsSold
+            };
+            return new GenericResult
+            {
+                Data = result,
+                Success = true,
+                StatusCode = System.Net.HttpStatusCode.OK,
+                ResultCode = Utilities.AppResultCode.Success
+            };
+        }
+
+        /// <summary>
+        /// Get List Profit and loss item
+        /// </summary>
+        /// <param name="model">The Profit and loss search model</param>
+        /// <param name="isIncome">Is Income or Expense</param>
+        /// <returns></returns>
+        private async Task<List<ProfitAndLossItemModel>> GetProfitAndLoss(ProfitAndLossSearchModel model, bool isIncome)
+        {
+
+            var result = _unitOfWork.TransactionCategoryRepository.GetAll()
+                .Include(x => x.TransactionType)
+                .Where(x => x.TransactionType.IsDebit == isIncome)
+                .Select(x => new
+                {
+                    ID = x.Id,
+                    x.Name,
+                    // Caculate Balance base by transaction type
+                    TotalBalance = x.TransactionDetails.Where(t =>
+                        (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
+                        && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
+                        .Sum(t => t.Balance)
+                })
+                .Where(x => x.TotalBalance > 0)
+                .Distinct()
+                .ToList()
+                // Group by Transaction Category ID
+                .GroupBy(x => x.ID)
+                .Select(g => new ProfitAndLossItemModel
+                {
+                    Name = g.Select(x => x.Name).FirstOrDefault(),
+                    Balance = g.Sum(x => x.TotalBalance)
+                })
+                .Where(x => x.Balance > 0)
+                .ToList();
+            return result;
         }
     }
 }

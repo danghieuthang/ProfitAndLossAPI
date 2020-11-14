@@ -43,5 +43,16 @@ namespace ProfitAndLoss.Business
         public const string SALES = "SAL";
     }
 
+    public static class TransactionCategoryCode
+    {
+        public const string COST_OF_GOOGS_SOLD = "SAL-COGS";
+    }
+
+    public static class AccountingPeriodStatus
+    {
+        public const int STILL_OPEN = 0;
+        public const int CLOSED = 1;
+    }
+
 
 }

@@ -419,6 +419,8 @@ namespace ProfitAndLoss.Business.Services
                                     .Include(x => x.Supplier)
                                     .Include(x => x.TransactionType)
                                     .FirstOrDefault();
+            var model = new TransactionViewModel();
+            model.ToModel(data);
             if (data == null)
             {
                 return new GenericResult
@@ -432,7 +434,7 @@ namespace ProfitAndLoss.Business.Services
             }
             return new GenericResult
             {
-                Data = data,
+                Data = model,
                 Success = true,
                 StatusCode = HttpStatusCode.OK
             };

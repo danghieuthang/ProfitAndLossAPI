@@ -1,4 +1,5 @@
-﻿using ProfitAndLoss.Business.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 using System;
@@ -13,6 +14,7 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> CreateMemberAsync(MemberCreateModel model);
         Task<GenericResult> UpdateMemberAsync(MemberUpdateModel model);
         Task<GenericResult> DeleteMemberAsync(Guid id);
+        Task<StoreViewModel> GetStoreByMemberId(string memberId);
     }
 
     public class MemberServices : BaseServices<Member>, IMemberServices
@@ -68,6 +70,20 @@ namespace ProfitAndLoss.Business.Services
         public Task<GenericResult> DeleteMemberAsync(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<StoreViewModel> GetStoreByMemberId(string memberId)
+        {
+            var entity = _unitOfWork.MemberRepository.GetAll( m => m.Id.Equals(new Guid(memberId))).Include(x => x.Store).Include(x => x.Store.Brand).FirstOrDefault();
+            if (entity == null || entity.Store == null) return null;
+            var brandModel = new BrandViewModel();
+            var storeModel = new StoreViewModel();
+            // get brand model    
+            brandModel.ToModel(entity.Store.Brand);
+            // get store model
+            storeModel.ToModel(entity.Store);
+            storeModel.Brand = brandModel;
+            return storeModel;
         }
     }
 }

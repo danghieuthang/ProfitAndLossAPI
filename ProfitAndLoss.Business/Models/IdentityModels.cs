@@ -20,6 +20,7 @@ namespace ProfitAndLoss.Business.Models
         public string Username { get; set; }
         public string AccessToken { get; set; }
         public string Role { get; set; }
+        public StoreViewModel Store { get; set; }
     }
 
     public class UserCreateModel

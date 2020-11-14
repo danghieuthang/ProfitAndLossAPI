@@ -17,7 +17,7 @@ namespace ProfitAndLoss.Business.Models
         public string Description { get; set; }
 
         [JsonIgnore]
-        public int Status { get; set; }
+        public int? Status { get; set; }
     }
 
     public class ReceiptUpdateModel : BaseUpdateModel<Receipt>

@@ -27,7 +27,7 @@ namespace ProfitAndLoss.Business.Models
         }
 
         public List<ProfitAndLossItemModel> Incomes { get; set; }
-        public double CostOfGoodsSold { get; set; }
+        public double GrossProfit { get; set; }
         public List<ProfitAndLossItemModel> Expenses { get; set; }
     }
 

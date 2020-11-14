@@ -157,17 +157,17 @@ namespace ProfitAndLoss.Business.Services
             var incomes = GetProfitAndLoss(model, isIncome: true);
             var expenses = GetProfitAndLoss(model, isIncome: false);
             // Cost of goods sold
-            var costOfGoodsSold = _unitOfWork.TransactionDetailRepository.GetAll(t =>
+            var grossProfit = _unitOfWork.TransactionDetailRepository.GetAll(t =>
                         (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                         && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
                     .Include(x => x.TransactionCategory)
-                    .Where(x => x.TransactionCategory.Code == TransactionCategoryCode.COST_OF_GOOGS_SOLD)
+                    .Where(x => x.TransactionCategory.IsDebit == true)
                     .Sum(x => x.Balance);
             var result = new ProfitAndLossViewModel
             {
                 Incomes = incomes.Result,
                 Expenses = expenses.Result,
-                CostOfGoodsSold = costOfGoodsSold
+                GrossProfit = grossProfit
             };
             return new GenericResult
             {

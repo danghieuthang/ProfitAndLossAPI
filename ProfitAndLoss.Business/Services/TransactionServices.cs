@@ -389,7 +389,7 @@ namespace ProfitAndLoss.Business.Services
                     query = query.OrderByDescending(x => x.CreatedDate).AsQueryable();
                     break;
                 default:
-                    query = query.OrderBy(x => x.CreatedDate).AsQueryable();
+                    query = query.OrderByDescending(x => x.CreatedDate).AsQueryable();
                     break;
             }
             var entities = query.Skip((currentPage - 1) * pageSize)

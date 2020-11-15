@@ -1,10 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using ProfitAndLoss.Business.Helpers;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Repositories;
 using ProfitAndLoss.Utilities.DTOs;
+using ProfitAndLoss.Utilities.Extensions;
 using ProfitAndLoss.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +24,14 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> GetExpensePie(DashboardSearchModel model);
         Task<GenericResult> GetRevenueExpense(DashboardSearchModel model);
         Task<GenericResult> GetProfitAndLoss(ProfitAndLossSearchModel model);
+        Task<byte[]> Export(ProfitAndLossSearchModel model);
     }
 
     public class DashboardService : IDashboardService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private static readonly Color BackGRColor = Color.FromArgb(50, 82, 168);
+        private static readonly Color TitleBGRColor = Color.FromArgb(91, 155, 213);
 
         public DashboardService(IUnitOfWork unitOfWork)
         {
@@ -146,6 +155,25 @@ namespace ProfitAndLoss.Business.Services
 
         public async Task<GenericResult> GetProfitAndLoss(ProfitAndLossSearchModel model)
         {
+            // get query data
+            var result = await QueryProfitAndLossView(model);
+
+            return new GenericResult
+            {
+                Data = result,
+                Success = true,
+                StatusCode = System.Net.HttpStatusCode.OK,
+                ResultCode = Utilities.AppResultCode.Success
+            };
+        }
+
+        /// <summary>
+        /// Query Proft and and loss view obj
+        /// </summary>
+        /// <param name="model">The profit and loss search model</param>
+        /// <returns></returns>
+        private async Task<ProfitAndLossViewModel> QueryProfitAndLossView(ProfitAndLossSearchModel model)
+        {
             // Get current accounting period if accounting period id null
             if (model.AccountingPeriodId == null)
             {
@@ -154,8 +182,8 @@ namespace ProfitAndLoss.Business.Services
                     .FirstOrDefault().Id;
             }
 
-            var incomes = GetProfitAndLoss(model, isIncome: true);
-            var expenses = GetProfitAndLoss(model, isIncome: false);
+            var incomes = QueryListProfitAndLoss(model, isIncome: true);
+            var expenses = QueryListProfitAndLoss(model, isIncome: false);
             // Cost of goods sold
             var grossProfit = _unitOfWork.TransactionDetailRepository.GetAll(t =>
                         (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
@@ -169,13 +197,7 @@ namespace ProfitAndLoss.Business.Services
                 Expenses = expenses.Result,
                 GrossProfit = grossProfit
             };
-            return new GenericResult
-            {
-                Data = result,
-                Success = true,
-                StatusCode = System.Net.HttpStatusCode.OK,
-                ResultCode = Utilities.AppResultCode.Success
-            };
+            return result;
         }
 
         /// <summary>
@@ -184,7 +206,7 @@ namespace ProfitAndLoss.Business.Services
         /// <param name="model">The Profit and loss search model</param>
         /// <param name="isIncome">Is Income or Expense</param>
         /// <returns></returns>
-        private async Task<List<ProfitAndLossItemModel>> GetProfitAndLoss(ProfitAndLossSearchModel model, bool isIncome)
+        private async Task<List<ProfitAndLossItemModel>> QueryListProfitAndLoss(ProfitAndLossSearchModel model, bool isIncome)
         {
 
             var result = _unitOfWork.TransactionCategoryRepository.GetAll()
@@ -214,5 +236,145 @@ namespace ProfitAndLoss.Business.Services
                 .ToList();
             return result;
         }
+
+        public async Task<byte[]> Export(ProfitAndLossSearchModel model)
+        {
+            // get query data
+            var data = await QueryProfitAndLossView(model);
+            return await ExportExcel(data, $"Profit and loss statement {DateTime.Now}");
+
+        }
+
+        private async Task<byte[]> ExportExcel(ProfitAndLossViewModel data, string sheetName)
+        {
+            // If you use EPPlus in a noncommercial context
+            // according to the Polyform Noncommercial license:
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            using (var excelPackage = new ExcelPackage(new MemoryStream()))
+            {
+                // Set some properties
+                //excelPackage.Workbook.Properties.Author = "Thang Depzai";
+                excelPackage.Workbook.Properties.Title = sheetName;
+
+                // Add worksheet
+                var workSheet = excelPackage.Workbook.Worksheets.Add("P&L");
+
+                // Add title
+                using (ExcelRange Title = workSheet.Cells[1, 1, 1, 4])
+                {
+                    Title.Value = "Proft and loss statement";
+                    Title.Merge = true;
+                    Title.Style.Font.Size = 15;
+                    Title.Style.Font.Bold = true;
+                    // Title.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    // Title.Style.Fill.BackgroundColor.SetColor(BackGRColor);
+                    Title.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    Title.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
+
+                using (ExcelRange Title = workSheet.Cells[2, 1, 2, 4])
+                {
+                    Title.Value = DateTime.Now.ToFormalVN();
+                    Title.Merge = true;
+                    Title.Style.Font.Size = 15;
+                    Title.Style.Font.Bold = true;
+                    // Title.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    // Title.Style.Fill.BackgroundColor.SetColor(BackGRColor);
+                    Title.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    Title.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
+
+                // Add title
+
+                // set style for title
+                using (ExcelRange subTitle = workSheet.Cells[4, 1, 4, 4])
+                {
+                    subTitle.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    subTitle.Style.Fill.BackgroundColor.SetColor(TitleBGRColor);
+                    subTitle.Style.Font.Size = 11;
+                    subTitle.Style.Font.Bold = true;
+                    subTitle.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    subTitle.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
+
+
+                //set value for title
+                workSheet.Cells[4, 1].Value = "No";
+                workSheet.Cells[4, 2].Value = "Description";
+                workSheet.Cells[4, 3].Value = "Percent";
+                workSheet.Cells[4, 4].Value = "Balance";
+
+                workSheet.Cells[5, 1, 5, 4].Style.Font.Bold = true;
+                workSheet.Cells[5, 1].Value = "A";
+                workSheet.Cells[5, 2].Value = "Total Incomes: ";
+                workSheet.Cells[5, 3].Value = "100 %";
+                workSheet.Cells[5, 4].Value = data.Incomes.Sum(x => x.Balance);
+
+                // List incomes
+                workSheet.Cells[6, 1, data.Incomes.Count + 6, 4].Style.Font.Size = 10;
+                var currentRow = 6;
+                var totalIncome = data.Incomes.Sum(x => x.Balance);
+                for (int row = 0; row < data.Incomes.Count; row++)
+                {
+                    workSheet.Cells[currentRow, 1].Value = row + 1;
+                    workSheet.Cells[currentRow, 2].Value = data.Incomes[row].Name;
+                    workSheet.Cells[currentRow, 3].Value = (data.Incomes[row].Balance / totalIncome).ToPercent();
+                    workSheet.Cells[currentRow, 4].Value = data.Incomes[row].Balance;
+                    currentRow++;
+                }
+
+                workSheet.Cells[currentRow, 1, currentRow, 4].Style.Font.Bold = true;
+                workSheet.Cells[currentRow, 1].Value = "B";
+                workSheet.Cells[currentRow, 2].Value = "Gross Profit: ";
+                workSheet.Cells[currentRow, 3].Value = (data.GrossProfit / totalIncome).ToPercent();
+                workSheet.Cells[currentRow, 4].Value = data.GrossProfit;
+                currentRow++;
+
+                var totalExpense = data.Expenses.Sum(x => x.Balance);
+                workSheet.Cells[currentRow, 1, currentRow, 4].Style.Font.Bold = true;
+                workSheet.Cells[currentRow, 1].Value = "C";
+                workSheet.Cells[currentRow, 2].Value = "Total Expenses: ";
+                workSheet.Cells[currentRow, 3].Value = (totalExpense / totalIncome).ToPercent();
+                workSheet.Cells[currentRow, 4].Value = totalExpense;
+                currentRow++;
+
+                // add list expense
+                for (int row = 0; row < data.Expenses.Count; row++)
+                {
+                    workSheet.Cells[currentRow, 1].Value = row + 1;
+                    workSheet.Cells[currentRow, 2].Value = data.Expenses[row].Name;
+                    workSheet.Cells[currentRow, 3].Value = (data.Expenses[row].Balance / totalIncome).ToPercent();
+                    workSheet.Cells[currentRow, 4].Value = data.Expenses[row].Balance;
+                    currentRow++;
+                }
+
+                workSheet.Cells[currentRow, 1, currentRow, 4].Style.Font.Bold = true;
+                workSheet.Cells[currentRow, 1].Value = "C";
+                workSheet.Cells[currentRow, 2].Value = "Net Income: ";
+                workSheet.Cells[currentRow, 3].Value = ((data.GrossProfit-totalExpense)/totalIncome).ToPercent();
+                workSheet.Cells[currentRow, 4].Value = data.GrossProfit - totalExpense;
+                currentRow++;
+
+                // Autofit column
+                int minimumSize = 10;
+                int maximumSize = 50;
+                workSheet.Cells[workSheet.Dimension.Address].AutoFitColumns(minimumSize, maximumSize);
+
+                //Add border
+                workSheet.Cells[workSheet.Dimension.Address].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                workSheet.Cells[workSheet.Dimension.Address].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                workSheet.Cells[workSheet.Dimension.Address].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                workSheet.Cells[workSheet.Dimension.Address].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                //Remove border of title
+                //workSheet.Cells[2, 2, 2, columns.Count].Style.Border.Top.Style = ExcelBorderStyle.None;
+
+                //Binding excel
+                excelPackage.Save();
+                return excelPackage.GetAsByteArray();
+            }
+        }
+
     }
 }

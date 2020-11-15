@@ -17,6 +17,8 @@ namespace ProfitAndLoss.WebApi.Controllers
     public class DashboardsController : BaseController
     {
         private readonly IDashboardService _dashboardService;
+        private const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
         public DashboardsController(IDashboardService dashboardService, IdentityServices identityServices) : base(identityServices)
         {
             _dashboardService = dashboardService;
@@ -63,6 +65,16 @@ namespace ProfitAndLoss.WebApi.Controllers
         public async Task<GenericResult> GetProfitAndLoss([FromQuery]ProfitAndLossSearchModel model)
         {
             return await _dashboardService.GetProfitAndLoss(model);
+        }
+
+
+        [HttpGet("profit-and-loss/export")]
+        public async Task<FileResult> Export([FromQuery] ProfitAndLossSearchModel model)
+        {
+            var file = await _dashboardService.Export(model);
+
+            return File(file, XlsxContentType, "Brands_" + DateTime.Now);
+
         }
 
 

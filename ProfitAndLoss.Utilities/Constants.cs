@@ -23,6 +23,5 @@ namespace ProfitAndLoss.Utilities
         Unauthorized = 7,
         [Display(Name = "Username has already existed")]
         DuplicatedUsername = 8
-
     }
 }

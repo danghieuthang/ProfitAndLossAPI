@@ -57,6 +57,10 @@ namespace ProfitAndLoss.Business.Services
 
         private async Task<List<DashboardPieViewModel>> GetPieByTranactionCategory(DashboardSearchModel model, bool isDebit)
         {
+            if (model.AccountingPeriodId == null)
+            {
+                model.AccountingPeriodId = _unitOfWork.AccountingPeriodRepository.GetCurrentAccountPeriod().Id;
+            }
             var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.IsDebit == isDebit)
                 .Select(x => new DashboardPieViewModel
                 {
@@ -64,7 +68,7 @@ namespace ProfitAndLoss.Business.Services
                     Name = x.Name,
                     TotalBalance = x.TransactionDetails.Where(t =>
                         (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
-                        && (model.AccountingPeriodId == null || t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
+                        && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
                         .Sum(t => t.Balance)
                 }).Where(x => x.TotalBalance > 0)
                 .ToList();
@@ -178,25 +182,32 @@ namespace ProfitAndLoss.Business.Services
             // Get current accounting period if accounting period id null
             if (model.AccountingPeriodId == null)
             {
-                model.AccountingPeriodId = _unitOfWork.AccountingPeriodRepository
-                    .GetAll(x => x.StartDate <= DateTime.Now && x.CloseDate >= DateTime.Now)
-                    .FirstOrDefault().Id;
+                model.AccountingPeriodId = _unitOfWork.AccountingPeriodRepository.GetCurrentAccountPeriod().Id;
             }
 
             var incomes = QueryListProfitAndLoss(model, isIncome: true);
             var expenses = QueryListProfitAndLoss(model, isIncome: false);
-            // Cost of goods sold
+            // gross profit
             var grossProfit = _unitOfWork.TransactionDetailRepository.GetAll(t =>
                         (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                         && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
                     .Include(x => x.TransactionCategory)
                     .Where(x => x.TransactionCategory.IsDebit == true)
                     .Sum(x => x.Balance);
+
+            //cost of good sold
+            var costOfGoodsSold = _unitOfWork.TransactionDetailRepository.GetAll(t =>
+                           (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
+                           && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
+                     .Include(x => x.TransactionCategory)
+                     .Where(x => x.TransactionCategory.Code.Equals(TransactionCategoryCode.COST_OF_GOOGS_SOLD))
+                     .Sum(x => x.Balance);
             var result = new ProfitAndLossViewModel
             {
                 Incomes = incomes.Result,
                 Expenses = expenses.Result,
-                GrossProfit = grossProfit
+                GrossProfit = grossProfit,
+                CostOfGoodsSold = costOfGoodsSold
             };
             return result;
         }
@@ -210,7 +221,7 @@ namespace ProfitAndLoss.Business.Services
         private async Task<List<ProfitAndLossItemModel>> QueryListProfitAndLoss(ProfitAndLossSearchModel model, bool isIncome)
         {
 
-            var result = _unitOfWork.TransactionCategoryRepository.GetAll()
+            var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.Code != TransactionCategoryCode.COST_OF_GOOGS_SOLD)
                 .Include(x => x.TransactionType)
                 .Where(x => x.TransactionType.IsDebit == isIncome)
                 .Select(x => new
@@ -246,7 +257,7 @@ namespace ProfitAndLoss.Business.Services
 
         }
 
-        private async Task<byte[]> ExportExcel(ProfitAndLossViewModel data, string sheetName)
+        private async Task<byte[]> ExportExcel(ProfitAndLossViewModel data, string title)
         {
             // If you use EPPlus in a noncommercial context
             // according to the Polyform Noncommercial license:
@@ -255,7 +266,7 @@ namespace ProfitAndLoss.Business.Services
             using (var excelPackage = new ExcelPackage(new MemoryStream()))
             {
                 // Set some properties
-                excelPackage.Workbook.Properties.Title = sheetName;
+                excelPackage.Workbook.Properties.Title = title;
 
                 // Add worksheet
                 var workSheet = excelPackage.Workbook.Worksheets.Add("P&L");
@@ -263,7 +274,7 @@ namespace ProfitAndLoss.Business.Services
                 var currentRow = 1;
 
                 // Add title
-                using (ExcelRange Title = workSheet.Cells[currentRow, 1, currentRow, 4])
+                using (ExcelRange Title = workSheet.Cells[currentRow, 1, currentRow, 6])
                 {
                     Title.Value = "Profit and loss statement";
                     Title.Merge = true;
@@ -276,7 +287,7 @@ namespace ProfitAndLoss.Business.Services
                 }
                 currentRow++;
 
-                using (ExcelRange Title = workSheet.Cells[currentRow, 1, currentRow, 4])
+                using (ExcelRange Title = workSheet.Cells[currentRow, 1, currentRow, 6])
                 {
                     Title.Value = DateTime.Now.ToFormalVN();
                     Title.Merge = true;
@@ -291,7 +302,7 @@ namespace ProfitAndLoss.Business.Services
 
                 // Add title
                 // Set style for title
-                using (ExcelRange subTitle = workSheet.Cells[currentRow, 1, currentRow, 4])
+                using (ExcelRange subTitle = workSheet.Cells[currentRow, 1, currentRow, 6])
                 {
                     subTitle.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     subTitle.Style.Fill.BackgroundColor.SetColor(TitleBGRColor);
@@ -304,62 +315,104 @@ namespace ProfitAndLoss.Business.Services
 
                 //set value for Header
                 workSheet.Cells[currentRow, 1].Value = "No";
-                workSheet.Cells[currentRow, 2].Value = "Description";
-                workSheet.Cells[currentRow, 3].Value = "Percent";
-                workSheet.Cells[currentRow, 4].Value = "Balance";
+                using (ExcelRange ranger = workSheet.Cells[currentRow, 2, currentRow, 3])
+                {
+                    ranger.Value = "Description";
+                    ranger.Merge = true;
+                }
+                workSheet.Cells[currentRow, 4].Value = "Percent";
+                workSheet.Cells[currentRow, 5].Value = "Account";
+                workSheet.Cells[currentRow, 6].Value = "Balance";
                 currentRow++;
 
                 //Total income
 
-                workSheet.Cells[currentRow, 1, currentRow, 4].Style.Font.Bold = true;
+                workSheet.Cells[currentRow, 1, currentRow, 5].Style.Font.Bold = true;
                 workSheet.Cells[currentRow, 1].Value = "A";
-                workSheet.Cells[currentRow, 2].Value = "Total Incomes: ";
-                workSheet.Cells[currentRow, 3].Value = "100 %";
-                workSheet.Cells[currentRow, 4].Value = data.Incomes.Sum(x => x.Balance);
+                workSheet.Cells[currentRow, 2].Value = "Incomes";
                 currentRow++;
 
                 // List incomes
-                workSheet.Cells[currentRow, 1, data.Incomes.Count + currentRow, 4].Style.Font.Size = 10;
+                workSheet.Cells[currentRow, 1, data.Incomes.Count + currentRow, 6].Style.Font.Size = 10;
                 var totalIncome = data.Incomes.Sum(x => x.Balance);
                 for (int row = 0; row < data.Incomes.Count; row++)
                 {
                     workSheet.Cells[currentRow, 1].Value = row + 1;
-                    workSheet.Cells[currentRow, 2].Value = data.Incomes[row].Name;
-                    workSheet.Cells[currentRow, 3].Value = (data.Incomes[row].Balance / totalIncome).ToPercent();
-                    workSheet.Cells[currentRow, 4].Value = data.Incomes[row].Balance;
+                    workSheet.Cells[currentRow, 3].Value = data.Incomes[row].Name;
+                    workSheet.Cells[currentRow, 4].Value = (data.Incomes[row].Balance / totalIncome).ToPercent();
+                    workSheet.Cells[currentRow, 5].Value = data.Incomes[row].Account;
+                    workSheet.Cells[currentRow, 6].Value = data.Incomes[row].Balance;
                     currentRow++;
                 }
 
-                workSheet.Cells[currentRow, 1, currentRow, 4].Style.Font.Bold = true;
+                // Total income
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Font.Bold = true;
+                using (ExcelRange ranger = workSheet.Cells[currentRow, 2, currentRow, 3])
+                {
+                    ranger.Merge = true;
+                    ranger.Value = "Total Income";
+                    ranger.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    ranger.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
+                workSheet.Cells[currentRow, 4].Value = "100 %";
+                workSheet.Cells[currentRow, 6].Value = totalIncome;
+                currentRow++;
+
+                //Cost of goods sold
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Font.Bold = true;
                 workSheet.Cells[currentRow, 1].Value = "B";
-                workSheet.Cells[currentRow, 2].Value = "Gross Profit: ";
-                workSheet.Cells[currentRow, 3].Value = (data.GrossProfit / totalIncome).ToPercent();
-                workSheet.Cells[currentRow, 4].Value = data.GrossProfit;
+                using (ExcelRange ranger = workSheet.Cells[currentRow, 2])
+                {
+                    ranger.Merge = true;
+                    ranger.Value = "Cost of goods sold";
+                }
+                workSheet.Cells[currentRow, 4].Value = (data.CostOfGoodsSold / totalIncome).ToPercent();
+                workSheet.Cells[currentRow, 6].Value = data.CostOfGoodsSold;
+                currentRow++;
+
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Font.Bold = true;
+                workSheet.Cells[currentRow, 1].Value = "C";
+                workSheet.Cells[currentRow, 2].Value = "Gross Profit ";
+                workSheet.Cells[currentRow, 4].Value = (data.GrossProfit / totalIncome).ToPercent();
+                workSheet.Cells[currentRow, 6].Value = data.GrossProfit;
                 currentRow++;
 
                 var totalExpense = data.Expenses.Sum(x => x.Balance);
-                workSheet.Cells[currentRow, 1, currentRow, 4].Style.Font.Bold = true;
-                workSheet.Cells[currentRow, 1].Value = "C";
-                workSheet.Cells[currentRow, 2].Value = "Total Expenses: ";
-                workSheet.Cells[currentRow, 3].Value = (totalExpense / totalIncome).ToPercent();
-                workSheet.Cells[currentRow, 4].Value = totalExpense;
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Font.Bold = true;
+                workSheet.Cells[currentRow, 1].Value = "D";
+                workSheet.Cells[currentRow, 2].Value = "Expenses";
                 currentRow++;
 
                 // Add list expense
                 for (int row = 0; row < data.Expenses.Count; row++)
                 {
                     workSheet.Cells[currentRow, 1].Value = row + 1;
-                    workSheet.Cells[currentRow, 2].Value = data.Expenses[row].Name;
-                    workSheet.Cells[currentRow, 3].Value = (data.Expenses[row].Balance / totalIncome).ToPercent();
-                    workSheet.Cells[currentRow, 4].Value = data.Expenses[row].Balance;
+                    workSheet.Cells[currentRow, 3].Value = data.Expenses[row].Name;
+                    workSheet.Cells[currentRow, 4].Value = (data.Expenses[row].Balance / totalIncome).ToPercent();
+                    workSheet.Cells[currentRow, 5].Value = data.Expenses[row].Account;
+                    workSheet.Cells[currentRow, 6].Value = data.Expenses[row].Balance;
                     currentRow++;
                 }
 
-                workSheet.Cells[currentRow, 1, currentRow, 4].Style.Font.Bold = true;
-                workSheet.Cells[currentRow, 1].Value = "D";
+                //total expense
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Font.Bold = true;
+                using (ExcelRange ranger = workSheet.Cells[currentRow, 2, currentRow, 3])
+                {
+                    ranger.Merge = true;
+                    ranger.Value = "Total Expense";
+                    ranger.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    ranger.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
+                workSheet.Cells[currentRow, 4].Value = (totalExpense / totalIncome).ToPercent();
+                workSheet.Cells[currentRow, 6].Value = totalExpense;
+                currentRow++;
+
+                // Net profit
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Font.Bold = true;
+                workSheet.Cells[currentRow, 1].Value = "E";
                 workSheet.Cells[currentRow, 2].Value = "Net Profit: ";
-                workSheet.Cells[currentRow, 3].Value = ((data.GrossProfit - totalExpense) / totalIncome).ToPercent();
-                workSheet.Cells[currentRow, 4].Value = data.GrossProfit - totalExpense;
+                workSheet.Cells[currentRow, 4].Value = ((data.GrossProfit - totalExpense) / totalIncome).ToPercent();
+                workSheet.Cells[currentRow, 6].Value = data.GrossProfit - totalExpense;
                 currentRow++;
 
                 // Autofit column

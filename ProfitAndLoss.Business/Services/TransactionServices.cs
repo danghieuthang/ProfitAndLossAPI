@@ -167,7 +167,7 @@ namespace ProfitAndLoss.Business.Services
                 };
             }
 
-            PushNotificationAsync(result.Id.ToString());
+            PushNotificationAsync($"/stores/{result.StoreId}/transactions/{result.Id}");
 
             viewModel.ToModel(result);
             return new GenericResult
@@ -240,17 +240,17 @@ namespace ProfitAndLoss.Business.Services
             });
 
             //Create transaction detail for cost of goods sold
-            result.Add(new TransactionDetail
-            {
-                AccountingPeriodInStoreId = accountingPeriodInStore.Id,
-                Description = "Cost of goods sold",
-                Balance = 0,
-                TransactionId = transaction.Id,
-                CreatedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
-                TransactionCategoryId = new Guid("9cf0ca58-8245-4c16-a19e-bcd4a75ab5c7"),
-                Actived = true
-            });
+            //result.Add(new TransactionDetail
+            //{
+            //    AccountingPeriodInStoreId = accountingPeriodInStore.Id,
+            //    Description = "Cost of goods sold",
+            //    Balance = 0,
+            //    TransactionId = transaction.Id,
+            //    CreatedDate = DateTime.Now,
+            //    ModifiedDate = DateTime.Now,
+            //    TransactionCategoryId = new Guid("9cf0ca58-8245-4c16-a19e-bcd4a75ab5c7"),
+            //    Actived = true
+            //});
             return result;
         }
 
@@ -507,7 +507,7 @@ namespace ProfitAndLoss.Business.Services
             };
 
             IFirebaseClient client = new FirebaseClient(ifc);
-            client.Set("news/id", data);
+            client.Set("news/link", data);
 
         }
     }

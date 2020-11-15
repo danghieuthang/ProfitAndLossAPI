@@ -12,10 +12,10 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
-        [FromForm(Name = "store-id")]
+        [FromQuery(Name = "store-id")]
         public Guid? StoreId { get; set; }
 
-        [FromForm(Name = "accounting-period-id")]
+        [FromQuery(Name = "accounting-period-id")]
         public Guid? AccountingPeriodId { get; set; }
     }
 
@@ -28,6 +28,8 @@ namespace ProfitAndLoss.Business.Models
 
         public List<ProfitAndLossItemModel> Incomes { get; set; }
         public double GrossProfit { get; set; }
+        public double CostOfGoodsSold { get; set; }
+
         public List<ProfitAndLossItemModel> Expenses { get; set; }
     }
 
@@ -41,6 +43,8 @@ namespace ProfitAndLoss.Business.Models
         public string Name { get; set; }
 
         public double Balance { get; set; }
+
+        public string Account { get; set; }
     }
 
     public class ExpenseViewModel

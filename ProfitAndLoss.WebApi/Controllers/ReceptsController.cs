@@ -102,5 +102,11 @@ namespace ProfitAndLoss.WebApi.Controllers
         {
             return await _receptService.Update(model);
         }
+        [HttpGet("{recepitId}/evidences")]
+        public async Task<GenericResult> GetEvidenceByReceiptId(string recepitId)
+        {
+            return await _receptService.GetEvidenceByReceiptId(recepitId);
+
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> SearchRecepts(ReceiptSearchModel model);
         Task<GenericResult> GetReceiptByTransactionId(Guid id);
         Task<Receipt> GetEntityByTransactionId(Guid id);
+        Task<GenericResult> GetEvidenceByReceiptId(String receiptId);
     }
     public class ReceiptServices : BaseServices<Receipt>, IReceiptServices
     {
@@ -162,6 +163,22 @@ namespace ProfitAndLoss.Business.Services
             var data = BaseRepository.GetAll(x => x.TransactionId == id)
                                     .FirstOrDefault();
             return data;
+        }
+
+        public async Task<GenericResult> GetEvidenceByReceiptId(string receiptId)
+        {
+                //
+                var entities =_unitOfWork.EvidenceRepository.GetAll(x => x.ReceiptId.Equals(new Guid(receiptId))).ToList();
+            var lstEvidence = new List<EvidenceViewModel>();
+            Global.Mapper.Map(entities, lstEvidence);
+            return new GenericResult
+                {
+                    Data = lstEvidence,
+                    Success = true,
+                    StatusCode = HttpStatusCode.OK,
+                    ResultCode = Utilities.AppResultCode.Success,
+                    Message = EnumHelper.GetDisplayValue(Utilities.AppResultCode.Success)
+            };
         }
     }
 }

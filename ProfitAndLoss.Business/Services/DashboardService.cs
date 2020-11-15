@@ -187,13 +187,7 @@ namespace ProfitAndLoss.Business.Services
 
             var incomes = QueryListProfitAndLoss(model, isIncome: true);
             var expenses = QueryListProfitAndLoss(model, isIncome: false);
-            // gross profit
-            var grossProfit = _unitOfWork.TransactionDetailRepository.GetAll(t =>
-                        (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
-                        && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
-                    .Include(x => x.TransactionCategory)
-                    .Where(x => x.TransactionCategory.IsDebit == true)
-                    .Sum(x => x.Balance);
+
 
             //cost of good sold
             var costOfGoodsSold = _unitOfWork.TransactionDetailRepository.GetAll(t =>
@@ -202,6 +196,9 @@ namespace ProfitAndLoss.Business.Services
                      .Include(x => x.TransactionCategory)
                      .Where(x => x.TransactionCategory.Code.Equals(TransactionCategoryCode.COST_OF_GOOGS_SOLD))
                      .Sum(x => x.Balance);
+            // gross profit
+
+            var grossProfit = incomes.Result.Sum(x => x.Balance) - costOfGoodsSold;
             var result = new ProfitAndLossViewModel
             {
                 Incomes = incomes.Result,

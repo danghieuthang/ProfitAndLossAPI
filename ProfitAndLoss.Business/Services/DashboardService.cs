@@ -34,6 +34,7 @@ namespace ProfitAndLoss.Business.Services
         private readonly IUnitOfWork _unitOfWork;
         private static readonly Color BackGRColor = Color.FromArgb(50, 82, 168);
         private static readonly Color TitleBGRColor = Color.FromArgb(91, 155, 213);
+        private static readonly Color YellowBGRColor = Color.FromArgb(255, 255, 0);
 
         public DashboardService(IUnitOfWork unitOfWork)
         {
@@ -182,6 +183,7 @@ namespace ProfitAndLoss.Business.Services
         private async Task<ProfitAndLossViewWebModel> QueryProfitAndLossView(ProfitAndLossSearchModel model)
         {
             // Get current accounting period if accounting period id null
+
             if (model.AccountingPeriodId == null)
             {
                 model.AccountingPeriodId = _unitOfWork.AccountingPeriodRepository.GetCurrentAccountPeriod().Id;
@@ -254,11 +256,20 @@ namespace ProfitAndLoss.Business.Services
         {
             // get query data
             var data = await QueryProfitAndLossView(model);
-            return await ExportExcel(data, $"Profit and loss statement {DateTime.Now}");
+            var a = new AccountingPeriod();
+            if (model.AccountingPeriodId == null)
+            {
+                a = _unitOfWork.AccountingPeriodRepository.GetCurrentAccountPeriod();
+            }
+            else
+            {
+                a = _unitOfWork.AccountingPeriodRepository.GetById(model.AccountingPeriodId.Value);
+            }
+            return await ExportExcel(data, a);
 
         }
 
-        private async Task<byte[]> ExportExcel(ProfitAndLossViewWebModel data, string title)
+        private async Task<byte[]> ExportExcel(ProfitAndLossViewWebModel data, AccountingPeriod a)
         {
             // If you use EPPlus in a noncommercial context
             // according to the Polyform Noncommercial license:
@@ -267,7 +278,7 @@ namespace ProfitAndLoss.Business.Services
             using (var excelPackage = new ExcelPackage(new MemoryStream()))
             {
                 // Set some properties
-                excelPackage.Workbook.Properties.Title = title;
+                excelPackage.Workbook.Properties.Title = "P&L";
 
                 // Add worksheet
                 var workSheet = excelPackage.Workbook.Worksheets.Add("P&L");
@@ -290,9 +301,23 @@ namespace ProfitAndLoss.Business.Services
 
                 using (ExcelRange Title = workSheet.Cells[currentRow, 1, currentRow, 6])
                 {
-                    Title.Value = DateTime.Now.ToFormalVN();
+                    Title.Value = $"{a.StartDate.Date.ToFormal()} - {a.CloseDate.Date.ToFormal()}";
                     Title.Merge = true;
-                    Title.Style.Font.Size = 15;
+                    Title.Style.Font.Size = 13;
+                    Title.Style.Font.Bold = true;
+                    // Title.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    // Title.Style.Fill.BackgroundColor.SetColor(BackGRColor);
+                    Title.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    Title.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
+
+                currentRow++;
+
+                using (ExcelRange Title = workSheet.Cells[currentRow, 1, currentRow, 6])
+                {
+                    Title.Value = "Export in " + DateTime.Now.ToFormal();
+                    Title.Merge = true;
+                    Title.Style.Font.Size = 11;
                     Title.Style.Font.Bold = true;
                     // Title.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     // Title.Style.Fill.BackgroundColor.SetColor(BackGRColor);
@@ -328,9 +353,16 @@ namespace ProfitAndLoss.Business.Services
 
                 //Total income
 
-                workSheet.Cells[currentRow, 1, currentRow, 5].Style.Font.Bold = true;
-                workSheet.Cells[currentRow, 1].Value = "A";
-                workSheet.Cells[currentRow, 2].Value = "Incomes";
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Font.Bold = true;
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Fill.BackgroundColor.SetColor(YellowBGRColor);
+                using (ExcelRange ranger = workSheet.Cells[currentRow, 2, currentRow, 6])
+                {
+                    ranger.Merge = true;
+                    ranger.Value = "Incomes";
+                    ranger.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    ranger.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
                 currentRow++;
 
                 // List incomes
@@ -360,28 +392,52 @@ namespace ProfitAndLoss.Business.Services
                 currentRow++;
 
                 //Cost of goods sold
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Fill.BackgroundColor.SetColor(YellowBGRColor);
+                using (ExcelRange ranger = workSheet.Cells[currentRow, 2, currentRow, 6])
+                {
+                    ranger.Merge = true;
+                    ranger.Value = "";
+                    ranger.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    ranger.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
+                currentRow++;
+
                 workSheet.Cells[currentRow, 1, currentRow, 6].Style.Font.Bold = true;
-                workSheet.Cells[currentRow, 1].Value = "B";
-                using (ExcelRange ranger = workSheet.Cells[currentRow, 2])
+                using (ExcelRange ranger = workSheet.Cells[currentRow, 2, currentRow, 3])
                 {
                     ranger.Merge = true;
                     ranger.Value = "Cost of goods sold";
+                    ranger.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    ranger.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 }
                 workSheet.Cells[currentRow, 4].Value = (data.CostOfGoodsSold / totalIncome).ToPercent();
                 workSheet.Cells[currentRow, 6].Value = data.CostOfGoodsSold;
                 currentRow++;
 
                 workSheet.Cells[currentRow, 1, currentRow, 6].Style.Font.Bold = true;
-                workSheet.Cells[currentRow, 1].Value = "C";
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
+
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Fill.BackgroundColor.SetColor(TitleBGRColor);
                 workSheet.Cells[currentRow, 2].Value = "Gross Profit ";
                 workSheet.Cells[currentRow, 4].Value = (data.GrossProfit / totalIncome).ToPercent();
                 workSheet.Cells[currentRow, 6].Value = data.GrossProfit;
                 currentRow++;
 
+                //expense
                 var totalExpense = data.Expenses.Sum(x => x.Balance);
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
+
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Fill.BackgroundColor.SetColor(YellowBGRColor);
                 workSheet.Cells[currentRow, 1, currentRow, 6].Style.Font.Bold = true;
-                workSheet.Cells[currentRow, 1].Value = "D";
                 workSheet.Cells[currentRow, 2].Value = "Expenses";
+                using (ExcelRange ranger = workSheet.Cells[currentRow, 2, currentRow, 6])
+                {
+                    ranger.Merge = true;
+                    ranger.Value = "Expenses";
+                    ranger.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    ranger.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
                 currentRow++;
 
                 // Add list expense
@@ -410,7 +466,10 @@ namespace ProfitAndLoss.Business.Services
 
                 // Net profit
                 workSheet.Cells[currentRow, 1, currentRow, 6].Style.Font.Bold = true;
-                workSheet.Cells[currentRow, 1].Value = "E";
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
+
+                workSheet.Cells[currentRow, 1, currentRow, 6].Style.Fill.BackgroundColor.SetColor(TitleBGRColor);
+
                 workSheet.Cells[currentRow, 2].Value = "Net Profit: ";
                 workSheet.Cells[currentRow, 4].Value = ((data.GrossProfit - totalExpense) / totalIncome).ToPercent();
                 workSheet.Cells[currentRow, 6].Value = data.GrossProfit - totalExpense;

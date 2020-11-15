@@ -17,7 +17,7 @@ namespace ProfitAndLoss.Utilities.Helpers
         {
             if (time != null)
             {
-                return time.ToString("dd-MM-yyyy");
+                return time.ToString("dd/MM/yyyy");
             }
             return "N/A";
         }

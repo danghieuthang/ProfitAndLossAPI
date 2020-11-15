@@ -25,10 +25,10 @@ namespace ProfitAndLoss.Business.Services
     }
     public class EvidenceServices : BaseServices<Evidence>, IEvidenceServices
     {
-        private static string ApiKey = "AIzaSyB0bAvWYtuR-EP0YiultKtT2yhdW40HgMw";
-        private static string Bucket = "swdk13.appspot.com";
-        private static string AuthEmail = "dhthang1998@gmail.com";
-        private static string AuthPassword = "anhthangdepZai123";
+        private static readonly string ApiKey = "AIzaSyB0bAvWYtuR-EP0YiultKtT2yhdW40HgMw";
+        private static readonly string Bucket = "swdk13.appspot.com";
+        private static readonly string AuthEmail = "dhthang1998@gmail.com";
+        private static readonly string AuthPassword = "anhthangdepZai123";
         public EvidenceServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
@@ -56,7 +56,6 @@ namespace ProfitAndLoss.Business.Services
         {
             var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
             var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
-
             // you can use CancellationTokenSource to cancel the upload midway
             var cancellation = new CancellationTokenSource();
 

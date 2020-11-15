@@ -50,9 +50,18 @@ namespace ProfitAndLoss.Business
 
     public static class AccountingPeriodStatus
     {
-        public const int STILL_OPEN = 0;
-        public const int CLOSED = 1;
+        public const int OPEN = 1;
+        public const int CLOSED = 2;
+        public const int CANCEL = 3;
     }
 
+    public static class FirebaseAuthenInfo
+    {
+        public static readonly string ApiKey = "AIzaSyB0bAvWYtuR-EP0YiultKtT2yhdW40HgMw";
+        public static readonly string Bucket = "swdk13.appspot.com";
+        public static readonly string AuthEmail = "dhthang1998@gmail.com";
+        public static readonly string AuthPassword = "anhthangdepZai123";
+        public static readonly string Sercet = "tDFrTYuOxMDZnkZ8L4S3GO0TeLwJBbBCETy79bqu";
 
+    }
 }

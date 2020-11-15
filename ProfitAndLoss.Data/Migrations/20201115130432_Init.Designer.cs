@@ -10,7 +10,7 @@ using ProfitAndLoss.Data.Models;
 namespace ProfitAndLoss.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201113021941_Init")]
+    [Migration("20201115130432_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -401,8 +401,8 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
                             Actived = true,
                             Code = "B-PL",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 196, DateTimeKind.Local).AddTicks(1218),
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 196, DateTimeKind.Local).AddTicks(1238)
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 67, DateTimeKind.Local).AddTicks(9752),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 67, DateTimeKind.Local).AddTicks(9794)
                         });
                 });
 
@@ -592,22 +592,22 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8548c9c2-c656-4937-a6c4-a7885215c7c3"),
+                            Id = new Guid("ce2093ae-76e4-499c-aa58-dc41fa68f7b6"),
                             Actived = true,
                             BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
                             Code = "HCM-01",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 196, DateTimeKind.Local).AddTicks(7517),
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 196, DateTimeKind.Local).AddTicks(8255),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 68, DateTimeKind.Local).AddTicks(8879),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 68, DateTimeKind.Local).AddTicks(9888),
                             Name = "Văn phòng quyền lực HCM"
                         },
                         new
                         {
-                            Id = new Guid("f58e642a-c6e9-442f-b3c2-6a36c68eadd2"),
+                            Id = new Guid("bcb2c407-f034-4a4e-9089-5356f39ae706"),
                             Actived = true,
                             BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
                             Code = "HN-01",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 196, DateTimeKind.Local).AddTicks(9007),
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 196, DateTimeKind.Local).AddTicks(9025),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(1098),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(1164),
                             Name = "Văn phòng quyền lực Hà Nội"
                         });
                 });
@@ -691,23 +691,23 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a17bf0b9-14f3-4d15-9af3-52cef1a952ab"),
+                            Id = new Guid("4d629b3c-2659-43c1-b6d0-3821ce7b090f"),
                             Actived = true,
                             Address = "This is address of hp company",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(7280),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4509),
                             Email = "hpcompany@hp.com",
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(7289),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4530),
                             Name = "HP",
                             Phone = "090022333"
                         },
                         new
                         {
-                            Id = new Guid("d7a87bf0-1c15-4498-8563-568bd73fa393"),
+                            Id = new Guid("f4234e7e-278d-4376-97b7-868cf05bdfd6"),
                             Actived = true,
                             Address = "This is address of Dell company",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(7362),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4671),
                             Email = "dellcompany@dell.com",
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(7364),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4674),
                             Name = "Dell",
                             Phone = "0977737014"
                         });
@@ -830,113 +830,102 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("98fa66c5-a08c-4a54-b5b2-0280bc9db7d5"),
+                            Id = new Guid("8ddb84cc-0c1f-46b5-8c47-57e22b9c1aa5"),
                             Actived = true,
                             Code = "SAL-PS",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(2408),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(7078),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(2417),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(7106),
                             Name = "Product Sale",
                             TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52")
                         },
                         new
                         {
-                            Id = new Guid("6080d750-69d9-4554-97f5-5f90aed3e407"),
+                            Id = new Guid("9cf0ca58-8245-4c16-a19e-bcd4a75ab5c7"),
                             Actived = true,
                             Code = "SAL-COGS",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3176),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8521),
                             IsDebit = false,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3183),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8534),
                             Name = "Cost of goods sold",
                             TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52")
                         },
                         new
                         {
-                            Id = new Guid("46d00600-ab35-494a-a131-26e224fdf49c"),
+                            Id = new Guid("16e81eae-8b55-4acd-9202-7e5b0fb91688"),
                             Actived = true,
                             Code = "INV-INVENTORY",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3208),
-                            IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3210),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8574),
+                            IsDebit = false,
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8582),
                             Name = "Inventory",
                             TransactionTypeId = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48")
                         },
                         new
                         {
-                            Id = new Guid("528023f6-2c14-42b9-9ae3-da31bd47681b"),
-                            Actived = true,
-                            Code = "INV-DIS",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3216),
-                            IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3217),
-                            Name = "Inventory Discount",
-                            TransactionTypeId = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48")
-                        },
-                        new
-                        {
-                            Id = new Guid("153de902-209e-4028-bde5-f09248dc8166"),
+                            Id = new Guid("3c8a93b7-f477-4b59-8b68-79239ae4f11c"),
                             Actived = true,
                             Code = "REV-COMMON",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3222),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8598),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3224),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8603),
                             Name = "Common Revenues",
                             TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9")
                         },
                         new
                         {
-                            Id = new Guid("3c34f156-0d69-4958-8bf9-0fa52f26eb0f"),
+                            Id = new Guid("c5626da0-7dbf-4015-bf9d-2cc8daf42ce7"),
                             Actived = true,
                             Code = "REV-PAKING",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3229),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8616),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3230),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8621),
                             Name = "Paking Revenues",
                             TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9")
                         },
                         new
                         {
-                            Id = new Guid("baf36592-b92d-4774-bf11-0b7357301df3"),
+                            Id = new Guid("cfc3145a-6eca-428b-9d68-4da631c54a18"),
                             Actived = true,
                             Code = "REV-BRAND",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3254),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8634),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3255),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8638),
                             Name = "Brand Revenues",
                             TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9")
                         },
                         new
                         {
-                            Id = new Guid("df0bf15a-4357-4faa-8a3f-6ac092b6f1ec"),
+                            Id = new Guid("4f4a9916-3388-4c29-a734-04246304c60c"),
                             Actived = true,
                             Code = "EXP-WAGES",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3263),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8651),
                             IsDebit = false,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3265),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8656),
                             Name = "Wages Expense",
                             TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e")
                         },
                         new
                         {
-                            Id = new Guid("1b58ab8f-7288-4144-92c3-e9b4baa4f521"),
+                            Id = new Guid("6a0eec6e-8f35-4dce-91e9-4cd2fba41747"),
                             Actived = true,
                             Code = "EXP-SHIP",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3271),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8672),
                             IsDebit = false,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3272),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8674),
                             Name = "Shipping Fee",
                             TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e")
                         },
                         new
                         {
-                            Id = new Guid("18a8d756-19a9-4e7a-ab4b-e3438c43c9e8"),
+                            Id = new Guid("8a9773ca-6963-4462-a70e-d50033a2d4b4"),
                             Actived = true,
-                            Code = "EXP-DIS",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3277),
+                            Code = "SAL-DIS",
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8690),
                             IsDebit = false,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 197, DateTimeKind.Local).AddTicks(3279),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8693),
                             Name = "Discount",
-                            TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e")
+                            TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52")
                         });
                 });
 
@@ -1058,9 +1047,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
                             Actived = true,
                             Code = "SAL",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 192, DateTimeKind.Local).AddTicks(9161),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 63, DateTimeKind.Local).AddTicks(5983),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 194, DateTimeKind.Local).AddTicks(391),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(2861),
                             Name = "Sales"
                         },
                         new
@@ -1068,9 +1057,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
                             Actived = true,
                             Code = "REV",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 194, DateTimeKind.Local).AddTicks(2126),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5144),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 194, DateTimeKind.Local).AddTicks(2209),
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5205),
                             Name = "Revenues"
                         },
                         new
@@ -1078,9 +1067,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"),
                             Actived = true,
                             Code = "INV",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 194, DateTimeKind.Local).AddTicks(2236),
-                            IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 194, DateTimeKind.Local).AddTicks(2239),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5252),
+                            IsDebit = false,
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5255),
                             Name = "Invoice"
                         },
                         new
@@ -1088,9 +1077,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),
                             Actived = true,
                             Code = "EXP",
-                            CreatedDate = new DateTime(2020, 11, 13, 9, 19, 41, 194, DateTimeKind.Local).AddTicks(2244),
-                            IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 13, 9, 19, 41, 194, DateTimeKind.Local).AddTicks(2246),
+                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5261),
+                            IsDebit = false,
+                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5263),
                             Name = "Expenses"
                         });
                 });
@@ -1274,7 +1263,7 @@ namespace ProfitAndLoss.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProfitAndLoss.Data.Models.TransactionType", "TransactionType")
-                        .WithMany()
+                        .WithMany("TransactionCategories")
                         .HasForeignKey("TransactionTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

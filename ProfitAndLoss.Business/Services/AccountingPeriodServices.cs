@@ -116,7 +116,7 @@ namespace ProfitAndLoss.Business.Services
 
         public async Task<GenericResult> GetAccountingPeriodStillOpen()
         {
-            var result = _unitOfWork.AccountingPeriodRepository.GetAll(x => x.Status == AccountingPeriodStatus.STILL_OPEN).ToList();
+            var result = _unitOfWork.AccountingPeriodRepository.GetAll(x => x.Status == AccountingPeriodStatus.OPEN).ToList();
             var dataView = new List<AccountingPeriodViewModel>();
             Global.Mapper.Map(result, dataView);
             return new GenericResult
@@ -152,5 +152,40 @@ namespace ProfitAndLoss.Business.Services
         //        StatusCode = HttpStatusCode.OK
         //    };
         //}
+
+        public override async Task<GenericResult> Delete(Guid id)
+        {
+            var entity = _unitOfWork.AccountingPeriodRepository.GetById(id);
+            if (entity == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    Success = false,
+                    StatusCode = HttpStatusCode.NotFound
+                };
+            }
+
+            entity.Status = AccountingPeriodStatus.CANCEL;
+            var result = _unitOfWork.AccountingPeriodRepository.Update(entity);
+
+            _unitOfWork.Commit();
+
+            if (result == null)
+            {
+                return new GenericResult
+                {
+                    Data = result,
+                    Success = false,
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
+            }
+            return new GenericResult
+            {
+                Data = result,
+                Success = true,
+                StatusCode = HttpStatusCode.OK
+            };
+        }
     }
 }

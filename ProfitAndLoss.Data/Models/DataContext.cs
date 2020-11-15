@@ -96,7 +96,7 @@ namespace ProfitAndLoss.Data.Models
             modelBuilder.Entity<Store>().HasData(
                 new Store
                 {
-                    Id = new Guid(),
+                    Id = Guid.NewGuid(),
                     BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
                     Actived = true,
                     CreatedDate = DateTime.Now,
@@ -106,7 +106,7 @@ namespace ProfitAndLoss.Data.Models
                 },
                  new Store
                  {
-                     Id = new Guid(),
+                     Id = Guid.NewGuid(),
                      BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
                      Actived = true,
                      CreatedDate = DateTime.Now,
@@ -221,7 +221,7 @@ namespace ProfitAndLoss.Data.Models
             modelBuilder.Entity<Supplier>().HasData(
                new Supplier
                {
-                   Id = new Guid(),
+                   Id = Guid.NewGuid(),
                    Actived = true,
                    Name = "HP",
                    Email = "hpcompany@hp.com",
@@ -232,7 +232,7 @@ namespace ProfitAndLoss.Data.Models
                },
                 new Supplier
                 {
-                    Id = new Guid(),
+                    Id = Guid.NewGuid(),
                     Actived = true,
                     Name = "Dell",
                     Email = "dellcompany@dell.com",

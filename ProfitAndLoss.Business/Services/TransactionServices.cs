@@ -222,7 +222,7 @@ namespace ProfitAndLoss.Business.Services
                 TransactionId = transaction.Id,
                 CreatedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
-                TransactionCategoryId = new Guid("1B58AB8F-7288-4144-92C3-E9B4BAA4F521"),
+                TransactionCategoryId = new Guid("6a0eec6e-8f35-4dce-91e9-4cd2fba41747"),
                 Actived = true
             });
 
@@ -235,7 +235,7 @@ namespace ProfitAndLoss.Business.Services
                 TransactionId = transaction.Id,
                 CreatedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
-                TransactionCategoryId = new Guid("18A8D756-19A9-4E7A-AB4B-E3438C43C9E8"),
+                TransactionCategoryId = new Guid("8a9773ca-6963-4462-a70e-d50033a2d4b4"),
                 Actived = true
             });
 
@@ -248,7 +248,7 @@ namespace ProfitAndLoss.Business.Services
                 TransactionId = transaction.Id,
                 CreatedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
-                TransactionCategoryId = new Guid("6080D750-69D9-4554-97F5-5F90AED3E407"),
+                TransactionCategoryId = new Guid("9cf0ca58-8245-4c16-a19e-bcd4a75ab5c7"),
                 Actived = true
             });
             return result;

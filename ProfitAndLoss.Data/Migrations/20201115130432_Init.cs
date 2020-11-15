@@ -612,15 +612,15 @@ namespace ProfitAndLoss.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Brands",
                 columns: new[] { "Id", "Actived", "Code", "CreatedDate", "ModifiedDate" },
-                values: new object[] { new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), true, "B-PL", new DateTime(2020, 11, 15, 19, 4, 13, 89, DateTimeKind.Local).AddTicks(412), new DateTime(2020, 11, 15, 19, 4, 13, 89, DateTimeKind.Local).AddTicks(435) });
+                values: new object[] { new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), true, "B-PL", new DateTime(2020, 11, 15, 20, 4, 31, 67, DateTimeKind.Local).AddTicks(9752), new DateTime(2020, 11, 15, 20, 4, 31, 67, DateTimeKind.Local).AddTicks(9794) });
 
             migrationBuilder.InsertData(
                 table: "Suppliers",
                 columns: new[] { "Id", "Actived", "Address", "CreatedDate", "Email", "ModifiedDate", "Name", "Phone" },
                 values: new object[,]
                 {
-                    { new Guid("e62f7f94-fc5c-4c2e-8b3e-4b94f699d238"), true, "This is address of hp company", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(6846), "hpcompany@hp.com", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(6855), "HP", "090022333" },
-                    { new Guid("d673219e-4546-4717-894f-cd81b4ebf025"), true, "This is address of Dell company", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(6925), "dellcompany@dell.com", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(6927), "Dell", "0977737014" }
+                    { new Guid("4d629b3c-2659-43c1-b6d0-3821ce7b090f"), true, "This is address of hp company", new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4509), "hpcompany@hp.com", new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4530), "HP", "090022333" },
+                    { new Guid("f4234e7e-278d-4376-97b7-868cf05bdfd6"), true, "This is address of Dell company", new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4671), "dellcompany@dell.com", new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4674), "Dell", "0977737014" }
                 });
 
             migrationBuilder.InsertData(
@@ -628,10 +628,10 @@ namespace ProfitAndLoss.Data.Migrations
                 columns: new[] { "Id", "Actived", "Code", "CreatedDate", "IsDebit", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"), true, "SAL", new DateTime(2020, 11, 15, 19, 4, 13, 85, DateTimeKind.Local).AddTicks(7054), true, new DateTime(2020, 11, 15, 19, 4, 13, 86, DateTimeKind.Local).AddTicks(9105), "Sales" },
-                    { new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"), true, "REV", new DateTime(2020, 11, 15, 19, 4, 13, 87, DateTimeKind.Local).AddTicks(906), true, new DateTime(2020, 11, 15, 19, 4, 13, 87, DateTimeKind.Local).AddTicks(950), "Revenues" },
-                    { new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"), true, "INV", new DateTime(2020, 11, 15, 19, 4, 13, 87, DateTimeKind.Local).AddTicks(978), false, new DateTime(2020, 11, 15, 19, 4, 13, 87, DateTimeKind.Local).AddTicks(980), "Invoice" },
-                    { new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"), true, "EXP", new DateTime(2020, 11, 15, 19, 4, 13, 87, DateTimeKind.Local).AddTicks(985), false, new DateTime(2020, 11, 15, 19, 4, 13, 87, DateTimeKind.Local).AddTicks(987), "Expenses" }
+                    { new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"), true, "SAL", new DateTime(2020, 11, 15, 20, 4, 31, 63, DateTimeKind.Local).AddTicks(5983), true, new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(2861), "Sales" },
+                    { new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"), true, "REV", new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5144), true, new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5205), "Revenues" },
+                    { new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"), true, "INV", new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5252), false, new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5255), "Invoice" },
+                    { new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"), true, "EXP", new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5261), false, new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5263), "Expenses" }
                 });
 
             migrationBuilder.InsertData(
@@ -639,8 +639,8 @@ namespace ProfitAndLoss.Data.Migrations
                 columns: new[] { "Id", "Actived", "BrandId", "Code", "CreatedDate", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("3ddde612-d65d-4a0f-aac9-fd9db896afda"), true, new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), "HCM-01", new DateTime(2020, 11, 15, 19, 4, 13, 89, DateTimeKind.Local).AddTicks(6914), new DateTime(2020, 11, 15, 19, 4, 13, 89, DateTimeKind.Local).AddTicks(7653), "Văn phòng quyền lực HCM" },
-                    { new Guid("febb5019-66b7-408b-9731-16314dece341"), true, new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), "HN-01", new DateTime(2020, 11, 15, 19, 4, 13, 89, DateTimeKind.Local).AddTicks(8438), new DateTime(2020, 11, 15, 19, 4, 13, 89, DateTimeKind.Local).AddTicks(8456), "Văn phòng quyền lực Hà Nội" }
+                    { new Guid("ce2093ae-76e4-499c-aa58-dc41fa68f7b6"), true, new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), "HCM-01", new DateTime(2020, 11, 15, 20, 4, 31, 68, DateTimeKind.Local).AddTicks(8879), new DateTime(2020, 11, 15, 20, 4, 31, 68, DateTimeKind.Local).AddTicks(9888), "Văn phòng quyền lực HCM" },
+                    { new Guid("bcb2c407-f034-4a4e-9089-5356f39ae706"), true, new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"), "HN-01", new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(1098), new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(1164), "Văn phòng quyền lực Hà Nội" }
                 });
 
             migrationBuilder.InsertData(
@@ -648,15 +648,15 @@ namespace ProfitAndLoss.Data.Migrations
                 columns: new[] { "Id", "AccountId", "Actived", "Code", "CreatedDate", "Description", "IsDebit", "ModifiedDate", "Name", "TransactionTypeId" },
                 values: new object[,]
                 {
-                    { new Guid("8ddb84cc-0c1f-46b5-8c47-57e22b9c1aa5"), null, true, "SAL-PS", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(2163), null, true, new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(2172), "Product Sale", new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52") },
-                    { new Guid("9cf0ca58-8245-4c16-a19e-bcd4a75ab5c7"), null, true, "SAL-COGS", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(2971), null, false, new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(2978), "Cost of goods sold", new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52") },
-                    { new Guid("8a9773ca-6963-4462-a70e-d50033a2d4b4"), null, true, "SAL-DIS", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3065), null, false, new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3067), "Discount", new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52") },
-                    { new Guid("3c8a93b7-f477-4b59-8b68-79239ae4f11c"), null, true, "REV-COMMON", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3013), null, true, new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3015), "Common Revenues", new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9") },
-                    { new Guid("c5626da0-7dbf-4015-bf9d-2cc8daf42ce7"), null, true, "REV-PAKING", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3021), null, true, new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3022), "Paking Revenues", new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9") },
-                    { new Guid("cfc3145a-6eca-428b-9d68-4da631c54a18"), null, true, "REV-BRAND", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3043), null, true, new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3045), "Brand Revenues", new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9") },
-                    { new Guid("16e81eae-8b55-4acd-9202-7e5b0fb91688"), null, true, "INV-INVENTORY", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3004), null, false, new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3006), "Inventory", new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48") },
-                    { new Guid("4f4a9916-3388-4c29-a734-04246304c60c"), null, true, "EXP-WAGES", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3052), null, false, new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3053), "Wages Expense", new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e") },
-                    { new Guid("6a0eec6e-8f35-4dce-91e9-4cd2fba41747"), null, true, "EXP-SHIP", new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3058), null, false, new DateTime(2020, 11, 15, 19, 4, 13, 90, DateTimeKind.Local).AddTicks(3060), "Shipping Fee", new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e") }
+                    { new Guid("8ddb84cc-0c1f-46b5-8c47-57e22b9c1aa5"), null, true, "SAL-PS", new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(7078), null, true, new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(7106), "Product Sale", new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52") },
+                    { new Guid("9cf0ca58-8245-4c16-a19e-bcd4a75ab5c7"), null, true, "SAL-COGS", new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8521), null, false, new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8534), "Cost of goods sold", new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52") },
+                    { new Guid("8a9773ca-6963-4462-a70e-d50033a2d4b4"), null, true, "SAL-DIS", new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8690), null, false, new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8693), "Discount", new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52") },
+                    { new Guid("3c8a93b7-f477-4b59-8b68-79239ae4f11c"), null, true, "REV-COMMON", new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8598), null, true, new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8603), "Common Revenues", new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9") },
+                    { new Guid("c5626da0-7dbf-4015-bf9d-2cc8daf42ce7"), null, true, "REV-PAKING", new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8616), null, true, new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8621), "Paking Revenues", new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9") },
+                    { new Guid("cfc3145a-6eca-428b-9d68-4da631c54a18"), null, true, "REV-BRAND", new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8634), null, true, new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8638), "Brand Revenues", new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9") },
+                    { new Guid("16e81eae-8b55-4acd-9202-7e5b0fb91688"), null, true, "INV-INVENTORY", new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8574), null, false, new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8582), "Inventory", new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48") },
+                    { new Guid("4f4a9916-3388-4c29-a734-04246304c60c"), null, true, "EXP-WAGES", new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8651), null, false, new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8656), "Wages Expense", new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e") },
+                    { new Guid("6a0eec6e-8f35-4dce-91e9-4cd2fba41747"), null, true, "EXP-SHIP", new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8672), null, false, new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8674), "Shipping Fee", new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e") }
                 });
 
             migrationBuilder.CreateIndex(

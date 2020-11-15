@@ -67,6 +67,12 @@ namespace ProfitAndLoss.WebApi.Controllers
             return await _dashboardService.GetProfitAndLoss(model);
         }
 
+        [HttpGet("mobile/profit-and-loss")]
+        public async Task<GenericResult> GetProfitAndLossMobile([FromQuery] ProfitAndLossSearchModel model)
+        {
+            return await _dashboardService.GetProfitAndLossMobile(model);
+        }
+
 
         [HttpGet("profit-and-loss/export")]
         public async Task<FileResult> Export([FromQuery] ProfitAndLossSearchModel model)

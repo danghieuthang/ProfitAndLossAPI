@@ -19,9 +19,9 @@ namespace ProfitAndLoss.Business.Models
         public Guid? AccountingPeriodId { get; set; }
     }
 
-    public class ProfitAndLossViewModel
+    public class ProfitAndLossViewWebModel
     {
-        public ProfitAndLossViewModel()
+        public ProfitAndLossViewWebModel()
         {
 
         }
@@ -31,6 +31,33 @@ namespace ProfitAndLoss.Business.Models
         public double CostOfGoodsSold { get; set; }
 
         public List<ProfitAndLossItemModel> Expenses { get; set; }
+    }
+
+    public class ProfitAndLossViewMobileModel
+    {
+        public ProfitAndLossViewMobileModel()
+        {
+
+        }
+        public DateTime StartedDate { get; set; }
+        public DateTime ClosedDate { get; set; }
+        public GroupProfitAndLossItemModel Incomes { get; set; }
+        public GroupProfitAndLossItemModel Expenses { get; set; }
+        public GroupProfitAndLossItemModel CostOfGoodsSold { get; set; }
+        public double GrossProfit { get; set; }
+        public double NetProfit { get; set; }
+    }
+
+    public class GroupProfitAndLossItemModel
+    {
+        public GroupProfitAndLossItemModel()
+        {
+
+        }
+        public string Title { get; set; }
+        public string EndTitle { get; set; }
+        public double TotalAmount { get; set; }
+        public List<ProfitAndLossItemModel> ListCategory { get; set; }
     }
 
     public class ProfitAndLossItemModel

@@ -4,6 +4,7 @@ using OfficeOpenXml.Style;
 using ProfitAndLoss.Business.Helpers;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Business.Repositories;
+using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 using ProfitAndLoss.Utilities.Extensions;
 using ProfitAndLoss.Utilities.Helpers;
@@ -25,6 +26,7 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> GetRevenueExpense(DashboardSearchModel model);
         Task<GenericResult> GetProfitAndLoss(ProfitAndLossSearchModel model);
         Task<byte[]> Export(ProfitAndLossSearchModel model);
+        Task<GenericResult> GetProfitAndLossMobile(ProfitAndLossSearchModel model);
     }
 
     public class DashboardService : IDashboardService
@@ -177,7 +179,7 @@ namespace ProfitAndLoss.Business.Services
         /// </summary>
         /// <param name="model">The profit and loss search model</param>
         /// <returns></returns>
-        private async Task<ProfitAndLossViewModel> QueryProfitAndLossView(ProfitAndLossSearchModel model)
+        private async Task<ProfitAndLossViewWebModel> QueryProfitAndLossView(ProfitAndLossSearchModel model)
         {
             // Get current accounting period if accounting period id null
             if (model.AccountingPeriodId == null)
@@ -199,7 +201,7 @@ namespace ProfitAndLoss.Business.Services
             // gross profit
 
             var grossProfit = incomes.Result.Sum(x => x.Balance) - costOfGoodsSold;
-            var result = new ProfitAndLossViewModel
+            var result = new ProfitAndLossViewWebModel
             {
                 Incomes = incomes.Result,
                 Expenses = expenses.Result,
@@ -246,6 +248,8 @@ namespace ProfitAndLoss.Business.Services
             return result;
         }
 
+
+
         public async Task<byte[]> Export(ProfitAndLossSearchModel model)
         {
             // get query data
@@ -254,7 +258,7 @@ namespace ProfitAndLoss.Business.Services
 
         }
 
-        private async Task<byte[]> ExportExcel(ProfitAndLossViewModel data, string title)
+        private async Task<byte[]> ExportExcel(ProfitAndLossViewWebModel data, string title)
         {
             // If you use EPPlus in a noncommercial context
             // according to the Polyform Noncommercial license:
@@ -432,5 +436,77 @@ namespace ProfitAndLoss.Business.Services
             }
         }
 
+        public async Task<GenericResult> GetProfitAndLossMobile(ProfitAndLossSearchModel model)
+        {
+            // get query data
+            var result = await GetProfitAndLossMobileView(model);
+
+            return new GenericResult
+            {
+                Data = result,
+                Success = true,
+                StatusCode = System.Net.HttpStatusCode.OK,
+                ResultCode = Utilities.AppResultCode.Success
+            };
+        }
+
+        private async Task<ProfitAndLossViewMobileModel> GetProfitAndLossMobileView(ProfitAndLossSearchModel model)
+        {
+            AccountingPeriod accountingPeriod;
+            if (model.AccountingPeriodId == null)
+            {
+                accountingPeriod = _unitOfWork.AccountingPeriodRepository.GetCurrentAccountPeriod();
+                model.AccountingPeriodId = accountingPeriod.Id;
+            }
+            else
+            {
+                accountingPeriod = _unitOfWork.AccountingPeriodRepository.GetById(model.AccountingPeriodId.Value);
+            }
+
+            var incomes = QueryListProfitAndLoss(model, true);
+            var expense = QueryListProfitAndLoss(model, false);
+
+            //cost of good sold
+            var costOfGoodsSold = _unitOfWork.TransactionDetailRepository.GetAll(t =>
+                           (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
+                           && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
+                     .Include(x => x.TransactionCategory)
+                     .Where(x => x.TransactionCategory.Code.Equals(TransactionCategoryCode.COST_OF_GOOGS_SOLD))
+                     .Sum(x => x.Balance);
+
+            // gross profit
+            var grossProfit = incomes.Result.Sum(x => x.Balance) - costOfGoodsSold;
+
+            ProfitAndLossViewMobileModel view = new ProfitAndLossViewMobileModel
+            {
+                ClosedDate = accountingPeriod.CloseDate,
+                StartedDate = accountingPeriod.StartDate,
+                Incomes = new GroupProfitAndLossItemModel
+                {
+                    Title = "Income",
+                    EndTitle = "Total Income",
+                    TotalAmount = incomes.Result.Sum(x => x.Balance),
+                    ListCategory = incomes.Result
+                },
+                Expenses = new GroupProfitAndLossItemModel
+                {
+                    Title = "Expense",
+                    EndTitle = "Expense",
+                    TotalAmount = expense.Result.Sum(x => x.Balance),
+                    ListCategory = expense.Result
+                },
+                CostOfGoodsSold = new GroupProfitAndLossItemModel
+                {
+                    Title = "Cost of goods sold",
+                    EndTitle = "Cost of goods sold",
+                    TotalAmount = costOfGoodsSold,
+                    ListCategory = null
+                },
+                GrossProfit = grossProfit,
+                NetProfit = grossProfit - costOfGoodsSold
+            };
+
+            return view;
+        }
     }
 }

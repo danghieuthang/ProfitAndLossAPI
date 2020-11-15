@@ -98,7 +98,7 @@ namespace ProfitAndLoss.Business.Services
             };
         }
 
-        public async Task<GenericResult> Delete(Guid id)
+        public virtual async Task<GenericResult> Delete(Guid id)
         {
             var entity = BaseRepository.GetById(id);
             if (entity == null)

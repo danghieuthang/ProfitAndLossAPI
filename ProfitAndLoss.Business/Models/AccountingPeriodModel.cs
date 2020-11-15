@@ -13,6 +13,7 @@ namespace ProfitAndLoss.Business.Models
         public AccountingPeriodCreateModel()
         {
             BrandId = new Guid("05FE5BBA-65AD-4B71-A5DD-08D878376F22");
+            Status = AccountingPeriodStatus.OPEN;
         }
 
         public DateTime StartDate { get; set; }
@@ -72,6 +73,8 @@ namespace ProfitAndLoss.Business.Models
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public int Status { get; set; }
 
     }
 }

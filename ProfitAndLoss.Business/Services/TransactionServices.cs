@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FireSharp;
+using FireSharp.Config;
+using FireSharp.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using ProfitAndLoss.Business.Models;
 using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.Constant;
@@ -9,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ProfitAndLoss.Business.Services
@@ -162,6 +166,9 @@ namespace ProfitAndLoss.Business.Services
                     Success = false
                 };
             }
+
+            PushNotificationAsync(result.Id.ToString());
+
             viewModel.ToModel(result);
             return new GenericResult
             {
@@ -490,7 +497,18 @@ namespace ProfitAndLoss.Business.Services
             };
         }
 
+        public async Task PushNotificationAsync(string data)
+        {
 
+            IFirebaseConfig ifc = new FirebaseConfig()
+            {
+                AuthSecret = FirebaseAuthenInfo.Sercet,
+                BasePath = "https://swdk13.firebaseio.com/"
+            };
 
+            IFirebaseClient client = new FirebaseClient(ifc);
+            client.Set("news/id", data);
+
+        }
     }
 }

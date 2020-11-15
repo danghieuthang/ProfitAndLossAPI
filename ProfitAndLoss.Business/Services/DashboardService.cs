@@ -45,7 +45,7 @@ namespace ProfitAndLoss.Business.Services
 
         public async Task<GenericResult> GetExpensePie(DashboardSearchModel model)
         {
-            var result = await GetPieByTranactionType(model, false);
+            var result = await GetPieByTranactionCategory(model, false);
             return new GenericResult
             {
                 Data = result,
@@ -66,7 +66,8 @@ namespace ProfitAndLoss.Business.Services
                         (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                         && (model.AccountingPeriodId == null || t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
                         .Sum(t => t.Balance)
-                }).ToList();
+                }).Where(x => x.TotalBalance > 0)
+                .ToList();
 
             return result;
         }
@@ -102,7 +103,7 @@ namespace ProfitAndLoss.Business.Services
 
         public async Task<GenericResult> GetRevenuesPie(DashboardSearchModel model)
         {
-            var result = await GetPieByTranactionType(model, true);
+            var result = await GetPieByTranactionCategory(model, true);
             return new GenericResult
             {
                 Data = result,
@@ -357,7 +358,7 @@ namespace ProfitAndLoss.Business.Services
                 workSheet.Cells[currentRow, 1, currentRow, 4].Style.Font.Bold = true;
                 workSheet.Cells[currentRow, 1].Value = "D";
                 workSheet.Cells[currentRow, 2].Value = "Net Profit: ";
-                workSheet.Cells[currentRow, 3].Value = ((data.GrossProfit-totalExpense)/totalIncome).ToPercent();
+                workSheet.Cells[currentRow, 3].Value = ((data.GrossProfit - totalExpense) / totalIncome).ToPercent();
                 workSheet.Cells[currentRow, 4].Value = data.GrossProfit - totalExpense;
                 currentRow++;
 

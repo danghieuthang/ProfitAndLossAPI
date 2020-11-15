@@ -96,7 +96,7 @@ namespace ProfitAndLoss.Data.Models
             modelBuilder.Entity<Store>().HasData(
                 new Store
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid(),
                     BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
                     Actived = true,
                     CreatedDate = DateTime.Now,
@@ -106,7 +106,7 @@ namespace ProfitAndLoss.Data.Models
                 },
                  new Store
                  {
-                     Id = Guid.NewGuid(),
+                     Id = new Guid(),
                      BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
                      Actived = true,
                      CreatedDate = DateTime.Now,
@@ -125,7 +125,7 @@ namespace ProfitAndLoss.Data.Models
                     Name = "Product Sale",
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("8DDB84CC-0C1F-46B5-8C47-57E22B9C1AA5"),
                     IsDebit = true
                 },
                  new TransactionCategory()
@@ -136,7 +136,7 @@ namespace ProfitAndLoss.Data.Models
                      Name = "Cost of goods sold",
                      CreatedDate = DateTime.Now,
                      ModifiedDate = DateTime.Now,
-                     Id = Guid.NewGuid(),
+                     Id = new Guid("9CF0CA58-8245-4C16-A19E-BCD4A75AB5C7"),
                      IsDebit = false,
                  },
                 new TransactionCategory()
@@ -147,19 +147,8 @@ namespace ProfitAndLoss.Data.Models
                     Name = "Inventory",
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("16E81EAE-8B55-4ACD-9202-7E5B0FB91688"),
                     IsDebit = false
-                },
-                new TransactionCategory()
-                {
-                    TransactionTypeId = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"),
-                    Actived = true,
-                    Code = "INV-DIS",
-                    Name = "Inventory Discount",
-                    CreatedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid(),
-                    IsDebit = true
                 },
                 new TransactionCategory()
                 {
@@ -169,7 +158,7 @@ namespace ProfitAndLoss.Data.Models
                     Name = "Common Revenues",
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("3C8A93B7-F477-4B59-8B68-79239AE4F11C"),
                     IsDebit = true
                 },
                  new TransactionCategory()
@@ -180,7 +169,7 @@ namespace ProfitAndLoss.Data.Models
                      Name = "Paking Revenues",
                      CreatedDate = DateTime.Now,
                      ModifiedDate = DateTime.Now,
-                     Id = Guid.NewGuid(),
+                     Id = new Guid("C5626DA0-7DBF-4015-BF9D-2CC8DAF42CE7"),
                      IsDebit = true
                  },
                   new TransactionCategory()
@@ -191,7 +180,7 @@ namespace ProfitAndLoss.Data.Models
                       Name = "Brand Revenues",
                       CreatedDate = DateTime.Now,
                       ModifiedDate = DateTime.Now,
-                      Id = Guid.NewGuid(),
+                      Id = new Guid("CFC3145A-6ECA-428B-9D68-4DA631C54A18"),
                       IsDebit = true,
                   },
                 new TransactionCategory()
@@ -202,7 +191,7 @@ namespace ProfitAndLoss.Data.Models
                     Name = "Wages Expense", //  Tiền lương
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("4F4A9916-3388-4C29-A734-04246304C60C"),
                     IsDebit = false
                 },
                 new TransactionCategory()
@@ -213,18 +202,18 @@ namespace ProfitAndLoss.Data.Models
                     Name = "Shipping Fee",
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("6A0EEC6E-8F35-4DCE-91E9-4CD2FBA41747"),
                     IsDebit = false
                 },
                 new TransactionCategory()
                 {
-                    TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),
+                    TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
                     Actived = true,
-                    Code = "EXP-DIS",
+                    Code = "SAL-DIS",
                     Name = "Discount",
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("8A9773CA-6963-4462-A70E-D50033A2D4B4"),
                     IsDebit = false
                 }
                 );
@@ -232,7 +221,7 @@ namespace ProfitAndLoss.Data.Models
             modelBuilder.Entity<Supplier>().HasData(
                new Supplier
                {
-                   Id = Guid.NewGuid(),
+                   Id = new Guid(),
                    Actived = true,
                    Name = "HP",
                    Email = "hpcompany@hp.com",
@@ -243,7 +232,7 @@ namespace ProfitAndLoss.Data.Models
                },
                 new Supplier
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid(),
                     Actived = true,
                     Name = "Dell",
                     Email = "dellcompany@dell.com",

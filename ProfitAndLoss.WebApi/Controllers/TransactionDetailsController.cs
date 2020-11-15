@@ -28,7 +28,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         [HttpPost]
         public async Task<GenericResult> Creates(List<TransactionDetailCreateModel> models)
         {
- 
+
             return await _transactionDetailServices.CreateTransactionDetails(models);
         }
 
@@ -44,6 +44,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// <param name="id">The transaction id</param>
         /// <returns></returns>
         [HttpGet("transaction/{id}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<GenericResult> GetTransactionDetailByTransactionId(Guid id)
         {
             return await _transactionDetailServices.GetAllByTransactionId(id);

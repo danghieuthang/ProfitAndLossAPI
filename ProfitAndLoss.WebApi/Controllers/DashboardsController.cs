@@ -73,7 +73,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         {
             var file = await _dashboardService.Export(model);
 
-            return File(file, XlsxContentType, "Brands_" + DateTime.Now);
+            return File(file, XlsxContentType, "P&L_" + DateTime.Now);
 
         }
 

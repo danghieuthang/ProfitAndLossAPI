@@ -21,6 +21,7 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> Create(TransactionCreateModel model);
         Task<GenericResult> Search(TransactionSearchModel model);
         List<ValidationModel> ValidateModel(TransactionCreateModel model);
+        Task<GenericResult> GetTransactionDetailByTranID(Guid id);
     }
     public class TransactionServices : BaseServices<Transaction>, ITransactionServices
     {
@@ -444,6 +445,51 @@ namespace ProfitAndLoss.Business.Services
                 StatusCode = HttpStatusCode.OK
             };
         }
+
+        /// <summary>
+        /// Get transaction details by transaction id
+        /// </summary>
+        /// <param name="id">The tranasction id</param>
+        /// <returns></returns>
+        public async Task<GenericResult> GetTransactionDetailByTranID(Guid id)
+        {
+            var data = _unitOfWork.TransactionDetailRepository.GetAll(x => x.TransactionId == id).AsNoTracking()
+                                    .Include(x => x.TransactionCategory)
+                             .Join(_unitOfWork.AccountingPeriodInStoreRepository.GetAll()
+                                        .Include(y => y.Store)
+                                        .Include(y => y.AccountingPeriod),
+                              x => x.AccountingPeriodInStoreId, y => y.Id,
+                             (x, y) => new
+                             {
+                                 x.Id,
+                                 x.Description,
+                                 x.Balance,
+                                 x.TransactionCategory,
+                                 Store = new { y.Store.Id, y.Store.Code, y.Store.Name },
+                                 AccountingPeriod = new { y.AccountingPeriod.Id, y.AccountingPeriod.Title }
+                             })
+                                    .ToList();
+            //var result = new List<TransactionDetailViewModel>();
+            //Global.Mapper.Map(data, result);
+            if (data == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Success = true,
+                    ResultCode = Utilities.AppResultCode.NotFound,
+                    Message = EnumHelper.GetDisplayValue(Utilities.AppResultCode.NotFound)
+                };
+            }
+            return new GenericResult
+            {
+                Data = data,
+                Success = true,
+                StatusCode = HttpStatusCode.OK
+            };
+        }
+
 
 
     }

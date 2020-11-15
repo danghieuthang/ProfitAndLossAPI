@@ -254,16 +254,17 @@ namespace ProfitAndLoss.Business.Services
             using (var excelPackage = new ExcelPackage(new MemoryStream()))
             {
                 // Set some properties
-                //excelPackage.Workbook.Properties.Author = "Thang Depzai";
                 excelPackage.Workbook.Properties.Title = sheetName;
 
                 // Add worksheet
                 var workSheet = excelPackage.Workbook.Worksheets.Add("P&L");
 
+                var currentRow = 1;
+
                 // Add title
-                using (ExcelRange Title = workSheet.Cells[1, 1, 1, 4])
+                using (ExcelRange Title = workSheet.Cells[currentRow, 1, currentRow, 4])
                 {
-                    Title.Value = "Proft and loss statement";
+                    Title.Value = "Profit and loss statement";
                     Title.Merge = true;
                     Title.Style.Font.Size = 15;
                     Title.Style.Font.Bold = true;
@@ -272,8 +273,9 @@ namespace ProfitAndLoss.Business.Services
                     Title.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     Title.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 }
+                currentRow++;
 
-                using (ExcelRange Title = workSheet.Cells[2, 1, 2, 4])
+                using (ExcelRange Title = workSheet.Cells[currentRow, 1, currentRow, 4])
                 {
                     Title.Value = DateTime.Now.ToFormalVN();
                     Title.Merge = true;
@@ -284,11 +286,11 @@ namespace ProfitAndLoss.Business.Services
                     Title.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     Title.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 }
+                currentRow++;
 
                 // Add title
-
-                // set style for title
-                using (ExcelRange subTitle = workSheet.Cells[4, 1, 4, 4])
+                // Set style for title
+                using (ExcelRange subTitle = workSheet.Cells[currentRow, 1, currentRow, 4])
                 {
                     subTitle.Style.Fill.PatternType = ExcelFillStyle.Solid;
                     subTitle.Style.Fill.BackgroundColor.SetColor(TitleBGRColor);
@@ -299,21 +301,24 @@ namespace ProfitAndLoss.Business.Services
                 }
 
 
-                //set value for title
-                workSheet.Cells[4, 1].Value = "No";
-                workSheet.Cells[4, 2].Value = "Description";
-                workSheet.Cells[4, 3].Value = "Percent";
-                workSheet.Cells[4, 4].Value = "Balance";
+                //set value for Header
+                workSheet.Cells[currentRow, 1].Value = "No";
+                workSheet.Cells[currentRow, 2].Value = "Description";
+                workSheet.Cells[currentRow, 3].Value = "Percent";
+                workSheet.Cells[currentRow, 4].Value = "Balance";
+                currentRow++;
 
-                workSheet.Cells[5, 1, 5, 4].Style.Font.Bold = true;
-                workSheet.Cells[5, 1].Value = "A";
-                workSheet.Cells[5, 2].Value = "Total Incomes: ";
-                workSheet.Cells[5, 3].Value = "100 %";
-                workSheet.Cells[5, 4].Value = data.Incomes.Sum(x => x.Balance);
+                //Total income
+
+                workSheet.Cells[currentRow, 1, currentRow, 4].Style.Font.Bold = true;
+                workSheet.Cells[currentRow, 1].Value = "A";
+                workSheet.Cells[currentRow, 2].Value = "Total Incomes: ";
+                workSheet.Cells[currentRow, 3].Value = "100 %";
+                workSheet.Cells[currentRow, 4].Value = data.Incomes.Sum(x => x.Balance);
+                currentRow++;
 
                 // List incomes
-                workSheet.Cells[6, 1, data.Incomes.Count + 6, 4].Style.Font.Size = 10;
-                var currentRow = 6;
+                workSheet.Cells[currentRow, 1, data.Incomes.Count + currentRow, 4].Style.Font.Size = 10;
                 var totalIncome = data.Incomes.Sum(x => x.Balance);
                 for (int row = 0; row < data.Incomes.Count; row++)
                 {
@@ -339,7 +344,7 @@ namespace ProfitAndLoss.Business.Services
                 workSheet.Cells[currentRow, 4].Value = totalExpense;
                 currentRow++;
 
-                // add list expense
+                // Add list expense
                 for (int row = 0; row < data.Expenses.Count; row++)
                 {
                     workSheet.Cells[currentRow, 1].Value = row + 1;
@@ -350,8 +355,8 @@ namespace ProfitAndLoss.Business.Services
                 }
 
                 workSheet.Cells[currentRow, 1, currentRow, 4].Style.Font.Bold = true;
-                workSheet.Cells[currentRow, 1].Value = "C";
-                workSheet.Cells[currentRow, 2].Value = "Net Income: ";
+                workSheet.Cells[currentRow, 1].Value = "D";
+                workSheet.Cells[currentRow, 2].Value = "Net Profit: ";
                 workSheet.Cells[currentRow, 3].Value = ((data.GrossProfit-totalExpense)/totalIncome).ToPercent();
                 workSheet.Cells[currentRow, 4].Value = data.GrossProfit - totalExpense;
                 currentRow++;

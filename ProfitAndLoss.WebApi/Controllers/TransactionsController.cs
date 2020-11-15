@@ -100,5 +100,16 @@ namespace ProfitAndLoss.WebApi.Controllers
         {
             return await _transactionService.Delete(id);
         }
+
+        /// <summary>
+        /// Get all transaction detail by tranasction id
+        /// </summary>
+        /// <param name="id">The transaction id</param>
+        /// <returns></returns>
+        [HttpGet("{id}/transaction-details")]
+        public async Task<GenericResult> GetTransactionDetailsByTransactionID(Guid id)
+        {
+            return await _transactionService.GetTransactionDetailByTranID(id);
+        }
     }
 }

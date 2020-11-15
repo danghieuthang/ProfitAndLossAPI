@@ -123,7 +123,7 @@ namespace ProfitAndLoss.WebApi.Controllers
                     Error = listValidation,
                     Message = EnumHelper.GetDisplayValue(AppResultCode.FailValidation),
                     ResultCode = AppResultCode.FailValidation,
-                    StatusCode = HttpStatusCode.BadRequest
+                    StatusCode = HttpStatusCode.BadRequest,
                 };
             }
             var tokenString = await _identityServices.GenerateJWTTokenAsync(appUser);

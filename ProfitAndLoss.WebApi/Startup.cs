@@ -47,9 +47,9 @@ namespace ProfitAndLoss.WebApi
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
             #region dbContext
-            services.AddDbContextPool<DataContext>(
+            services.AddDbContext<DataContext>(
                 //options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection"))
-                options => options.UseSqlServer(ConnectionString.CNN)
+                options => options.UseSqlServer(ConnectionString.CNN), ServiceLifetime.Transient
                 );
             #endregion dbcontext
 

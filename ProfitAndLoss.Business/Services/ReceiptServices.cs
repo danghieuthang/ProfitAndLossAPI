@@ -20,6 +20,7 @@ namespace ProfitAndLoss.Business.Services
     {
         Task<GenericResult> SearchRecepts(ReceiptSearchModel model);
         Task<GenericResult> GetReceiptByTransactionId(Guid id);
+        Task<Receipt> GetEntityByTransactionId(Guid id);
     }
     public class ReceiptServices : BaseServices<Receipt>, IReceiptServices
     {
@@ -154,6 +155,13 @@ namespace ProfitAndLoss.Business.Services
                 StatusCode = HttpStatusCode.OK
             };
 
+        }
+
+        public async Task<Receipt> GetEntityByTransactionId(Guid id)
+        {
+            var data = BaseRepository.GetAll(x => x.TransactionId == id)
+                                    .FirstOrDefault();
+            return data;
         }
     }
 }

@@ -421,6 +421,11 @@ namespace ProfitAndLoss.Business.Services
                                     .FirstOrDefault();
             var model = new TransactionViewModel();
             model.ToModel(data);
+            var receipt = await _receiptServices.GetEntityByTransactionId(data.Id);
+            if (receipt != null)
+            {
+                model.ReceiptId = receipt.Id;
+            }
             if (data == null)
             {
                 return new GenericResult

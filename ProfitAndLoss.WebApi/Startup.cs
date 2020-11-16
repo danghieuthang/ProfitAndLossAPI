@@ -133,7 +133,7 @@ namespace ProfitAndLoss.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "My API",
+                    Title = "Profit and Loss API",
                     Description = "Build by Team Profit And Loss",
                     TermsOfService = new Uri("https://example.com/terms"),
                 });
@@ -236,7 +236,7 @@ namespace ProfitAndLoss.WebApi
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My APi V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Profit and Loss API V1");
                 c.RoutePrefix = string.Empty;
             });
             app.UseEndpoints(endpoints =>

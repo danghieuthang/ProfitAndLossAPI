@@ -7,9 +7,9 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class TransactionTypeCreateModel : BaseCreateModel<TransactionType>
+    public class ReceiptTypeCreateModel : BaseCreateModel<ReceiptType>
     {
-        public TransactionTypeCreateModel()
+        public ReceiptTypeCreateModel()
         {
 
         }
@@ -22,27 +22,26 @@ namespace ProfitAndLoss.Business.Models
 
     }
 
-    public class TransactionTypeUpdateModel : BaseUpdateModel<TransactionType>
+    public class ReceiptTypeUpdateModel : BaseUpdateModel<ReceiptType>
     {
-        public TransactionTypeUpdateModel()
+        public ReceiptTypeUpdateModel()
         {
 
         }
 
-        public bool Actived { get; set; }
     }
 
-    public class TransactionTypeSearchModel : BaseSearchModel<TransactionType>
+    public class ReceiptTypeSearchModel : BaseSearchModel<ReceiptType>
     {
-        public TransactionTypeSearchModel()
+        public ReceiptTypeSearchModel()
         {
 
         }
     }
 
-    public class TransactionTypeViewModel: BaseViewModel<TransactionType>
+    public class ReceiptTypeViewModel: BaseViewModel<ReceiptType>
     {
-        public TransactionTypeViewModel()
+        public ReceiptTypeViewModel()
         {
 
         }

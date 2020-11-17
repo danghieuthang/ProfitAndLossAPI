@@ -23,9 +23,9 @@ namespace ProfitAndLoss.Data.Models
         [MaxLength(255)]
         public string ImgUrl { get; set; }
 
+        public virtual Receipt Receipt { get; set; }
+
         [ForeignKey("Receipt")]
         public Guid ReceiptId { get; set; }
-
-        public virtual Receipt Receipt { get; set; }
     }
 }

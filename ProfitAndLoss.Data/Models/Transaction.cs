@@ -16,54 +16,33 @@ namespace ProfitAndLoss.Data.Models
         }
 
         [MaxLength(255)]
+        public string Name { get; set; }
+
+        [MaxLength(255)]
         public string Code { get; set; }
 
-        [ForeignKey("Store")]
-        public Guid? StoreId { get; set; }
-
-        public virtual Store Store { get; set; }
-
-        [ForeignKey("Member")]
-        public Guid? CreateMemberId { get; set; }
-
-        public virtual Member Member { get; set; }
-
-        [ForeignKey("TransactionType")]
-        public Guid? TransactionTypeId { get; set; }
-
-        public virtual TransactionType TransactionType { get; set; }
+        [MaxLength(2000)]
+        public string Description { get; set; }
 
         [DefaultValue(0)]
-        public double TotalBalance { get; set; }
+        public double Balance { get; set; }
 
-        [DefaultValue(0)]
-        public double ShippingFee { get; set; }
+        [ForeignKey("ReceiptId")]
+        public Guid? ReceiptId { get; set; }
 
-        [DefaultValue(0)]
-        public double DiscountPercent { get; set; }
+        public virtual Receipt Receipt { get; set; }
 
-        [DefaultValue(0)]
-        public double DiscountValue { get; set; }
+        [ForeignKey("TransactionCategory")]
+        public Guid? TransactionCategoryId { get; set; }
 
-        [DefaultValue(0)]
-        public double SubTotal { get; set; }
+        public virtual TransactionCategory TransactionCategory { get; set; }
 
-        public double AmountPaid { get; set; }
+        [ForeignKey("AccountingPeriodInStore")]
+        public Guid? AccountingPeriodInStoreId { get; set; }
 
-        public double DueBalance { get; set; }
-
-        public string NoteMessage { get; set; }
-
-        [ForeignKey("Supplier")]
-        public Guid? SupplierId { get; set; }
-
-        public virtual Supplier Supplier { get; set; }
+        public virtual AccountingPeriodInStore AccountingPeriodInStore { get; set; }
 
         public int Status { get; set; }
-
-        public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
-
-        public virtual ICollection<TransactionHistory> TransactionHistories { get; set; }
 
     }
 }

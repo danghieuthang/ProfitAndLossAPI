@@ -69,8 +69,9 @@ namespace ProfitAndLoss.Business.Services
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    TotalBalance = x.TransactionDetails.Where(t =>
-                        (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
+                    TotalBalance = x.Transtations.Where(t =>
+                        t.Status == TransactionStatus.APPROVAL
+                        && (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                         && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
                         .Sum(t => t.Balance)
                 }).Where(x => x.TotalBalance > 0)
@@ -88,8 +89,9 @@ namespace ProfitAndLoss.Business.Services
                 {
                     ID = x.TransactionType.Id,
                     Name = x.TransactionType.Name,
-                    TotalBalance = x.TransactionDetails.Where(t =>
-                        (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
+                    TotalBalance = x.Transtations.Where(t =>
+                        t.Status == TransactionStatus.APPROVAL
+                        && (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                         && (model.AccountingPeriodId == null || t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
                         .Sum(t => t.Balance)
                 })
@@ -135,8 +137,9 @@ namespace ProfitAndLoss.Business.Services
                         ).FirstOrDefault().Id;
             }
             // Query revenues and expense
-            var result = _unitOfWork.TransactionDetailRepository.GetAll(x =>
-            (model.StoreId == null || x.AccountingPeriodInStore.StoreId == model.StoreId.Value)
+            var result = _unitOfWork.TransactionRepository.GetAll(x =>
+            x.Status == TransactionStatus.APPROVAL
+            && (model.StoreId == null || x.AccountingPeriodInStore.StoreId == model.StoreId.Value)
             && (model.AccountingPeriodId == x.AccountingPeriodInStore.AccountingPeriodId))
                 .Include(x => x.TransactionCategory)
                 .ToList()
@@ -194,8 +197,9 @@ namespace ProfitAndLoss.Business.Services
 
 
             //cost of good sold
-            var costOfGoodsSold = _unitOfWork.TransactionDetailRepository.GetAll(t =>
-                           (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
+            var costOfGoodsSold = _unitOfWork.TransactionRepository.GetAll(t =>
+                            t.Status == TransactionStatus.APPROVAL
+                           && (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                            && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
                      .Include(x => x.TransactionCategory)
                      .Where(x => x.TransactionCategory.Code.Equals(TransactionCategoryCode.COST_OF_GOOGS_SOLD))
@@ -230,8 +234,9 @@ namespace ProfitAndLoss.Business.Services
                     ID = x.Id,
                     x.Name,
                     // Caculate Balance base by transaction type
-                    TotalBalance = x.TransactionDetails.Where(t =>
-                        (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
+                    TotalBalance = x.Transtations.Where(t =>
+                        t.Status == TransactionStatus.APPROVAL
+                        && (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                         && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
                         .Sum(t => t.Balance)
                 })
@@ -526,7 +531,7 @@ namespace ProfitAndLoss.Business.Services
             var expense = QueryListProfitAndLoss(model, false);
 
             //cost of good sold
-            var costOfGoodsSold = _unitOfWork.TransactionDetailRepository.GetAll(t =>
+            var costOfGoodsSold = _unitOfWork.TransactionRepository.GetAll(t =>
                            (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                            && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
                      .Include(x => x.TransactionCategory)

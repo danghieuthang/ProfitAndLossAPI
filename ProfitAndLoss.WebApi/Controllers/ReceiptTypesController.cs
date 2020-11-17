@@ -12,14 +12,14 @@ using ProfitAndLoss.Utilities.DTOs;
 
 namespace ProfitAndLoss.WebApi.Controllers
 {
-    [Route(RouteConstants.TransactionType.PREFIX)]
+    [Route(RouteConstants.ReceiptType.PREFIX)]
     [ApiController]
-    public class TransactionTypesController : BaseController
+    public class ReceiptTypesController : BaseController
     {
-        private readonly ITransactionTypeServices _transactionTypeService;
-        public TransactionTypesController(ITransactionTypeServices transactionTypeService, IdentityServices identityServices) : base(identityServices)
+        private readonly IReceiptTypeServices _receiptTypeService;
+        public ReceiptTypesController(IReceiptTypeServices receiptTypeService, IdentityServices identityServices) : base(identityServices)
         {
-            _transactionTypeService = transactionTypeService;
+            _receiptTypeService = receiptTypeService;
         }
 
         /// <summary>
@@ -28,9 +28,9 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<GenericResult> Create([FromBody] TransactionTypeCreateModel model)
+        public async Task<GenericResult> Create([FromBody] ReceiptTypeCreateModel model)
         {
-            return await _transactionTypeService.Create(model);
+            return await _receiptTypeService.Create(model);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         [HttpGet]
         public async Task<GenericResult> GetAll()
         {
-            return await _transactionTypeService.GetAll();
+            return await _receiptTypeService.GetAll();
         }
     }
 }

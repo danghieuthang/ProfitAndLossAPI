@@ -7,17 +7,16 @@ using System.Text;
 
 namespace ProfitAndLoss.Business.Models
 {
-    public class TransactionHistoryCreateModel : BaseCreateModel<TransactionHistory>
+    public class ReceiptHistoryCreateModel : BaseCreateModel<ReceiptHistory>
     {
-        public TransactionHistoryCreateModel()
+        public ReceiptHistoryCreateModel()
         {
 
         }
 
         [Required]
-        public Guid TransactionId { get; set; }
+        public Guid ReceiptId { get; set; }
 
-        public bool Actived { get; set; }
 
         [Required]
         public string Message { get; set; }
@@ -26,14 +25,13 @@ namespace ProfitAndLoss.Business.Models
 
     }
 
-    public class TransactionHistoryUpdateModel : BaseUpdateModel<TransactionHistory>
+    public class ReceiptHistoryUpdateModel : BaseUpdateModel<ReceiptHistory>
     {
-        public TransactionHistoryUpdateModel()
+        public ReceiptHistoryUpdateModel()
         {
 
         }
 
-        public bool Actived { get; set; }
 
         [Required]
         public string Message { get; set; }
@@ -41,9 +39,9 @@ namespace ProfitAndLoss.Business.Models
         public int Status { get; set; }
     }
 
-    public class TransactionHistorySearchModel : BaseSearchModel<TransactionHistory>
+    public class ReceiptHistorySearchModel : BaseSearchModel<ReceiptHistory>
     {
-        public TransactionHistorySearchModel()
+        public ReceiptHistorySearchModel()
         {
 
         }

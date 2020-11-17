@@ -64,4 +64,9 @@ namespace ProfitAndLoss.Business
         public static readonly string Sercet = "tDFrTYuOxMDZnkZ8L4S3GO0TeLwJBbBCETy79bqu";
 
     }
+    public static class TransactionStatus
+    {
+        public static readonly int PROCESS = 0;
+        public static readonly int APPROVAL = 1;
+    }
 }

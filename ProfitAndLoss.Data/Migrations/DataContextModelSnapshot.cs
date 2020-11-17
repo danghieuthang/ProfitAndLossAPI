@@ -249,33 +249,6 @@ namespace ProfitAndLoss.Data.Migrations
                     b.ToTable("AccountingPeriodInStore");
                 });
 
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.Actor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Actived")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Actors");
-                });
-
             modelBuilder.Entity("ProfitAndLoss.Data.Models.AppRole", b =>
                 {
                     b.Property<string>("Id")
@@ -399,8 +372,8 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
                             Actived = true,
                             Code = "B-PL",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 67, DateTimeKind.Local).AddTicks(9752),
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 67, DateTimeKind.Local).AddTicks(9794)
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 168, DateTimeKind.Local).AddTicks(9742),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 168, DateTimeKind.Local).AddTicks(9775)
                         });
                 });
 
@@ -533,26 +506,180 @@ namespace ProfitAndLoss.Data.Migrations
                     b.Property<bool>("Actived")
                         .HasColumnType("bit");
 
+                    b.Property<double>("AmountPaid")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("CloseDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<Guid?>("CreateMemberId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("DiscountPercent")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DiscountValue")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DueBalance")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("TransactionId")
+                    b.Property<string>("NoteMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OpenDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ReceiptTypeId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("ShippingFee")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("SubTotal")
+                        .HasColumnType("float");
+
+                    b.Property<Guid?>("SupplierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("TermExport")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("TotalBalance")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionId");
+                    b.HasIndex("CreateMemberId");
+
+                    b.HasIndex("ReceiptTypeId");
+
+                    b.HasIndex("StoreId");
+
+                    b.HasIndex("SupplierId");
 
                     b.ToTable("Receipts");
+                });
+
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.ReceiptHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Actived")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(2000)")
+                        .HasMaxLength(2000);
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ReceiptId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiptId");
+
+                    b.ToTable("ReceiptHistories");
+                });
+
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.ReceiptType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Actived")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDebit")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceiptTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
+                            Actived = true,
+                            Code = "SAL",
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 164, DateTimeKind.Local).AddTicks(5607),
+                            IsDebit = true,
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 166, DateTimeKind.Local).AddTicks(2934),
+                            Name = "Sales"
+                        },
+                        new
+                        {
+                            Id = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
+                            Actived = true,
+                            Code = "REV",
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 166, DateTimeKind.Local).AddTicks(5397),
+                            IsDebit = true,
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 166, DateTimeKind.Local).AddTicks(5462),
+                            Name = "Revenues"
+                        },
+                        new
+                        {
+                            Id = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"),
+                            Actived = true,
+                            Code = "INV",
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 166, DateTimeKind.Local).AddTicks(5508),
+                            IsDebit = false,
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 166, DateTimeKind.Local).AddTicks(5512),
+                            Name = "Invoice"
+                        },
+                        new
+                        {
+                            Id = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),
+                            Actived = true,
+                            Code = "EXP",
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 166, DateTimeKind.Local).AddTicks(5519),
+                            IsDebit = false,
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 166, DateTimeKind.Local).AddTicks(5522),
+                            Name = "Expenses"
+                        });
                 });
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Store", b =>
@@ -590,22 +717,22 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ce2093ae-76e4-499c-aa58-dc41fa68f7b6"),
+                            Id = new Guid("fdbe21a6-773e-4d21-be00-b12b5ecc5333"),
                             Actived = true,
                             BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
                             Code = "HCM-01",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 68, DateTimeKind.Local).AddTicks(8879),
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 68, DateTimeKind.Local).AddTicks(9888),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 169, DateTimeKind.Local).AddTicks(6522),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 169, DateTimeKind.Local).AddTicks(7283),
                             Name = "Văn phòng quyền lực HCM"
                         },
                         new
                         {
-                            Id = new Guid("bcb2c407-f034-4a4e-9089-5356f39ae706"),
+                            Id = new Guid("d9947257-c13d-4fa2-aae7-4e6c73f59f13"),
                             Actived = true,
                             BrandId = new Guid("05fe5bba-65ad-4b71-a5dd-08d878376f22"),
                             Code = "HN-01",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(1098),
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(1164),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 169, DateTimeKind.Local).AddTicks(8082),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 169, DateTimeKind.Local).AddTicks(8100),
                             Name = "Văn phòng quyền lực Hà Nội"
                         });
                 });
@@ -689,23 +816,23 @@ namespace ProfitAndLoss.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4d629b3c-2659-43c1-b6d0-3821ce7b090f"),
+                            Id = new Guid("5b9509b4-5576-459b-921f-6e5a53a21b8b"),
                             Actived = true,
                             Address = "This is address of hp company",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4509),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(6566),
                             Email = "hpcompany@hp.com",
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4530),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(6576),
                             Name = "HP",
                             Phone = "090022333"
                         },
                         new
                         {
-                            Id = new Guid("f4234e7e-278d-4376-97b7-868cf05bdfd6"),
+                            Id = new Guid("783c7b9d-f927-4ea2-a106-34e89f32114e"),
                             Actived = true,
                             Address = "This is address of Dell company",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4671),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(6657),
                             Email = "dellcompany@dell.com",
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 70, DateTimeKind.Local).AddTicks(4674),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(6659),
                             Name = "Dell",
                             Phone = "0977737014"
                         });
@@ -717,67 +844,49 @@ namespace ProfitAndLoss.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AccountingPeriodInStoreId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("Actived")
                         .HasColumnType("bit");
 
-                    b.Property<double>("AmountPaid")
+                    b.Property<double>("Balance")
                         .HasColumnType("float");
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<Guid?>("CreateMemberId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("DiscountPercent")
-                        .HasColumnType("float");
-
-                    b.Property<double>("DiscountValue")
-                        .HasColumnType("float");
-
-                    b.Property<double>("DueBalance")
-                        .HasColumnType("float");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(2000)")
+                        .HasMaxLength(2000);
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("NoteMessage")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
-                    b.Property<double>("ShippingFee")
-                        .HasColumnType("float");
+                    b.Property<Guid?>("ReceiptId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("StoreId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("SubTotal")
-                        .HasColumnType("float");
-
-                    b.Property<Guid?>("SupplierId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("TotalBalance")
-                        .HasColumnType("float");
-
-                    b.Property<Guid?>("TransactionTypeId")
+                    b.Property<Guid?>("TransactionCategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreateMemberId");
+                    b.HasIndex("AccountingPeriodInStoreId");
 
-                    b.HasIndex("StoreId");
+                    b.HasIndex("ReceiptId");
 
-                    b.HasIndex("SupplierId");
-
-                    b.HasIndex("TransactionTypeId");
+                    b.HasIndex("TransactionCategoryId");
 
                     b.ToTable("Transactions");
                 });
@@ -831,9 +940,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("8ddb84cc-0c1f-46b5-8c47-57e22b9c1aa5"),
                             Actived = true,
                             Code = "SAL-PS",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(7078),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(1722),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(7106),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(1732),
                             Name = "Product Sale",
                             TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52")
                         },
@@ -842,9 +951,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("9cf0ca58-8245-4c16-a19e-bcd4a75ab5c7"),
                             Actived = true,
                             Code = "SAL-COGS",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8521),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2515),
                             IsDebit = false,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8534),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2522),
                             Name = "Cost of goods sold",
                             TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52")
                         },
@@ -853,9 +962,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("16e81eae-8b55-4acd-9202-7e5b0fb91688"),
                             Actived = true,
                             Code = "INV-INVENTORY",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8574),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2543),
                             IsDebit = false,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8582),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2544),
                             Name = "Inventory",
                             TransactionTypeId = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48")
                         },
@@ -864,9 +973,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("3c8a93b7-f477-4b59-8b68-79239ae4f11c"),
                             Actived = true,
                             Code = "REV-COMMON",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8598),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2552),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8603),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2553),
                             Name = "Common Revenues",
                             TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9")
                         },
@@ -875,9 +984,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("c5626da0-7dbf-4015-bf9d-2cc8daf42ce7"),
                             Actived = true,
                             Code = "REV-PAKING",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8616),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2562),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8621),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2564),
                             Name = "Paking Revenues",
                             TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9")
                         },
@@ -886,9 +995,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("cfc3145a-6eca-428b-9d68-4da631c54a18"),
                             Actived = true,
                             Code = "REV-BRAND",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8634),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2603),
                             IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8638),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2604),
                             Name = "Brand Revenues",
                             TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9")
                         },
@@ -897,9 +1006,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("4f4a9916-3388-4c29-a734-04246304c60c"),
                             Actived = true,
                             Code = "EXP-WAGES",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8651),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2611),
                             IsDebit = false,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8656),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2613),
                             Name = "Wages Expense",
                             TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e")
                         },
@@ -908,9 +1017,9 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("6a0eec6e-8f35-4dce-91e9-4cd2fba41747"),
                             Actived = true,
                             Code = "EXP-SHIP",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8672),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2619),
                             IsDebit = false,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8674),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2620),
                             Name = "Shipping Fee",
                             TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e")
                         },
@@ -919,166 +1028,11 @@ namespace ProfitAndLoss.Data.Migrations
                             Id = new Guid("8a9773ca-6963-4462-a70e-d50033a2d4b4"),
                             Actived = true,
                             Code = "SAL-DIS",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8690),
+                            CreatedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2627),
                             IsDebit = false,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 69, DateTimeKind.Local).AddTicks(8693),
+                            ModifiedDate = new DateTime(2020, 11, 17, 9, 8, 16, 170, DateTimeKind.Local).AddTicks(2629),
                             Name = "Discount",
                             TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52")
-                        });
-                });
-
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AccountingPeriodInStoreId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Actived")
-                        .HasColumnType("bit");
-
-                    b.Property<double>("Balance")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
-
-                    b.Property<Guid?>("TransactionCategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("TransactionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountingPeriodInStoreId");
-
-                    b.HasIndex("TransactionCategoryId");
-
-                    b.HasIndex("TransactionId");
-
-                    b.ToTable("TransactionDetails");
-                });
-
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionHistory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Actived")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("TransactionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TransactionId");
-
-                    b.ToTable("TransactionHistories");
-                });
-
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Actived")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDebit")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TransactionTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
-                            Actived = true,
-                            Code = "SAL",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 63, DateTimeKind.Local).AddTicks(5983),
-                            IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(2861),
-                            Name = "Sales"
-                        },
-                        new
-                        {
-                            Id = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
-                            Actived = true,
-                            Code = "REV",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5144),
-                            IsDebit = true,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5205),
-                            Name = "Revenues"
-                        },
-                        new
-                        {
-                            Id = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"),
-                            Actived = true,
-                            Code = "INV",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5252),
-                            IsDebit = false,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5255),
-                            Name = "Invoice"
-                        },
-                        new
-                        {
-                            Id = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),
-                            Actived = true,
-                            Code = "EXP",
-                            CreatedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5261),
-                            IsDebit = false,
-                            ModifiedDate = new DateTime(2020, 11, 15, 20, 4, 31, 65, DateTimeKind.Local).AddTicks(5263),
-                            Name = "Expenses"
                         });
                 });
 
@@ -1199,9 +1153,32 @@ namespace ProfitAndLoss.Data.Migrations
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Receipt", b =>
                 {
-                    b.HasOne("ProfitAndLoss.Data.Models.Transaction", "Transaction")
-                        .WithMany()
-                        .HasForeignKey("TransactionId")
+                    b.HasOne("ProfitAndLoss.Data.Models.Member", "Member")
+                        .WithMany("Receipts")
+                        .HasForeignKey("CreateMemberId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProfitAndLoss.Data.Models.ReceiptType", "ReceiptType")
+                        .WithMany("Receipts")
+                        .HasForeignKey("ReceiptTypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProfitAndLoss.Data.Models.Store", "Store")
+                        .WithMany("Transactions")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProfitAndLoss.Data.Models.Supplier", "Supplier")
+                        .WithMany("Receipts")
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ProfitAndLoss.Data.Models.ReceiptHistory", b =>
+                {
+                    b.HasOne("ProfitAndLoss.Data.Models.Receipt", "Receipt")
+                        .WithMany("ReceiptHistories")
+                        .HasForeignKey("ReceiptId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
@@ -1232,24 +1209,19 @@ namespace ProfitAndLoss.Data.Migrations
 
             modelBuilder.Entity("ProfitAndLoss.Data.Models.Transaction", b =>
                 {
-                    b.HasOne("ProfitAndLoss.Data.Models.Member", "Member")
-                        .WithMany("Transactions")
-                        .HasForeignKey("CreateMemberId")
+                    b.HasOne("ProfitAndLoss.Data.Models.AccountingPeriodInStore", "AccountingPeriodInStore")
+                        .WithMany("TransactionDetails")
+                        .HasForeignKey("AccountingPeriodInStoreId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ProfitAndLoss.Data.Models.Store", "Store")
+                    b.HasOne("ProfitAndLoss.Data.Models.Receipt", "Receipt")
                         .WithMany("Transactions")
-                        .HasForeignKey("StoreId")
+                        .HasForeignKey("ReceiptId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ProfitAndLoss.Data.Models.Supplier", "Supplier")
-                        .WithMany("Transactions")
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ProfitAndLoss.Data.Models.TransactionType", "TransactionType")
-                        .WithMany("Transactions")
-                        .HasForeignKey("TransactionTypeId")
+                    b.HasOne("ProfitAndLoss.Data.Models.TransactionCategory", "TransactionCategory")
+                        .WithMany("Transtations")
+                        .HasForeignKey("TransactionCategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -1260,36 +1232,9 @@ namespace ProfitAndLoss.Data.Migrations
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ProfitAndLoss.Data.Models.TransactionType", "TransactionType")
+                    b.HasOne("ProfitAndLoss.Data.Models.ReceiptType", "TransactionType")
                         .WithMany("TransactionCategories")
                         .HasForeignKey("TransactionTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionDetail", b =>
-                {
-                    b.HasOne("ProfitAndLoss.Data.Models.AccountingPeriodInStore", "AccountingPeriodInStore")
-                        .WithMany("TransactionDetails")
-                        .HasForeignKey("AccountingPeriodInStoreId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ProfitAndLoss.Data.Models.TransactionCategory", "TransactionCategory")
-                        .WithMany("TransactionDetails")
-                        .HasForeignKey("TransactionCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ProfitAndLoss.Data.Models.Transaction", "Transaction")
-                        .WithMany("TransactionDetails")
-                        .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("ProfitAndLoss.Data.Models.TransactionHistory", b =>
-                {
-                    b.HasOne("ProfitAndLoss.Data.Models.Transaction", null)
-                        .WithMany("TransactionHistories")
-                        .HasForeignKey("TransactionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

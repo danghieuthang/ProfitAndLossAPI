@@ -6,10 +6,10 @@ using System.Text;
 
 namespace ProfitAndLoss.Data.Models
 {
-    [Table("TransactionHistories")]
-    public class TransactionHistory : BaseEntity<Guid>
+    [Table("ReceiptHistories")]
+    public class ReceiptHistory : BaseEntity<Guid>
     {
-        public TransactionHistory()
+        public ReceiptHistory()
         {
 
         }
@@ -19,7 +19,9 @@ namespace ProfitAndLoss.Data.Models
 
         public int Status { get; set; }
 
-        [ForeignKey("Transaction")]
-        public Guid TransactionId { get; set; }
+        [ForeignKey("Receipt")]
+        public Guid ReceiptId { get; set; }
+
+        public Receipt Receipt { get; set; }
     }
 }

@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using ProfitAndLoss.Data.Models;
-using ProfitAndLoss.Utilities.Constant;
 using ProfitAndLoss.Utilities.DTOs;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -15,30 +12,55 @@ namespace ProfitAndLoss.Business.Models
     {
         public TransactionCreateModel()
         {
-            Status = (int)TransactionStatus.NEW; // New
+
         }
+
+        public string Code { get; set; }
+
+        public string Description { get; set; }
+
+        [Required]
+        public double Balance { get; set; }
+
+        [Required]
+        public Guid TransactionId { get; set; }
+
+        [Required]
+        public Guid AccountingPeriodId { get; set; }
+
         [JsonIgnore]
-        public Guid? CreateMemberId { get; set; }
-        public Guid? TransactionTypeId { get; set; }
-        public Guid? StoreId { get; set; }
-        public Guid? SupplierId { get; set; }
-        //public string SupplierName { get; set; }
-        public ReceiptCreateModel Receipt { get; set; }
+        public Guid AccountingPeriodInStoreId { get; set; }
+
+        [Required]
+        public Guid TransactionCategoryId { get; set; }
+
+        public Guid StoreId { get; set; }
+
+    }
+
+    public class TransactionItem : BaseCreateModel<Transaction>
+    {
+        public TransactionItem()
+        {
+
+        }
+        [Required]
         public string Name { get; set; }
 
-        [JsonIgnore]
+        [Required]
         public string Code { get; set; }
-        public double TotalBalance { get; set; }
-        [JsonIgnore]
-        public double SubTotal { get { return TotalBalance - (ShippingFee + DiscountValue); } }
-        public double ShippingFee { get; set; }
-        public double DiscountPercent { get; set; }
-        public double DiscountValue { get; set; }
 
-        public string NoteMessage { get; set; }
+        [Required]
+        public string Decription { get; set; }
 
-        [JsonIgnore]
-        public int Status { get; set; }
+        [Required]
+        public decimal Balance { get; set; }
+
+        [Required]
+        public Guid TransactionId { get; set; }
+
+        [Required]
+        public Guid TransactionCategoryId { get; set; }
     }
 
     public class TransactionUpdateModel : BaseUpdateModel<Transaction>
@@ -48,6 +70,18 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
+        public string Code { get; set; }
+
+        public string Description { get; set; }
+
+        [Required]
+        public Guid AccountingPeriodId { get; set; }
+
+        [JsonIgnore]
+        public Guid AccountingPeriodInStoreId { get; set; }
+        
+        [Required]
+        public Guid StoreId { get; set; }
     }
 
     public class TransactionSearchModel : BaseSearchModel<Transaction>
@@ -56,50 +90,23 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
-
-        public Guid? TransactionTypeId { get; set; }
-        public Guid? StoreId { get; set; }
-        public int Status { get; set; }
-        public string Code { get; set; }
     }
 
-    public class TransactionViewModel : BaseViewModel<Transaction>
+    public class TransactionDetailViewModel : BaseViewModel<Transaction>
     {
-        public TransactionViewModel()
+        public TransactionDetailViewModel()
         {
 
         }
 
-        public MemberViewModel Member { get; set; }
+        public string Description { get; set; }
 
-        public TransactionTypeViewModel TransactionType { get; set; }
-
-        public string Name { get; set; }
-
-        public string Code { get; set; }
-
-        public double TotalBalance { get; set; }
-
-        public double SubTotal { get; set; }
-
-        public double ShippingFee { get; set; }
-
-        public double DiscountPercent { get; set; }
-
-        public double DiscountValue { get; set; }
-
-        public string NoteMessage { get; set; }
+        public double Balance { get; set; }
 
         public StoreViewModel Store { get; set; }
 
-        public SupplierViewModel Supplier { get; set; }
+        public AccountingPeriodViewModel AccountingPeriod { get; set; }
 
-        public Guid ReceiptId { get; set; }
-
-        public int Status { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
+        public TransactionCategoryViewModel TransactionCategory { get; set; }
     }
 }

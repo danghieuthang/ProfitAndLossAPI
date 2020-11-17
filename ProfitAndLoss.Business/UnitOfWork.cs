@@ -13,15 +13,14 @@ namespace ProfitAndLoss.Business.Services
         IMemberRepository MemberRepository { get; }
         IBrandRepository BrandRepository { get; }
         IStoreRepository StoreRepository { get; }
-        IReceiptRepository ReceptRepository { get; }
         IEvidenceRepository EvidenceRepository { get; }
-        ITransactionRepository TransactionRepository { get; }
-        ITransactionTypeRepository TransactionTypeRepository { get; }
-        ITransactionHistoryRepository TransactionHistoryRepository { get; }
+        IReceiptRepository ReceiptRepository { get; }
+        IReceiptTypeRepository ReceiptTypeRepository { get; }
+        IReceiptHistoryRepository ReceiptHistoryRepository { get; }
         IAccountRepository AccountRepository { get; }
         IStoreAccountRepository StoreAccountRepository { get; }
         ITransactionCategoryRepository TransactionCategoryRepository { get; }
-        ITransactionDetailRepository TransactionDetailRepository { get; }
+        ITransactionRepository TransactionRepository { get; }
         IFeedbackRepository FeedbackRepository { get; }
         IAccountingPeriodRepository AccountingPeriodRepository { get; }
         IAccountingPeriodDetailRepository AccountingPeriodDetailRepository { get; }
@@ -43,13 +42,13 @@ namespace ProfitAndLoss.Business.Services
         private IStoreRepository _storeRepository;
         private IReceiptRepository _receptRepository;
         private IEvidenceRepository _evidenceRepository;
-        private ITransactionRepository _transactionRepository;
-        private ITransactionTypeRepository _transactionTypeRepository;
-        private ITransactionHistoryRepository _transactionHistoryRepository;
+        private IReceiptRepository _transactionRepository;
+        private IReceiptTypeRepository _transactionTypeRepository;
+        private IReceiptHistoryRepository _transactionHistoryRepository;
         private IAccountRepository _accountRepository;
         private IStoreAccountRepository _storeAccountRepository;
         private ITransactionCategoryRepository _TransactionCategoryRepository;
-        private ITransactionDetailRepository _transactionDetailRepository;
+        private ITransactionRepository _transactionDetailRepository;
         private IFeedbackRepository _feedbackRepository;
         private IAccountingPeriodRepository _accountingPeriodRepository;
         private IAccountingPeriodDetailRepository _accountingPeriodDetailRepository;
@@ -69,15 +68,14 @@ namespace ProfitAndLoss.Business.Services
 
         public IStoreRepository StoreRepository => _storeRepository ??= new StoreRepository(_context);
 
-        public IReceiptRepository ReceptRepository => _receptRepository ??= new ReceiptRepository(_context);
+        public IReceiptRepository ReceiptRepository => _receptRepository ??= new ReceiptRepository(_context);
 
         public IEvidenceRepository EvidenceRepository => _evidenceRepository ??= new EvidenceRepository(_context);
 
-        public ITransactionRepository TransactionRepository => _transactionRepository ??= new TransactionRepository(_context);
 
-        public ITransactionTypeRepository TransactionTypeRepository => _transactionTypeRepository ??= new TransactionTypeRepository(_context);
+        public IReceiptTypeRepository ReceiptTypeRepository => _transactionTypeRepository ??= new ReceiptTypeRepository(_context);
 
-        public ITransactionHistoryRepository TransactionHistoryRepository => _transactionHistoryRepository ??= new TransactionHistoryRepository(_context);
+        public IReceiptHistoryRepository ReceiptHistoryRepository => _transactionHistoryRepository ??= new ReceiptHistoryRepository(_context);
 
         public IAccountRepository AccountRepository => _accountRepository ??= new AccountRepository(_context);
 
@@ -85,7 +83,7 @@ namespace ProfitAndLoss.Business.Services
 
         public ITransactionCategoryRepository TransactionCategoryRepository => _TransactionCategoryRepository ??= new TransactionCategoryRepository(_context);
 
-        public ITransactionDetailRepository TransactionDetailRepository => _transactionDetailRepository ??= new TransactionDetailRepository(_context);
+        public ITransactionRepository TransactionRepository => _transactionDetailRepository ??= new TransactionRepository(_context);
 
         public IFeedbackRepository FeedbackRepository => _feedbackRepository ??= new FeedbackRepository(_context);
 

@@ -6,10 +6,10 @@ using System.Text;
 
 namespace ProfitAndLoss.Data.Models
 {
-    [Table("TransactionTypes")]
-    public class TransactionType : BaseEntity<Guid>
+    [Table("ReceiptTypes")]
+    public class ReceiptType : BaseEntity<Guid>
     {
-        public TransactionType()
+        public ReceiptType()
         {
             
         }
@@ -22,7 +22,7 @@ namespace ProfitAndLoss.Data.Models
 
         public bool IsDebit { get; set; }
 
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Receipt> Receipts { get; set; }
 
         public virtual ICollection<TransactionCategory> TransactionCategories { get; set; }
     }

@@ -12,7 +12,7 @@ namespace ProfitAndLoss.Data.Models
         public Store()
         {
             Actived = true;
-            Transactions = new HashSet<Transaction>();
+            Transactions = new HashSet<Receipt>();
             AccountingPeriodInStores = new HashSet<AccountingPeriodInStore>();
         }
 
@@ -27,7 +27,7 @@ namespace ProfitAndLoss.Data.Models
         [MaxLength(255)]
         public string Name { get; set; }
 
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Receipt> Transactions { get; set; }
 
         public virtual ICollection<AccountingPeriodInStore> AccountingPeriodInStores { get; set; }
         public virtual ICollection<StoreAccount> StoreAccounts { get; set; }

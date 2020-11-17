@@ -35,7 +35,7 @@ namespace ProfitAndLoss.Data.Models
 
         public int Status { get; set; }
 
-        public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
+        public virtual ICollection<Transaction> TransactionDetails { get; set; }
 
     }
 }

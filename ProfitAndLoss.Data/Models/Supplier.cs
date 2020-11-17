@@ -23,7 +23,7 @@ namespace ProfitAndLoss.Data.Models
 
         public string Email { get; set; }
 
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Receipt> Receipts { get; set; }
 
     }
 }

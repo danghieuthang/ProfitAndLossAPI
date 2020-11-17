@@ -18,6 +18,7 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> Search(AccountingPeriodSearchModel model);
         Task<GenericResult> Create(AccountingPeriodCreateModel model);
         Task<GenericResult> GetAccountingPeriodStillOpen();
+        Task<GenericResult> Close(Guid id);
     }
     public class AccountingPeriodServices : BaseServices<AccountingPeriod>, IAccountingPeriodServices
     {
@@ -34,7 +35,7 @@ namespace ProfitAndLoss.Business.Services
             var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
             var currentPage = model.Page > 0 ? model.Page : 1;
             //
-            var pageResult = new PageResult<Transaction>
+            var pageResult = new PageResult<Receipt>
             {
                 PageIndex = currentPage,
                 TotalCount = entities.Count,
@@ -96,12 +97,33 @@ namespace ProfitAndLoss.Business.Services
                 {
                     Success = false,
                     StatusCode = HttpStatusCode.BadRequest,
+                    ResultCode = Utilities.AppResultCode.FailValidation,
                     Message = "Start date or close date was exists!"
                 };
             }
 
             var entity = model.ToEntity();
             entity = BaseRepository.Add(entity);
+
+            //
+            var stores = _unitOfWork.StoreRepository.GetAll().Select(x => x.Id).ToList();
+            foreach (var storeID in stores)
+            {
+                AccountingPeriodInStore acountingPeriodInStore = new AccountingPeriodInStore
+                {
+                    Actived = true,
+                    AccountingPeriodId = entity.Id,
+                    StartedDate = entity.StartDate,
+                    ClosedDate = entity.CloseDate,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    Description = string.Empty,
+                    Status = 1,
+                    StoreId = storeID
+                };
+                _unitOfWork.AccountingPeriodInStoreRepository.Add(acountingPeriodInStore);
+            }
+
             _unitOfWork.Commit();
             var data = new AccountingPeriodViewModel();
             Global.Mapper.Map(entity, data);
@@ -110,6 +132,7 @@ namespace ProfitAndLoss.Business.Services
                 Data = data,
                 Success = true,
                 StatusCode = HttpStatusCode.OK,
+                ResultCode = Utilities.AppResultCode.Success
             };
 
         }
@@ -184,6 +207,41 @@ namespace ProfitAndLoss.Business.Services
             {
                 Data = result,
                 Success = true,
+                StatusCode = HttpStatusCode.OK
+            };
+        }
+
+        public async Task<GenericResult> Close(Guid id)
+        {
+            var accountingPeriod = _unitOfWork.AccountingPeriodRepository.GetById(id);
+            if (accountingPeriod == null)
+            {
+                return new GenericResult
+                {
+                    ResultCode = Utilities.AppResultCode.NotFound,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = "Accounting period not exists",
+                    Success = false
+                };
+            }
+
+            if (accountingPeriod.CloseDate <= DateTime.Now)
+            {
+                return new GenericResult
+                {
+                    ResultCode = Utilities.AppResultCode.FailValidation,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = "Accounting period can't not close in operation time",
+                    Success = false
+                };
+            }
+
+            accountingPeriod.Status = AccountingPeriodStatus.CLOSED;
+            return new GenericResult
+            {
+                Data = accountingPeriod,
+                Success = true,
+                ResultCode = Utilities.AppResultCode.Success,
                 StatusCode = HttpStatusCode.OK
             };
         }

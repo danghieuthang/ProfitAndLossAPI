@@ -12,7 +12,7 @@ namespace ProfitAndLoss.Utilities.Constant
         /// </summary>
        
     }
-    public enum TransactionStatus
+    public enum ReceiptStatus
     {
         NEW = 1,
         APPROVED,

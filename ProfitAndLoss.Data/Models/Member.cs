@@ -11,7 +11,7 @@ namespace ProfitAndLoss.Data.Models
     {
         public Member()
         {
-            Transactions = new HashSet<Transaction>();
+            Receipts = new HashSet<Receipt>();
         }
 
         public string FirstName { get; set; }
@@ -30,7 +30,7 @@ namespace ProfitAndLoss.Data.Models
         public Guid? StoreId { get; set; }
         public virtual Store Store { get; set; }
 
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Receipt> Receipts { get; set; }
 
         public virtual ICollection<Feedback> Feedbacks { get; set; }
 

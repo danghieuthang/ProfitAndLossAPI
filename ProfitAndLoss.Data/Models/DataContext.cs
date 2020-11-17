@@ -12,17 +12,15 @@ namespace ProfitAndLoss.Data.Models
 
         #region Dbsets
 
-        public virtual DbSet<Actor> Actors { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Store> Stores { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<TransactionDetail> TransactionDetails { get; set; }
-        public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<Receipt> Transactions { get; set; }
+        public DbSet<Transaction> TransactionDetails { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Evidence> Evidences { get; set; }
-        public DbSet<TransactionHistory> TransactionHistories { get; set; }
-        public DbSet<TransactionType> TransactionTypes { get; set; }
+        public DbSet<ReceiptHistory> TransactionHistories { get; set; }
+        public DbSet<ReceiptType> TransactionTypes { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountingPeriod> AccountingPeriods { get; set; }
         public DbSet<AccountingPeriodInStore> AccountingPeriodInStores { get; set; }
@@ -78,11 +76,11 @@ namespace ProfitAndLoss.Data.Models
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
-            modelBuilder.Entity<TransactionType>().HasData(
-                new TransactionType { Id = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Sales", ModifiedDate = DateTime.Now, Code = "SAL" },
-                new TransactionType { Id = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Revenues", ModifiedDate = DateTime.Now, Code = "REV" },
-                new TransactionType { Id = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"), Actived = true, CreatedDate = DateTime.Now, IsDebit = false, Name = "Invoice", ModifiedDate = DateTime.Now, Code = "INV" },
-                new TransactionType { Id = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"), Actived = true, CreatedDate = DateTime.Now, IsDebit = false, Name = "Expenses", ModifiedDate = DateTime.Now, Code = "EXP" }
+            modelBuilder.Entity<ReceiptType>().HasData(
+                new ReceiptType { Id = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Sales", ModifiedDate = DateTime.Now, Code = "SAL" },
+                new ReceiptType { Id = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"), Actived = true, CreatedDate = DateTime.Now, IsDebit = true, Name = "Revenues", ModifiedDate = DateTime.Now, Code = "REV" },
+                new ReceiptType { Id = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"), Actived = true, CreatedDate = DateTime.Now, IsDebit = false, Name = "Invoice", ModifiedDate = DateTime.Now, Code = "INV" },
+                new ReceiptType { Id = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"), Actived = true, CreatedDate = DateTime.Now, IsDebit = false, Name = "Expenses", ModifiedDate = DateTime.Now, Code = "EXP" }
                 );
             modelBuilder.Entity<Brand>().HasData(
                 new Brand()

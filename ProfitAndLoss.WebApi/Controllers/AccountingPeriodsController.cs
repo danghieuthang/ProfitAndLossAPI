@@ -32,7 +32,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<GenericResult> Search([FromQuery]AccountingPeriodSearchModel model)
+        public async Task<GenericResult> Search([FromQuery] AccountingPeriodSearchModel model)
         {
             return await _accountingPeriodService.Search(model);
         }
@@ -62,7 +62,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// <param name="model">The accounting period create model</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<GenericResult> CreateAccountingPeriod([FromBody]AccountingPeriodCreateModel model)
+        public async Task<GenericResult> CreateAccountingPeriod([FromBody] AccountingPeriodCreateModel model)
         {
             return await _accountingPeriodService.Create(model);
         }
@@ -73,9 +73,20 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<GenericResult> UpdateAccountingPeriod([FromBody]AccountingPeriodUpdateModel model)
+        public async Task<GenericResult> UpdateAccountingPeriod([FromBody] AccountingPeriodUpdateModel model)
         {
             return await _accountingPeriodService.Update(model);
+        }
+
+        /// <summary>
+        /// Close accounting period
+        /// </summary>
+        /// <param name="id">The accounting period id</param>
+        /// <returns></returns>
+        [HttpPut("close/{id}")]
+        public async Task<GenericResult> CloseAccountingPeiord(Guid id)
+        {
+            return await _accountingPeriodService.Close(id);
         }
 
         /// <summary>

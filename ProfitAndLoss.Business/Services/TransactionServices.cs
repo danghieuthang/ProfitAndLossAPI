@@ -63,7 +63,7 @@ namespace ProfitAndLoss.Business.Services
             {
                 var transactionModel = await GetTransactionCreate(transaction, transactionCount);
 
-                BaseRepository.Add(transactionModel);
+                _unitOfWork.TransactionRepository.Add(transactionModel);
                 transactionCount++;
 
             }
@@ -153,7 +153,7 @@ namespace ProfitAndLoss.Business.Services
             transaction.Code = "TD-" + transactionCount.ToString("0000");
             var tran = transaction.ToEntity();
             tran.Status = TransactionStatus.APPROVAL;
-            return transaction.ToEntity();
+            return tran;
         }
 
         public async Task<GenericResult> UpdateTransaction(List<TransactionUpdateModel> models)

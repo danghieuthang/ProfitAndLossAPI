@@ -567,7 +567,7 @@ namespace ProfitAndLoss.Business.Services
                     ListCategory = null
                 },
                 GrossProfit = grossProfit,
-                NetProfit = grossProfit - costOfGoodsSold
+                NetProfit = grossProfit - expense.Result.Sum(x => x.Balance)
             };
 
             return view;

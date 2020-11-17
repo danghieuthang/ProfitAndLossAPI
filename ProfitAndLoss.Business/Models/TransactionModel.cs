@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ProfitAndLoss.Data.Models;
 using ProfitAndLoss.Utilities.DTOs;
 using System;
@@ -79,7 +80,7 @@ namespace ProfitAndLoss.Business.Models
 
         [JsonIgnore]
         public Guid AccountingPeriodInStoreId { get; set; }
-        
+
         [Required]
         public Guid StoreId { get; set; }
     }
@@ -91,12 +92,16 @@ namespace ProfitAndLoss.Business.Models
 
         }
 
+        [FromQuery(Name = "code")]
         public string Code { get; set; }
 
+        [FromQuery(Name = "store-id")]
         public Guid? StoreId { get; set; }
 
+        [FromQuery(Name = "accounting-period-id")]
         public Guid? AccountingPeriodId { get; set; }
 
+        [FromQuery(Name = "transaction-category-id")]
         public Guid? TransactionCategoryId { get; set; }
 
     }

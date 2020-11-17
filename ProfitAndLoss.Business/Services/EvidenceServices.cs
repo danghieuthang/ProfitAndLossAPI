@@ -52,6 +52,11 @@ namespace ProfitAndLoss.Business.Services
             };
         }
 
+        /// <summary>
+        /// Put emage to firebase
+        /// </summary>
+        /// <param name="file">The image</param>
+        /// <returns></returns>
         private async Task<string> PutImageToFireBase(IFormFile file)
         {
             var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
@@ -94,6 +99,7 @@ namespace ProfitAndLoss.Business.Services
                     ResultCode = Utilities.AppResultCode.FailValidation
                 };
             }
+            // Get Img url after Put image to firebase
             model.ImgUrl = await PutImageToFireBase(model.Image);
             var data = BaseRepository.Add(model.ToEntity());
             _unitOfWork.Commit();

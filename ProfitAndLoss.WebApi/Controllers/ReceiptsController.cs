@@ -24,12 +24,21 @@ namespace ProfitAndLoss.WebApi.Controllers
             _receiptService = receiptService;
         }
 
+        /// <summary>
+        /// Get all receipt
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("all")]
         public async Task<GenericResult> GetAll()
         {
             return await _receiptService.GetAll();
         }
 
+        /// <summary>
+        /// Get receipt by receip id
+        /// </summary>
+        /// <param name="id">The receipt id</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<GenericResult> GetById(Guid id)
         {
@@ -47,6 +56,11 @@ namespace ProfitAndLoss.WebApi.Controllers
             return await _receiptService.Search(model);
         }
 
+        /// <summary>
+        /// Create receipt
+        /// </summary>
+        /// <param name="model">The receipt model</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<GenericResult> Create([FromBody] ReceiptCreateModel model)
         {
@@ -78,23 +92,44 @@ namespace ProfitAndLoss.WebApi.Controllers
         }
 
 
+        /// <summary>
+        /// Update receipt
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<GenericResult> Update(ReceiptUpdateModel model)
         {
             return await _receiptService.Update(model);
         }
 
+        /// <summary>
+        /// Approval receipt
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut("approval")]
         public async Task<GenericResult> Approval([FromForm] Guid id)
         {
             return await _receiptService.Approval(id);
         }
+
+        /// <summary>
+        /// Reject receipt
+        /// </summary>
+        /// <param name="id">The receipt Id</param>
+        /// <returns></returns>
         [HttpPut("reject")]
         public async Task<GenericResult> Reject([FromForm] Guid id)
         {
             return await _receiptService.Reject(id);
         }
 
+        /// <summary>
+        /// Delete receipt
+        /// </summary>
+        /// <param name="id">The receipt id</param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<GenericResult> Delete(Guid id)
         {

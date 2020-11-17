@@ -32,6 +32,11 @@ namespace ProfitAndLoss.WebApi.Controllers
             return await _transactionServices.CreateTransactions(models);
         }
 
+        /// <summary>
+        /// Update list transactions
+        /// </summary>
+        /// <param name="models">The list Transaction update model</param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<GenericResult> Update(List<TransactionUpdateModel> models)
         {

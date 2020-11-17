@@ -252,12 +252,13 @@ namespace ProfitAndLoss.Business.Services
                 && (accountingPeriodId == x.AccountingPeriodInStore.AccountingPeriodId))
                  .Select(x => new
                  {
-                     Id = x.Id,
-                     AccountingPeriod = x.AccountingPeriodInStore.AccountingPeriod,
-                     TransactionCategory = x.TransactionCategory,
-                     Balance = x.Balance,
-                     Description = x.Description,
-                     Store = x.AccountingPeriodInStore.Store,
+                     x.Id,
+                     x.Code,
+                     x.AccountingPeriodInStore.AccountingPeriod,
+                     x.TransactionCategory,
+                     x.Balance,
+                     x.Description,
+                     x.AccountingPeriodInStore.Store,
                      x.CreatedDate,
                      x.ModifiedDate
                  })
@@ -286,7 +287,8 @@ namespace ProfitAndLoss.Business.Services
                     query = query.OrderByDescending(x => x.CreatedDate).AsQueryable();
                     break;
             }
-            var entities = query.Skip((currentPage - 1) * pageSize)
+
+            pageResult.Results = query.Skip((currentPage - 1) * pageSize)
                                     .Take(pageSize)
                                     .ToList();
 

@@ -77,29 +77,29 @@ namespace ProfitAndLoss.Business.Services
                 }
             }
             /* validate transaction type id */
-            if (!string.IsNullOrEmpty(model.ReceiptTypeId.ToString()))
-            {
-                if (!_transactionTypeServices.IsExist(model.ReceiptTypeId.Value))
-                {
-                    lstValidationResults.Add(new ValidationModel()
-                    {
-                        Data = StringHelpers.HyphensCase(nameof(model.ReceiptTypeId)),
-                        Message = "Transaction type is not exist"
-                    });
-                }
-            }
+            //if (!string.IsNullOrEmpty(model.ReceiptTypeId.ToString()))
+            //{
+            //    if (!_transactionTypeServices.IsExist(model.ReceiptTypeId.Value))
+            //    {
+            //        lstValidationResults.Add(new ValidationModel()
+            //        {
+            //            Data = StringHelpers.HyphensCase(nameof(model.ReceiptTypeId)),
+            //            Message = "Transaction type is not exist"
+            //        });
+            //    }
+            //}
             /* validate supplier id */
-            if (!string.IsNullOrEmpty(model.SupplierId.ToString()))
-            {
-                if (!_supplierServices.IsExist(model.SupplierId.Value))
-                {
-                    lstValidationResults.Add(new ValidationModel()
-                    {
-                        Data = StringHelpers.HyphensCase(nameof(model.SupplierId)),
-                        Message = "Supplier is not exist"
-                    });
-                }
-            }
+            //if (!string.IsNullOrEmpty(model.SupplierId.ToString()))
+            //{
+            //    if (!_supplierServices.IsExist(model.SupplierId.Value))
+            //    {
+            //        lstValidationResults.Add(new ValidationModel()
+            //        {
+            //            Data = StringHelpers.HyphensCase(nameof(model.SupplierId)),
+            //            Message = "Supplier is not exist"
+            //        });
+            //    }
+            //}
             return lstValidationResults;
         }
         public async Task<GenericResult> Create(ReceiptCreateModel model)
@@ -108,16 +108,26 @@ namespace ProfitAndLoss.Business.Services
             // do later
             var receipt = model.ToEntity();
 
-            //
-
-            // get transaction type
-            ReceiptType receipType = _transactionTypeServices.GetRepository().GetById(receipt.ReceiptTypeId.Value);
+            // get receipt type
+            String receiptCode = string.Empty;
+            ReceiptType receiptType;
+            if (model.ReceiptTypeId != null && model.Category == null)
+            {
+                receiptType = _transactionTypeServices.GetRepository().GetById(receipt.ReceiptTypeId.Value);
+                receiptCode = receiptType?.Code;
+            }
+            else
+            {
+                var transactionCategory = _unitOfWork.TransactionCategoryRepository.GetAll(t => t.Code.Equals(model.Category.Trim())).Include(r => r.ReceiptType).FirstOrDefault();
+                receiptType = transactionCategory.ReceiptType;
+                receiptCode = receiptType?.Code;
+            }
+            receipt.Code = receiptCode + "-" + (BaseRepository.GetAll().Count() + 1).ToString("0000");
+            receipt.ReceiptTypeId = receiptType?.Id;
             receipt.Supplier = null;
-            receipt.Code = receipType.Code + "-" + (BaseRepository.GetAll().Count() + 1).ToString("0000");
-
             //Create transaction
             Receipt result = _unitOfWork.ReceiptRepository.Add(receipt);
-            switch (receipType.Code)
+            switch (receiptType.Code)
             {
                 case TransactionTypeCode.SALES:
                     var transactions = await GenerateTransactions(receipt);

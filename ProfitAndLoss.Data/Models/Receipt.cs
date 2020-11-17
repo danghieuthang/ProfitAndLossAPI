@@ -59,6 +59,7 @@ namespace ProfitAndLoss.Data.Models
         public DateTime CloseDate { get; set; }
 
         public string NoteMessage { get; set; }
+
         public string Category { get; set; }
 
         [ForeignKey("Supplier")]

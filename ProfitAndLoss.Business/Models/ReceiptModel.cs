@@ -22,7 +22,6 @@ namespace ProfitAndLoss.Business.Models
         public Guid? ReceiptTypeId { get; set; }
         public Guid? StoreId { get; set; }
         public Guid? SupplierId { get; set; }
-        //public string SupplierName { get; set; }
         public string Name { get; set; }
 
         [JsonIgnore]
@@ -38,6 +37,8 @@ namespace ProfitAndLoss.Business.Models
         public DateTime CloseDate { get; set; }
 
         public string NoteMessage { get; set; }
+
+        public string Category { get; set; }
 
         [JsonIgnore]
         public int Status { get; set; }

@@ -177,7 +177,7 @@ namespace ProfitAndLoss.Business.Services
             };
         }
 
-        public async Task<GenericResult> Search(BaseSearchModel<T> model)
+        public virtual async Task<GenericResult> Search(BaseSearchModel<T> model)
         {
             //
             var entities = BaseRepository.GetAll();

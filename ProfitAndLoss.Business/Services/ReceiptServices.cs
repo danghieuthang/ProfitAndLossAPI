@@ -156,7 +156,7 @@ namespace ProfitAndLoss.Business.Services
                 };
             }
 
-            _ = PushNotificationAsync($"/stores/{result.StoreId}/transactions/{result.Id}");
+            _ = PushNotificationAsync($"/stores/{result.StoreId}/receipts/{result.Id}");
 
             viewModel.ToModel(result);
             return new GenericResult

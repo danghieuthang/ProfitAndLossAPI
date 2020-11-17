@@ -62,6 +62,7 @@ namespace ProfitAndLoss.Business.Models
 
         public Guid? TransactionTypeId { get; set; }
         public Guid? StoreId { get; set; }
+
         public int Status { get; set; }
         public string Code { get; set; }
     }

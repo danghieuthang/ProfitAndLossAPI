@@ -49,5 +49,16 @@ namespace ProfitAndLoss.WebApi.Controllers
         {
             return await _transactionServices.GetAllByReceiptId(id);
         }
+
+        /// <summary>
+        /// Search Transacitons 
+        /// </summary>
+        /// <param name="model">The transaction search model</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<GenericResult> SearchTransactions([FromQuery] TransactionSearchModel model)
+        {
+            return await _transactionServices.SearchTransactions(model);
+        }
     }
 }

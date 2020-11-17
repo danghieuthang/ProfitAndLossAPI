@@ -41,6 +41,7 @@ namespace ProfitAndLoss.Business.Models
         public Guid BrandId { get; set; }
 
         public DateTime CreateDate { get; set; }
+
         public int Status { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -66,6 +67,7 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
+
         public DateTime StartDate { get; set; }
 
         public DateTime CloseDate { get; set; }

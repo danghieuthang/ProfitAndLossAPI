@@ -19,6 +19,7 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> CreateTransactions(List<TransactionCreateModel> models);
         Task<GenericResult> GetAllByReceiptId(Guid id);
         Task<GenericResult> UpdateTransaction(List<TransactionUpdateModel> models);
+        Task<GenericResult> SearchTransactions(TransactionSearchModel model);
     }
     public class TransactionServices : BaseServices<Transaction>, ITransactionServices
     {
@@ -116,27 +117,27 @@ namespace ProfitAndLoss.Business.Services
         /// <summary>
         /// Create A Transaction Detail
         /// </summary>
-        /// <param name="transaction">The transaction detail create model</param>
+        /// <param name="transactionCreateModel">The transaction detail create model</param>
         /// <param name="transactionCount">The transaction count</param>
         /// <returns></returns>
-        public async Task<Transaction> GetTransactionCreate(TransactionCreateModel transaction, int transactionCount = 1)
+        public async Task<Transaction> GetTransactionCreate(TransactionCreateModel transactionCreateModel, int transactionCount = 1)
         {
 
-            var accountingPeriodInStore = _unitOfWork.AccountingPeriodInStoreRepository.GetAll(x => x.StoreId == transaction.StoreId && x.AccountingPeriodId == transaction.AccountingPeriodId).FirstOrDefault();
+            var accountingPeriodInStore = _unitOfWork.AccountingPeriodInStoreRepository.GetAll(x => x.StoreId == transactionCreateModel.StoreId && x.AccountingPeriodId == transactionCreateModel.AccountingPeriodId).FirstOrDefault();
             //Get accounting Period
             // Create accounting Period In Store if none exists
             if (accountingPeriodInStore == null)
             {
                 // Get tranasction period
-                var accoungtingPeriod = _unitOfWork.AccountingPeriodRepository.GetById(transaction.AccountingPeriodId);
+                var accoungtingPeriod = _unitOfWork.AccountingPeriodRepository.GetById(transactionCreateModel.AccountingPeriodId);
                 // Get receipt
-                var receipt = _unitOfWork.ReceiptRepository.GetAll(x => x.Id == transaction.ReceiptId)
+                var receipt = _unitOfWork.ReceiptRepository.GetAll(x => x.Id == transactionCreateModel.ReceiptId)
                     .Include(x => x.Store).FirstOrDefault();
 
                 AccountingPeriodInStore acountingPeriodInStore = new AccountingPeriodInStore
                 {
                     Actived = true,
-                    AccountingPeriodId = transaction.AccountingPeriodId,
+                    AccountingPeriodId = transactionCreateModel.AccountingPeriodId,
                     StartedDate = accoungtingPeriod.StartDate,
                     ClosedDate = accoungtingPeriod.CloseDate,
                     CreatedDate = DateTime.Now,
@@ -144,16 +145,16 @@ namespace ProfitAndLoss.Business.Services
                     Title = $"{accoungtingPeriod.Title}-{receipt.Store.Code.ToFormal()}",
                     Description = string.Empty,
                     Status = 1,
-                    StoreId = transaction.StoreId
+                    StoreId = transactionCreateModel.StoreId
                 };
                 accountingPeriodInStore = _unitOfWork.AccountingPeriodInStoreRepository.Add(acountingPeriodInStore);
             }
 
-            transaction.AccountingPeriodInStoreId = accountingPeriodInStore.Id;
-            transaction.Code = "TD-" + transactionCount.ToString("0000");
-            var tran = transaction.ToEntity();
-            tran.Status = TransactionStatus.APPROVAL;
-            return tran;
+            transactionCreateModel.AccountingPeriodInStoreId = accountingPeriodInStore.Id;
+            transactionCreateModel.Code = "TD-" + transactionCount.ToString("0000");
+            var transaction = transactionCreateModel.ToEntity();
+            transaction.Status = TransactionStatus.APPROVAL;
+            return transaction;
         }
 
         public async Task<GenericResult> UpdateTransaction(List<TransactionUpdateModel> models)
@@ -220,6 +221,83 @@ namespace ProfitAndLoss.Business.Services
             }
 
             return acountingPeriodInStore;
+        }
+
+        /// <summary>
+        /// Saerch Transactions
+        /// </summary>
+        /// <param name="model">The transaction search model</param>
+        /// <returns></returns>
+        public async Task<GenericResult> SearchTransactions(TransactionSearchModel model)
+        {
+            Guid accountingPeriodId;
+            if (model.AccountingPeriodId == null)
+            {
+                accountingPeriodId = _unitOfWork.AccountingPeriodRepository.GetCurrentAccountPeriod().Id;
+            }
+            else
+            {
+                accountingPeriodId = model.AccountingPeriodId.Value;
+            }
+            var query = _unitOfWork.TransactionRepository.GetAll(x => x.Status == TransactionStatus.APPROVAL
+                && (model.FromDate == null || model.FromDate <= x.CreatedDate)
+                && (model.ToDate == null || model.ToDate >= x.CreatedDate)
+                && (model.TransactionCategoryId == null || model.TransactionCategoryId.Value == x.TransactionCategoryId)
+                )
+                .Include(x => x.AccountingPeriodInStore)
+                .Include(x => x.TransactionCategory)
+                .Include(x => x.AccountingPeriodInStore.Store)
+                .Include(x => x.AccountingPeriodInStore.AccountingPeriod)
+                .Where(x => (model.StoreId == null || model.StoreId.Value == x.AccountingPeriodInStore.StoreId)
+                && (accountingPeriodId == x.AccountingPeriodInStore.AccountingPeriodId))
+                 .Select(x => new
+                 {
+                     Id = x.Id,
+                     AccountingPeriod = x.AccountingPeriodInStore.AccountingPeriod,
+                     TransactionCategory = x.TransactionCategory,
+                     Balance = x.Balance,
+                     Description = x.Description,
+                     Store = x.AccountingPeriodInStore.Store,
+                     x.CreatedDate,
+                     x.ModifiedDate
+                 })
+                .AsQueryable();
+            //
+            var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
+            var currentPage = model.Page > 0 ? model.Page : 1;
+            //
+            var pageResult = new PageResult<Receipt>
+            {
+                PageIndex = currentPage,
+                TotalCount = query.Count(),
+                TotalPage = (int)Math.Ceiling(query.Count() * 1.0 / pageSize)
+            };
+
+            var strOrder = model.SortBy;
+            switch (strOrder)
+            {
+                case "asc":
+                    query = query.OrderBy(x => x.CreatedDate).AsQueryable();
+                    break;
+                case "desc":
+                    query = query.OrderByDescending(x => x.CreatedDate).AsQueryable();
+                    break;
+                default:
+                    query = query.OrderByDescending(x => x.CreatedDate).AsQueryable();
+                    break;
+            }
+            var entities = query.Skip((currentPage - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
+
+            return new GenericResult
+            {
+                Data = pageResult,
+                Success = true,
+                StatusCode = HttpStatusCode.OK
+            };
+
+
         }
     }
 

@@ -90,11 +90,20 @@ namespace ProfitAndLoss.Business.Models
         {
 
         }
+
+        public string Code { get; set; }
+
+        public Guid? StoreId { get; set; }
+
+        public Guid? AccountingPeriodId { get; set; }
+
+        public Guid? TransactionCategoryId { get; set; }
+
     }
 
-    public class TransactionDetailViewModel : BaseViewModel<Transaction>
+    public class TransactionViewModel : BaseViewModel<Transaction>
     {
-        public TransactionDetailViewModel()
+        public TransactionViewModel()
         {
 
         }

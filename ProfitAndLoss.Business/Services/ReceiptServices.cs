@@ -414,6 +414,7 @@ namespace ProfitAndLoss.Business.Services
                                     .Include(x => x.Store.Brand)
                                     .Include(x => x.Supplier)
                                     .Include(x => x.ReceiptType)
+                                    .Include(x => x.Member)
                                     .FirstOrDefault();
             var model = new ReceiptViewModel();
             model.ToModel(data);

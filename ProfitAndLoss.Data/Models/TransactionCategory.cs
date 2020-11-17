@@ -17,10 +17,10 @@ namespace ProfitAndLoss.Data.Models
 
         public string Description { get; set; }
 
-        [ForeignKey("TransactionType")]
-        public Guid TransactionTypeId { get; set; }
+        [ForeignKey("ReceiptType")]
+        public Guid ReceiptTypeId { get; set; }
 
-        public virtual ReceiptType TransactionType { get; set; }
+        public virtual ReceiptType ReceiptType { get; set; }
 
         [ForeignKey("Account")]
         public Guid? AccountId { get; set; }
@@ -29,7 +29,7 @@ namespace ProfitAndLoss.Data.Models
 
         public bool IsDebit { get; set; }
 
-        public virtual ICollection<Transaction> Transtations { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
 
     }
 }

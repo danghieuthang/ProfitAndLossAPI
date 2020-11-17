@@ -23,7 +23,7 @@ namespace ProfitAndLoss.Business.Models
         public double Balance { get; set; }
 
         [Required]
-        public Guid TransactionId { get; set; }
+        public Guid ReceiptId { get; set; }
 
         [Required]
         public Guid AccountingPeriodId { get; set; }

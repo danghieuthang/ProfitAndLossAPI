@@ -34,7 +34,7 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> CreateTransactions(List<TransactionCreateModel> models)
         {
             // get receipt
-            var receipt = _unitOfWork.ReceiptRepository.GetAll(x => x.Id == models.FirstOrDefault().TransactionId)
+            var receipt = _unitOfWork.ReceiptRepository.GetAll(x => x.Id == models.FirstOrDefault().ReceiptId)
                                                    .Include(x => x.Store).FirstOrDefault();
             if (models.Sum(x => x.Balance) != receipt.SubTotal)
             {
@@ -120,7 +120,7 @@ namespace ProfitAndLoss.Business.Services
                 // Get tranasction period
                 var accoungtingPeriod = _unitOfWork.AccountingPeriodRepository.GetById(transaction.AccountingPeriodId);
                 // Get receipt
-                var receipt = _unitOfWork.ReceiptRepository.GetAll(x => x.Id == transaction.TransactionId)
+                var receipt = _unitOfWork.ReceiptRepository.GetAll(x => x.Id == transaction.ReceiptId)
                     .Include(x => x.Store).FirstOrDefault();
 
                 AccountingPeriodInStore acountingPeriodInStore = new AccountingPeriodInStore

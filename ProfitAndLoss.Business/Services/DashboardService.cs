@@ -69,7 +69,7 @@ namespace ProfitAndLoss.Business.Services
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    TotalBalance = x.Transtations.Where(t =>
+                    TotalBalance = x.Transactions.Where(t =>
                         t.Status == TransactionStatus.APPROVAL
                         && (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                         && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
@@ -83,13 +83,13 @@ namespace ProfitAndLoss.Business.Services
         private async Task<List<DashboardPieViewModel>> GetPieByTranactionType(DashboardSearchModel model, bool isDebit)
         {
             var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.IsDebit == isDebit)
-                .Include(x => x.TransactionType)
-                .Where(x => x.IsDebit == x.TransactionType.IsDebit)
+                .Include(x => x.ReceiptType)
+                .Where(x => x.IsDebit == x.ReceiptType.IsDebit)
                 .Select(x => new
                 {
-                    ID = x.TransactionType.Id,
-                    Name = x.TransactionType.Name,
-                    TotalBalance = x.Transtations.Where(t =>
+                    ID = x.ReceiptType.Id,
+                    Name = x.ReceiptType.Name,
+                    TotalBalance = x.Transactions.Where(t =>
                         t.Status == TransactionStatus.APPROVAL
                         && (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                         && (model.AccountingPeriodId == null || t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))
@@ -227,14 +227,14 @@ namespace ProfitAndLoss.Business.Services
         {
 
             var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.Code != TransactionCategoryCode.COST_OF_GOOGS_SOLD)
-                .Include(x => x.TransactionType)
-                .Where(x => x.TransactionType.IsDebit == isIncome)
+                .Include(x => x.ReceiptType)
+                .Where(x => x.ReceiptType.IsDebit == isIncome)
                 .Select(x => new
                 {
                     ID = x.Id,
                     x.Name,
                     // Caculate Balance base by transaction type
-                    TotalBalance = x.Transtations.Where(t =>
+                    TotalBalance = x.Transactions.Where(t =>
                         t.Status == TransactionStatus.APPROVAL
                         && (model.StoreId == null || t.AccountingPeriodInStore.StoreId == model.StoreId.Value)
                         && (t.AccountingPeriodInStore.AccountingPeriodId == model.AccountingPeriodId.Value))

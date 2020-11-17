@@ -22,7 +22,7 @@ namespace ProfitAndLoss.Business.Services
 
         public async Task<GenericResult> GetTransactionCategoriesByTypeId(Guid id)
         {
-            var categories = BaseRepository.GetAll(x => x.TransactionTypeId == id);
+            var categories = BaseRepository.GetAll(x => x.ReceiptTypeId == id);
             var listResult = new List<TransactionCategoryViewModel>();
             Global.Mapper.Map(categories, listResult);
             return new GenericResult

@@ -103,6 +103,7 @@ namespace ProfitAndLoss.Business.Services
             }
 
             var entity = model.ToEntity();
+            entity.Status = AccountingPeriodStatus.OPEN;
             entity = BaseRepository.Add(entity);
 
             //

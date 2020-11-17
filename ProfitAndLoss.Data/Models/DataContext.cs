@@ -117,7 +117,7 @@ namespace ProfitAndLoss.Data.Models
             _ = modelBuilder.Entity<TransactionCategory>().HasData(
                 new TransactionCategory()
                 {
-                    TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
+                    ReceiptTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
                     Actived = true,
                     Code = "SAL-PS",
                     Name = "Product Sale",
@@ -128,7 +128,7 @@ namespace ProfitAndLoss.Data.Models
                 },
                  new TransactionCategory()
                  {
-                     TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
+                     ReceiptTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
                      Actived = true,
                      Code = "SAL-COGS",
                      Name = "Cost of goods sold",
@@ -139,7 +139,7 @@ namespace ProfitAndLoss.Data.Models
                  },
                 new TransactionCategory()
                 {
-                    TransactionTypeId = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"),
+                    ReceiptTypeId = new Guid("c1684003-c94f-4c7e-af92-5fc31c4efa48"),
                     Actived = true,
                     Code = "INV-INVENTORY",
                     Name = "Inventory",
@@ -150,7 +150,7 @@ namespace ProfitAndLoss.Data.Models
                 },
                 new TransactionCategory()
                 {
-                    TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
+                    ReceiptTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
                     Actived = true,
                     Code = "REV-COMMON",
                     Name = "Common Revenues",
@@ -161,7 +161,7 @@ namespace ProfitAndLoss.Data.Models
                 },
                  new TransactionCategory()
                  {
-                     TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
+                     ReceiptTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
                      Actived = true,
                      Code = "REV-PAKING",
                      Name = "Paking Revenues",
@@ -172,7 +172,7 @@ namespace ProfitAndLoss.Data.Models
                  },
                   new TransactionCategory()
                   {
-                      TransactionTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
+                      ReceiptTypeId = new Guid("e4b06925-d89f-41ae-a495-5db8ab3dcfe9"),
                       Actived = true,
                       Code = "REV-BRAND",
                       Name = "Brand Revenues",
@@ -183,7 +183,7 @@ namespace ProfitAndLoss.Data.Models
                   },
                 new TransactionCategory()
                 {
-                    TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),
+                    ReceiptTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),
                     Actived = true,
                     Code = "EXP-WAGES",
                     Name = "Wages Expense", //  Tiền lương
@@ -194,7 +194,7 @@ namespace ProfitAndLoss.Data.Models
                 },
                 new TransactionCategory()
                 {
-                    TransactionTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),
+                    ReceiptTypeId = new Guid("d59d5f6c-5fc1-4977-8f17-a8f78556bf6e"),
                     Actived = true,
                     Code = "EXP-SHIP",
                     Name = "Shipping Fee",
@@ -205,7 +205,7 @@ namespace ProfitAndLoss.Data.Models
                 },
                 new TransactionCategory()
                 {
-                    TransactionTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
+                    ReceiptTypeId = new Guid("befe9e61-30c9-4594-8a26-5672d1d66e52"),
                     Actived = true,
                     Code = "SAL-DIS",
                     Name = "Discount",

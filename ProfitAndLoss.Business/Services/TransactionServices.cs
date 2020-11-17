@@ -36,6 +36,15 @@ namespace ProfitAndLoss.Business.Services
             // get receipt
             var receipt = _unitOfWork.ReceiptRepository.GetAll(x => x.Id == models.FirstOrDefault().ReceiptId)
                                                    .Include(x => x.Store).FirstOrDefault();
+            if (receipt.Status != (int)ReceiptStatus.APPROVED)
+            {
+                return new GenericResult
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    ResultCode = Utilities.AppResultCode.Success,
+                    Success = false
+                };
+            }
             if (models.Sum(x => x.Balance) != receipt.SubTotal)
             {
                 return new GenericResult
@@ -52,8 +61,9 @@ namespace ProfitAndLoss.Business.Services
             // Add list tranasction detail
             foreach (var transaction in models)
             {
-                var transactionModel = GetTransactionCreate(transaction, transactionCount);
-                BaseRepository.Add(transaction.ToEntity());
+                var transactionModel = await GetTransactionCreate(transaction, transactionCount);
+
+                BaseRepository.Add(transactionModel);
                 transactionCount++;
 
             }
@@ -141,6 +151,8 @@ namespace ProfitAndLoss.Business.Services
 
             transaction.AccountingPeriodInStoreId = accountingPeriodInStore.Id;
             transaction.Code = "TD-" + transactionCount.ToString("0000");
+            var tran = transaction.ToEntity();
+            tran.Status = TransactionStatus.APPROVAL;
             return transaction.ToEntity();
         }
 

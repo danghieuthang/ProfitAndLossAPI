@@ -228,7 +228,7 @@ namespace ProfitAndLoss.Business.Services
 
             var result = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.Code != TransactionCategoryCode.COST_OF_GOOGS_SOLD)
                 .Include(x => x.ReceiptType)
-                .Where(x => x.ReceiptType.IsDebit == isIncome)
+                .Where(x => x.IsDebit == isIncome)
                 .Select(x => new
                 {
                     ID = x.Id,

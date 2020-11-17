@@ -17,7 +17,7 @@ namespace ProfitAndLoss.Data.Models
 
         [MaxLength(255)]
         public string Code { get; set; }
-
+        public string Name { get; set; }
         [ForeignKey("Store")]
         public Guid? StoreId { get; set; }
 

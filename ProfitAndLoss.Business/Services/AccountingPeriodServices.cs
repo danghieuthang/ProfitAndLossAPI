@@ -19,6 +19,7 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> Create(AccountingPeriodCreateModel model);
         Task<GenericResult> GetAccountingPeriodStillOpen();
         Task<GenericResult> Close(Guid id);
+        Task<GenericResult> GetListDesc();
     }
     public class AccountingPeriodServices : BaseServices<AccountingPeriod>, IAccountingPeriodServices
     {
@@ -73,7 +74,25 @@ namespace ProfitAndLoss.Business.Services
                 StatusCode = HttpStatusCode.OK
             };
         }
-
+        public async Task<GenericResult> GetListDesc()
+        {
+            var result = BaseRepository.GetAll(a => a.Actived && !a.Status.Equals(AccountingPeriodStatus.CANCEL)).OrderByDescending(c => c.CloseDate);
+            if (result == null)
+            {
+                return new GenericResult
+                {
+                    Data = null,
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Success = false
+                };
+            }
+            return new GenericResult
+            {
+                Data = result,
+                Success = true,
+                StatusCode = HttpStatusCode.OK
+            };
+        }
         public async Task<GenericResult> Create(AccountingPeriodCreateModel model)
         {
             if (model.CloseDate <= model.StartDate)

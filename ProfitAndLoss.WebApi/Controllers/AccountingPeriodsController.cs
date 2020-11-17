@@ -28,7 +28,7 @@ namespace ProfitAndLoss.WebApi.Controllers
         [HttpGet]
         public async Task<GenericResult> GetAllAccountingPeriods()
         {
-            return await _accountingPeriodService.GetAll();
+            return await _accountingPeriodService.GetListDesc();
         }
 
         [HttpGet("search")]

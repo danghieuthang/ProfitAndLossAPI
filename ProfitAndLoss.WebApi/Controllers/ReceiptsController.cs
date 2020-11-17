@@ -111,5 +111,16 @@ namespace ProfitAndLoss.WebApi.Controllers
         {
             return await _receiptService.GetTransactionsByReceiptId(id);
         }
+
+        /// <summary>
+        /// Get all evidence by receipID
+        /// </summary>
+        /// <param name="id">The receipt id</param>
+        /// <returns></returns>
+        [HttpGet("{id}/evidences")]
+        public async Task<GenericResult> GetEvidencesByReceiptId(Guid id)
+        {
+            return await _receiptService.GetEvidencesByReceiptId(id);
+        }
     }
 }

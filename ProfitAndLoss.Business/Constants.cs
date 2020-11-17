@@ -32,7 +32,6 @@ namespace ProfitAndLoss.Business
             {3, CHIEF_ACCOUNTANT },
             {4, MEMBER_IN_STORE }
         };
-
     }
 
     public static class TransactionTypeCode

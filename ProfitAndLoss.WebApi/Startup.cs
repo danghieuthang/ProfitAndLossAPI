@@ -48,8 +48,8 @@ namespace ProfitAndLoss.WebApi
             });
             #region dbContext
             services.AddDbContext<DataContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DBLocal"))
-                //options => options.UseSqlServer(ConnectionString.CNN), ServiceLifetime.Transient
+                //options => options.UseSqlServer(Configuration.GetConnectionString("DBLocal"))
+                options => options.UseSqlServer(ConnectionString.CNN), ServiceLifetime.Transient
                 );
             #endregion dbcontext
 

@@ -35,5 +35,11 @@ namespace ProfitAndLoss.WebApi.Controllers
         {
             return await _transactionCategoryServices.GetTransactionCategoriesByTypeId(id);
         }
+
+        [HttpGet("type/{isDebit}")]
+        public async Task<GenericResult> GetTransactionCategoriesByCode(bool isDebit)
+        {
+            return await _transactionCategoryServices.GetTransactionCategoriesByTypeCode(isDebit);
+        }
     }
 }

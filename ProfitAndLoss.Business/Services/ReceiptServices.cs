@@ -26,6 +26,7 @@ namespace ProfitAndLoss.Business.Services
         Task<GenericResult> Search(ReceiptSearchModel model);
         List<ValidationModel> ValidateModel(ReceiptCreateModel model);
         Task<GenericResult> GetTransactionsByReceiptId(Guid id);
+        Task<GenericResult> GetEvidencesByReceiptId(Guid id);
     }
     public class ReceiptServices : BaseServices<Receipt>, IReceiptServices
     {
@@ -34,24 +35,19 @@ namespace ProfitAndLoss.Business.Services
         private readonly IReceiptTypeServices _transactionTypeServices;
         private readonly IStoreServices _storeServices;
         private readonly ISupplierServices _supplierServices;
-        private readonly IReceiptRepository _receiptRepository;
-        private readonly ITransactionServices _transactionDetailServices;
 
         public ReceiptServices(IUnitOfWork unitOfWork,
             IReceiptHistoryServices transactionHistoryServices,
             IMemberServices memberServices,
             IReceiptTypeServices transactionTypeServices,
              IStoreServices storeServices,
-             ISupplierServices supplierServices,
-             ITransactionServices transactionDetailServices) : base(unitOfWork)
+             ISupplierServices supplierServices) : base(unitOfWork)
         {
             _transactionHistoryServices = transactionHistoryServices;
             _memberServices = memberServices;
             _transactionTypeServices = transactionTypeServices;
             _storeServices = storeServices;
             _supplierServices = supplierServices;
-            _receiptRepository = unitOfWork.ReceiptRepository;
-            _transactionDetailServices = transactionDetailServices;
         }
         public List<ValidationModel> ValidateModel(ReceiptCreateModel model)
         {
@@ -485,6 +481,32 @@ namespace ProfitAndLoss.Business.Services
 
             IFirebaseClient client = new FirebaseClient(ifc);
             client.Set("news/link", data);
+
+        }
+
+        /// <summary>
+        /// Get all evidences by receipId
+        /// </summary>
+        /// <param name="id">The receiptID</param>
+        /// <returns></returns>
+        public async Task<GenericResult> GetEvidencesByReceiptId(Guid id)
+        {
+
+            var data = _unitOfWork.EvidenceRepository.GetAll(x => x.ReceiptId == id)
+                .Select(x => new EvidenceViewModel
+                {
+                    Id = x.Id,
+                    ImgUrl = x.ImgUrl,
+                    Name = x.Name
+                })
+                .ToList();
+            return new GenericResult
+            {
+                Data = data,
+                ResultCode = Utilities.AppResultCode.Success,
+                StatusCode = HttpStatusCode.OK,
+                Success = true
+            };
 
         }
     }

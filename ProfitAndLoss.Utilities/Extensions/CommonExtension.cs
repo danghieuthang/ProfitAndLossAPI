@@ -8,7 +8,7 @@ namespace ProfitAndLoss.Utilities.Extensions
     {
         public static string ToPercent(this double percent)
         {
-            return (percent*100).ToString("00.##") + " %";
+            return (percent * 100).ToString("00.##") + " %";
         }
     }
 }

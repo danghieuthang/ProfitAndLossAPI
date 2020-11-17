@@ -74,7 +74,7 @@ namespace ProfitAndLoss.Business.Models
 
         public MemberViewModel Member { get; set; }
 
-        public ReceiptTypeViewModel TransactionType { get; set; }
+        public ReceiptTypeViewModel ReceiptType { get; set; }
 
         public string Name { get; set; }
 

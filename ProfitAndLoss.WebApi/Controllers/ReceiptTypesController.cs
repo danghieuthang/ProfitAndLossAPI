@@ -42,5 +42,6 @@ namespace ProfitAndLoss.WebApi.Controllers
         {
             return await _receiptTypeService.GetAll();
         }
+
     }
 }

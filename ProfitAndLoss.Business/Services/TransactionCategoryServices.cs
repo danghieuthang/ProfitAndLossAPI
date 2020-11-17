@@ -11,6 +11,7 @@ namespace ProfitAndLoss.Business.Services
     public interface ITransactionCategoryServices : IBaseServices<TransactionCategory>
     {
         Task<GenericResult> GetTransactionCategoriesByTypeId(Guid id);
+        Task<GenericResult> GetTransactionCategoriesByTypeCode(bool isDebit);
     }
     public class TransactionCategoryServices : BaseServices<TransactionCategory>, ITransactionCategoryServices
     {
@@ -28,7 +29,22 @@ namespace ProfitAndLoss.Business.Services
             {
                 Data = listResult,
                 StatusCode = System.Net.HttpStatusCode.OK,
-                Success = true
+                Success = true,
+                ResultCode = Utilities.AppResultCode.Success
+            };
+        }
+
+        public async Task<GenericResult> GetTransactionCategoriesByTypeCode(bool isDebit)
+        {
+            var categories = _unitOfWork.TransactionCategoryRepository.GetAll(x => x.IsDebit == isDebit);
+            var listResult = new List<TransactionCategoryViewModel>();
+            Global.Mapper.Map(categories, listResult);
+            return new GenericResult
+            {
+                Data = listResult,
+                StatusCode = System.Net.HttpStatusCode.OK,
+                Success = true,
+                ResultCode = Utilities.AppResultCode.Success
             };
         }
     }

@@ -12,7 +12,7 @@ namespace ProfitAndLoss.Business
     }
     public class ConnectionString
     {
-        public const string CNN = @"Server=115.165.166.32;Database=SWD_ProfitAndLoss;Trusted_Connection=False;User Id=Superuser;Password=ZNa1R3MTG15BdnYpX1CZ5MuO6IyNeA0+jaaAViYiK09h9TqimhNKC3VEh6yhjH5h;MultipleActiveResultSets=true";
+        public const string CNN = @"SQL5097.site4now.net;Initial Catalog=DB_A69FBF_dhthang1998;User Id=DB_A69FBF_dhthang1998_admin;Password=thang1171998";
     }
     public class LoginRequestType
     {

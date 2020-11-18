@@ -240,6 +240,7 @@ namespace ProfitAndLoss.Business.Services
                 accountingPeriodId = model.AccountingPeriodId.Value;
             }
             var query = _unitOfWork.TransactionRepository.GetAll(x => x.Status == TransactionStatus.APPROVAL
+                && (model.Code == null || x.Code.Contains(model.Code))
                 && (model.FromDate == null || model.FromDate <= x.CreatedDate)
                 && (model.ToDate == null || model.ToDate >= x.CreatedDate)
                 && (model.TransactionCategoryId == null || model.TransactionCategoryId.Value == x.TransactionCategoryId)

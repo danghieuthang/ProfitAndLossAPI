@@ -122,7 +122,7 @@ namespace ProfitAndLoss.Business.Services
                 receiptType = transactionCategory.ReceiptType;
                 receiptCode = receiptType?.Code;
             }
-            receipt.Code = receiptCode + "-" + (BaseRepository.GetAll().Count() + 1).ToString("0000");
+            receipt.Code = receiptCode + "-" + (BaseRepository.GetAllNotByActived().Count() + 1).ToString("0000");
             receipt.ReceiptTypeId = receiptType?.Id;
             receipt.Supplier = null;
             //Create transaction
@@ -380,7 +380,7 @@ namespace ProfitAndLoss.Business.Services
                     query = query.OrderByDescending(x => x.CreatedDate).AsQueryable();
                     break;
             }
-            var entities = query.Skip((currentPage - 1) * pageSize)
+            var entities = query.ToList().Skip((currentPage - 1) * pageSize)
                                     .Take(pageSize)
                                     .ToList();
 

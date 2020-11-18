@@ -16,6 +16,7 @@ namespace ProfitAndLoss.Business.Services
         IQueryable<TEntity> Entity();
         IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression);
         IQueryable<TEntity> GetAll();
+        IQueryable<TEntity> GetAllNotByActived();
         TEntity Add(TEntity entity);
         void AddMulti(List<TEntity> entities);
         TEntity Update(TEntity entity);
@@ -123,7 +124,12 @@ namespace ProfitAndLoss.Business.Services
         {
             return dbSet.Where(x => x.Actived);
         }
+        public IQueryable<TEntity> GetAllNotByActived()
+        {
+            return dbSet;
+        }
 
+        
         public void AddMulti(List<TEntity> entities)
         {
             dbSet.AddRange(entities);

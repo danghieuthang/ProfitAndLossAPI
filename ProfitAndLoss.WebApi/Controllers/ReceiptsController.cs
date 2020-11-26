@@ -50,8 +50,8 @@ namespace ProfitAndLoss.WebApi.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost("search")]
-        public async Task<GenericResult> Search([FromBody] ReceiptSearchModel model)
+        [HttpGet]
+        public async Task<GenericResult> Search([FromQuery] ReceiptSearchModel model)
         {
             return await _receiptService.Search(model);
         }

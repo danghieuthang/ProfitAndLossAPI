@@ -17,10 +17,8 @@ namespace ProfitAndLoss.Business.Services
     }
     public class BrandServices : BaseServices<Brand>, IBrandServices
     {
-        private readonly IUnitOfWork _unitOfWork;
         public BrandServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _unitOfWork = unitOfWork;
         }
         public async Task<GenericResult> CreateBrand(BrandCreateModel model)
         {

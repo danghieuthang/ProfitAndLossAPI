@@ -17,15 +17,13 @@ namespace ProfitAndLoss.Business.Services
 
     public class SupplierServices : BaseServices<Supplier>, ISupplierServices
     {
-        private readonly ISupplierRepository _supplierRepository;
         public SupplierServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _supplierRepository = unitOfWork.SupplierRepository;
         }
 
         public async Task<GenericResult> GetAll()
         {
-            var data = _supplierRepository.GetAll().Select(x => new SupplierViewModel
+            var data = _unitOfWork.SupplierRepository.GetAll().Select(x => new SupplierViewModel
             {
                 Id = x.Id,
                 Name = x.Name

@@ -17,24 +17,20 @@ namespace ProfitAndLoss.Business.Services
     }
     public class StoreServices : BaseServices<Store>, IStoreServices
     {
-        private readonly IStoreRepository _storeRepository;
-        private readonly IUnitOfWork _unitOfWork;
         public StoreServices(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _unitOfWork = unitOfWork;
-            _storeRepository = _unitOfWork.StoreRepository;
         }
 
         public async Task<GenericResult> GellAllStoreAsync()
         {
-            var entities = _storeRepository.GetAll();
+            var entities = _unitOfWork.StoreRepository.GetAll();
             return new GenericResult { Data = entities, Success = true };
         }
 
         public async Task<GenericResult> SearchStoreAsync(StoreSearchModel model)
         {
             //
-            var entities = _storeRepository.GetAll();
+            var entities = _unitOfWork.StoreRepository.GetAll();
             //
             var pageSize = model.PageSize > 0 ? model.PageSize : CommonConstants.DEFAULT_PAGESIZE;
             var currentPage = model.Page > 0 ? model.Page : 1;
@@ -66,7 +62,7 @@ namespace ProfitAndLoss.Business.Services
         public async Task<GenericResult> UpdateStore(StoreUpdateModel model)
         {
             var entity = model.ToEntity();
-            _storeRepository.Update(entity);
+            _unitOfWork.StoreRepository.Update(entity);
             return new GenericResult { Data = entity, Success = true };
         }
 

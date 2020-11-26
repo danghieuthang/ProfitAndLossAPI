@@ -19,7 +19,6 @@ namespace ProfitAndLoss.Business.Services
 
     public class MemberServices : BaseServices<Member>, IMemberServices
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IBrandServices _brandServices;
         private readonly IStoreServices _storeServices;
 
@@ -27,7 +26,6 @@ namespace ProfitAndLoss.Business.Services
             IBrandServices brandServices,
             IStoreServices storeServices) : base (unitOfWork)
         {
-            _unitOfWork = unitOfWork;
             _brandServices = brandServices;
             _storeServices = storeServices;
         }

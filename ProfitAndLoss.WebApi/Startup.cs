@@ -48,7 +48,9 @@ namespace ProfitAndLoss.WebApi
             });
             #region dbContext
             services.AddDbContext<DataContext>(
+                // database in oursite
                 //options => options.UseSqlServer(Configuration.GetConnectionString("DBLocal"))
+                // hide database outsite
                 options => options.UseSqlServer(ConnectionString.CNN), ServiceLifetime.Transient
                 );
             #endregion dbcontext
